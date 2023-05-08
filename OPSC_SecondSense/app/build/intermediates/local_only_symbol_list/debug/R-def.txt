@@ -1,0 +1,35 @@
+R_DEF: Internal format may change without notice
+local
+color black
+color grey
+color purple_200
+color purple_500
+color purple_700
+color teal_200
+color teal_700
+color white
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+drawable round_corners
+drawable rounded_button
+drawable ss_logo
+id PassMaterial
+id UsernameMaterial
+id btnLogin
+id conPassMaterial
+id haveAccounttext
+id ivLogo
+id signUpText
+id tvSignUpTitle
+id tvTitle
+id txtPassword
+id txtUsername
+id txtconfirmPassword
+layout signin_page
+layout signup_page
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+style Theme.OPSC_SecondSense
+xml backup_rules
+xml data_extraction_rules
