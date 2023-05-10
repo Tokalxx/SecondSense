@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.ss.opsc_secondsense.app-mergeDebugResources-27:/values-night-v8/values-night-v8.xml",
+            "outputFile": "com.ss.opsc_secondsense.app-mergeDebugResources-38:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Siyabonga\\.gradle\\caches\\transforms-3\\8fe975660662ebf3bb153627997fd91b\\transformed\\material-1.8.0\\res\\values-night-v8\\values-night-v8.xml",
@@ -38,14 +38,14 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Siyabonga\\AndroidStudioProjects\\OPSC_SecondSense\\app\\src\\main\\res\\values-night\\themes.xml",
+                    "source": "C:\\Users\\Siyabonga\\Documents\\GitHub\\SecondSense\\OPSC_SecondSense\\app\\src\\main\\res\\values-night\\themes.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
-                        "startOffsets": "100",
+                        "startOffsets": "102",
                         "endLines": "14",
                         "endColumns": "12",
-                        "endOffsets": "825"
+                        "endOffsets": "839"
                     },
                     "to": {
                         "startLines": "34",

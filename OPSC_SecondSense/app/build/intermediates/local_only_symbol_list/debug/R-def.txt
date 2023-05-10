@@ -25,6 +25,7 @@ id tvTitle
 id txtPassword
 id txtUsername
 id txtconfirmPassword
+layout home_page
 layout signin_page
 layout signup_page
 mipmap ic_launcher
