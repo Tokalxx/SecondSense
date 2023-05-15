@@ -21,8 +21,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:textStyle="bold"
-            android:text="Recent"/>
+            android:text="Recent"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnCreateEntry"
@@ -42,44 +43,54 @@
         android:layout_margin="10dp"
         app:layout_constraintTop_toBottomOf="@+id/layoutTitle"
         >
-
-        <LinearLayout
+        <ListView
+            android:id="@+id/listRecent"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
 
-            <!-- Product 1 -->
+            />
+        <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true">
+
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <ImageView
-                    android:id="@+id/txtEntryImage"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:id="@+id/imageViewRecent"
+                    android:layout_width="match_parent"
+                    android:layout_height="175dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/product1" />
+                    />
 
                 <TextView
-                    android:id="@+id/txtEntryid"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/title_text_view"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Entry Title"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="16dp"
+                    android:text="Title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <TextView
-                    android:id="@+id/txtEntryDate"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/date_text_view"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Date"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             </LinearLayout>
-        </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
     </HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.ss.resecondsense
+package com.example.resecondsense_v01
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +6,6 @@ import android.os.Bundle
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.signin_page)
+        setContentView(R.layout.activity_signup_page)
     }
 }
