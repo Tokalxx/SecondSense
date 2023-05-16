@@ -1,0 +1,29 @@
+package com.example.resecondsense_v01
+
+import android.app.Activity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.BaseAdapter
+import android.widget.ImageView
+import android.widget.TextView
+
+class CustomAdapter (val context: Activity, val arrayList: ArrayList<RecentEntry>) :
+    ArrayAdapter<RecentEntry>(context,R.layout.custom_list_view_template,arrayList)
+{
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val inflater : LayoutInflater = LayoutInflater.from(context)
+        val myview : View = inflater.inflate(R.layout.custom_list_view_template,null)
+
+        val imageView : ImageView = myview.findViewById(R.id.imgViewRecent)
+        val textView : TextView = myview.findViewById(R.id.txtEntryTitle)
+        val DateView : TextView = myview.findViewById(R.id.txtEntryDate)
+
+        imageView.setImageResource(arrayList[position].imageResId)
+        textView.text = arrayList[position].title
+        DateView.text = arrayList[position].date
+
+        return myview
+    }
+}

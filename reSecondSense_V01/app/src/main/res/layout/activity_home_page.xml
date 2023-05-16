@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/topPanel"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="#00000000"
+            android:drawableRight="@drawable/ic_menu"
+            android:paddingEnd="10dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="#00000000"
+            android:drawableLeft="@drawable/user_pp_icon"
+            android:paddingStart="10dp" />
+
+    </RelativeLayout>
+
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/topPanel"
+        android:contentDescription="Tabs for Home, Categories, Analytics, and Entries"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="#D3D3D3"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="#FF000000"
+        app:tabTextColor="#FF000000">
+
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HOME" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CATEGORY" />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabAnalytics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ANALYTICS" />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabEntries"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ENTRIES" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tabNavigation"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
