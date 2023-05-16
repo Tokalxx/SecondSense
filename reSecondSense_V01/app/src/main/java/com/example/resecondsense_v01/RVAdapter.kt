@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-
+//This is the recycler view adapter that connects the custom_list_view_template to the date
+// just needs an Array list with the data of the Recent entry, but can be change to some other list
+// This method returns a the Recyler view
 class RVAdapter(val entryList: ArrayList<RecentEntry>) : RecyclerView.Adapter<RVAdapter.ViewHolder>() {
 
 

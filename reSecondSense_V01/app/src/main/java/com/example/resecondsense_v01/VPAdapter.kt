@@ -3,6 +3,9 @@ package com.example.resecondsense_v01
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+//This is the View pager adapter,
+// which helps with instantiating the Tabs and fragments and helps us with navigation
+// between the different fragments
 
 class VPAdapter(fragmentActivity: FragmentManager) : FragmentStatePagerAdapter(fragmentActivity,
     BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

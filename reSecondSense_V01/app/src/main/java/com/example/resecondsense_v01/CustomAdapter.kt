@@ -8,7 +8,8 @@ import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-
+//This adapter helps connect the custom_list_view_template to the data,
+//not currrently being used
 class CustomAdapter (val context: Activity, val arrayList: ArrayList<RecentEntry>) :
     ArrayAdapter<RecentEntry>(context,R.layout.custom_list_view_template,arrayList)
 {

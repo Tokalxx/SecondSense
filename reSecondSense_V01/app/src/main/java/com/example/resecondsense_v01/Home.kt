@@ -20,7 +20,7 @@ class Home : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        //Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_home, container, false)
         //View binding
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -29,10 +29,12 @@ class Home : Fragment() {
         var reRVAdapter: RVAdapter
         var newRecentRecView: RecyclerView
 
+        //This is dummy data to test the view
         val data = arrayListOf(
             RecentEntry(R.drawable.the_goat, "Title 1", "Date 1"),
             RecentEntry(R.drawable.the_cow, "Title 2", "Date 2"),
-            RecentEntry(R.drawable.the_other_goat, "Title 3", "Date 3")
+            RecentEntry(R.drawable.the_other_goat, "Title 3", "Date 3"),
+            RecentEntry(R.drawable.the_goat, "Title 1", "Date 1"),
             // Add more items as needed
         )
 
