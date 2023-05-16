@@ -38,7 +38,7 @@
 
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabNav"
+        android:id="@+id/tabNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/topPanel"
@@ -74,9 +74,11 @@
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager"
+        android:id="@+id/vpNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tabNav"/>
+        app:layout_constraintTop_toBottomOf="@+id/tabNavigation"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
