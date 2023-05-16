@@ -32,11 +32,12 @@ class MainActivity : AppCompatActivity() {
         val vpAdapter = VPAdapter(supportFragmentManager)
         // Add more fragments as needed
         vpAdapter.addFragment(Home(),"Home")
+
         // Set the adapter to the ViewPager
         viewPage.adapter = vpAdapter
         tabLayout.setupWithViewPager(viewPage)
 
-        //Viewbinding
+
 
 
     }
