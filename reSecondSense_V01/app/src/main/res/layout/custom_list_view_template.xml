@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:id="@+id/layoutRecent"
-        android:layout_width="175dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/rc_transparentcorners"
@@ -19,9 +19,8 @@
         <ImageView
             android:id="@+id/imgViewRecent"
             android:layout_width="match_parent"
-            android:layout_height="125dp"
-            android:scaleType="centerCrop"
-            />
+            android:layout_height="100dp"
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/txtEntryTitle"
@@ -29,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:textSize="22dp" />
 
         <TextView
             android:id="@+id/txtEntryDate"
