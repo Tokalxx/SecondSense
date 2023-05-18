@@ -5,17 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 //This adapter helps connect the custom_list_view_template to the data,
 //not currrently being used
-class CustomAdapter (val context: Activity, val arrayList: ArrayList<RecentEntry>) :
-    ArrayAdapter<RecentEntry>(context,R.layout.custom_list_view_template,arrayList)
+class CustomAdapter (val context: Activity, val arrayList: ArrayList<data_RecentEntry>) :
+    ArrayAdapter<data_RecentEntry>(context,R.layout.template_recententry,arrayList)
 {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater : LayoutInflater = LayoutInflater.from(context)
-        val myview : View = inflater.inflate(R.layout.custom_list_view_template,null)
+        val myview : View = inflater.inflate(R.layout.template_recententry,null)
 
         val imageView : ImageView = myview.findViewById(R.id.imgViewRecent)
         val textView : TextView = myview.findViewById(R.id.txtEntryTitle)

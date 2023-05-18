@@ -2,7 +2,6 @@ package com.example.resecondsense_v01
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.example.resecondsense_v01.databinding.ActivityHomePageBinding
@@ -12,9 +11,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomePageBinding
 
     val data = listOf(
-        RecentEntry(R.drawable.the_goat, "Title 1", "Date 1"),
-        RecentEntry(R.drawable.the_cow, "Title 2", "Date 2"),
-        RecentEntry(R.drawable.the_other_goat, "Title 3", "Date 3"),
+        data_RecentEntry(R.drawable.the_goat, "Title 1", "Date 1"),
+        data_RecentEntry(R.drawable.the_cow, "Title 2", "Date 2"),
+        data_RecentEntry(R.drawable.the_other_goat, "Title 3", "Date 3"),
         // Add more items as needed
     )
 
@@ -32,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         val vpAdapter = VPAdapter(supportFragmentManager)
         // Add more fragments as needed
         vpAdapter.addFragment(Home(),"Home")
-
+        vpAdapter.addFragment(Category(),"CATEGORY")
         // Set the adapter to the ViewPager
         viewPage.adapter = vpAdapter
         tabLayout.setupWithViewPager(viewPage)
