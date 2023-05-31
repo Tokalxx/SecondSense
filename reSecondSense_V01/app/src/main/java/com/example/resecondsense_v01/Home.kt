@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.resecondsense_v01.databinding.FragmentHomeBinding
+import java.util.Date
 
 
 class Home : Fragment() {
@@ -28,13 +29,13 @@ class Home : Fragment() {
 
         var reRVAdapterRecentEnty: RVAdapter_RecentEnty
         var newRecentRecView: RecyclerView
-
+        val currentDate: Date = Date()
         //This is dummy data to test the view
         val data = arrayListOf(
-            data_RecentEntry(R.drawable.the_goat, "Title 1", "Date 1"),
-            data_RecentEntry(R.drawable.the_cow, "Title 2", "Date 2"),
-            data_RecentEntry(R.drawable.the_other_goat, "Title 3", "Date 3"),
-            data_RecentEntry(R.drawable.the_goat, "Title 1", "Date 1"),
+            data_RecentEntry(R.drawable.the_goat, "Title 1", currentDate),
+            data_RecentEntry(R.drawable.the_cow, "Title 2", currentDate),
+            data_RecentEntry(R.drawable.the_other_goat, "Title 3", currentDate),
+            data_RecentEntry(R.drawable.the_goat, "Title 1", currentDate),
             // Add more items as needed
         )
 

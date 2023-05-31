@@ -26,7 +26,7 @@ class RVAdapter_RecentEnty(val entryList: ArrayList<data_RecentEntry>) : Recycle
        val currentItem = entryList[position]
         holder.imageView.setImageResource(currentItem.imageResId)
         holder.textView.text = currentItem.title
-        holder.dateView.text = currentItem.date
+        holder.dateView.text = currentItem.date.toString()
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

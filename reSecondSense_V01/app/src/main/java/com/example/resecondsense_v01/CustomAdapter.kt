@@ -22,7 +22,7 @@ class CustomAdapter (val context: Activity, val arrayList: ArrayList<data_Recent
 
         imageView.setImageResource(arrayList[position].imageResId)
         textView.text = arrayList[position].title
-        DateView.text = arrayList[position].date
+        DateView.text = arrayList[position].date.toString()
 
         return myview
     }
