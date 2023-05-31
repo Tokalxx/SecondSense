@@ -28,6 +28,9 @@ class VPAdapter(fragmentActivity: FragmentManager) : FragmentStatePagerAdapter(f
         fragmentList.add(fragment)
         titleList.add(title)
     }
-
+    fun addFragment(fragment: Fragment) {
+        fragmentList.add(fragment)
+        notifyDataSetChanged()
+    }
 
 }

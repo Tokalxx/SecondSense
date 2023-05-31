@@ -125,7 +125,7 @@
         android:background="#D3D3D3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollLayout"
-        app:layout_constraintHeight_default="wrap"/>
+        app:layout_constrainedHeight="true" />
 
 
 

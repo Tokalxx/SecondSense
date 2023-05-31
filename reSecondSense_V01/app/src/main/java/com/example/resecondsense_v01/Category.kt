@@ -1,12 +1,15 @@
 package com.example.resecondsense_v01
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.example.resecondsense_v01.databinding.FragmentCategoryBinding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -50,6 +53,16 @@ class Category : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.lvCategories)
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = RVAdapter_Category(data)
+
+        val CreatebtnClick = view.findViewById<Button>(R.id.btnCreateCategory)
+        CreatebtnClick.setOnClickListener {
+            val secondFragment =addNewEntry()
+            val transaction=requireActivity().supportFragmentManager
+                .beginTransaction()
+            transaction.replace(R.id.vpNavigation,secondFragment)
+            transaction.commit()
+        }
+
         return view
     }
 

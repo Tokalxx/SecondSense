@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/category">
+
+    <fragment
+        android:id="@+id/category"
+        android:name="com.example.resecondsense_v01.Category"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" >
+        <action
+            android:id="@+id/action_category_to_addNewCategory"
+            app:destination="@id/addNewCategory" />
+    </fragment>
+    <fragment
+        android:id="@+id/addNewCategory"
+        android:name="com.example.resecondsense_v01.addNewCategory"
+        android:label="fragment_add_new_category"
+        tools:layout="@layout/fragment_add_new_category" />
+</navigation>

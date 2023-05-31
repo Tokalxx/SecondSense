@@ -1,10 +1,12 @@
 package com.example.resecondsense_v01
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.resecondsense_v01.databinding.FragmentHomeBinding
@@ -44,6 +46,9 @@ class Home : Fragment() {
         recyclerView.adapter = RVAdapter_RecentEnty(data)
 
         //binding.recentListView.adapter = CustomAdapter(this.requireActivity(),data)
+
+
+
         return view
 
 
