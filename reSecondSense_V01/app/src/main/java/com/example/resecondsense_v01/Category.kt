@@ -2,17 +2,14 @@ package com.example.resecondsense_v01
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import com.example.resecondsense_v01.databinding.FragmentCategoryBinding
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.Date
 
 class Category : Fragment() {
@@ -54,13 +51,21 @@ class Category : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = RVAdapter_Category(data)
 
-        val CreatebtnClick = view.findViewById<Button>(R.id.btnCreateCategory)
-        CreatebtnClick.setOnClickListener {
-            val secondFragment =addNewEntry()
-            val transaction=requireActivity().supportFragmentManager
-                .beginTransaction()
-            transaction.replace(R.id.vpNavigation,secondFragment)
-            transaction.commit()
+        val CreateCatbtnClick = view.findViewById<Button>(R.id.btnCreateCategory)
+        CreateCatbtnClick.setOnClickListener {
+
+            // Create an Intent to navigate to the target activity
+            val intent = Intent(requireContext(), AddNewCategories::class.java)
+
+            // Optionally, add extras to the Intent
+
+            // Optionally, add extras to the Intent
+            intent.putExtra("key", "value")
+
+            // Start the activity
+
+            // Start the activity
+            startActivity(intent)
         }
 
         return view

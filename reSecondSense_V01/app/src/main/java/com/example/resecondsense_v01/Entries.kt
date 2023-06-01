@@ -1,10 +1,12 @@
 package com.example.resecondsense_v01
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.resecondsense_v01.databinding.FragmentEntriesBinding
@@ -54,26 +56,26 @@ class Entries : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.lvEntries)
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = RVAdapter_Entries(data)
+
+        val CreateEntybtnClick = view.findViewById<Button>(R.id.btnCreateEntry)
+        CreateEntybtnClick.setOnClickListener {
+
+            // Create an Intent to navigate to the target activity
+            val intent = Intent(requireContext(), AddNewEntries::class.java)
+
+            // Optionally, add extras to the Intent
+
+            // Optionally, add extras to the Intent
+            intent.putExtra("key", "value")
+
+            // Start the activity
+
+            // Start the activity
+            startActivity(intent)
+        }
+
         return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Entries.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Entries().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
 }

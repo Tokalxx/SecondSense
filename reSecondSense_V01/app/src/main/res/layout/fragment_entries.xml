@@ -46,9 +46,9 @@
 
                 <!-- Create button -->
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnCreateCategory"
+                    android:id="@+id/btnCreateEntry"
                     android:layout_width="wrap_content"
-                    android:layout_height="32dp"
+                    android:layout_height="48dp"
                     android:layout_alignParentEnd="true"
                     android:background="@drawable/ic_grey_roundedcorner_background"
                     android:text="CREATE" />
