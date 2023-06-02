@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--This is the blue print for the Recent entry items-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:elevation="8dp"
+    android:background="@drawable/rc_shadowbackground"
+    android:padding="16dp"
+    android:layout_margin="10dp"
+    >
+
+    <LinearLayout
+        android:id="@+id/layoutRecent"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/rc_transparentcorners"
+        android:padding="16dp">
+        <!--The title of the recent entry-->
+        <ImageView
+            android:id="@+id/imgViewRecent"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop" />
+        <!--The title of the recent entry-->
+        <TextView
+            android:id="@+id/txtEntryTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Title"
+            android:textSize="22dp" />
+        <!--The Date of the recent entry-->
+        <TextView
+            android:id="@+id/txtEntryDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Date"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
