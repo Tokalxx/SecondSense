@@ -31,7 +31,7 @@
                     >
                     <!--Recent title-->
                     <TextView
-                        android:id="@+id/txtRecentTitle"
+                        android:id="@+id/txtCategoryTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -61,7 +61,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/lblCatTitle">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/categoryNameEditText"
+                        android:id="@+id/txtCategoryName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
