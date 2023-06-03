@@ -25,8 +25,7 @@ class Category : Fragment() {
         _binding = FragmentCategoryBinding.inflate(inflater, container, false)
         val view = binding.root
         val currentDate: Date = Date()
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_category, container, false)
+
         //This is dummy data to test the view
         val data = arrayListOf(
             data_Category("Math", "2 hrs", currentDate),
@@ -50,14 +49,13 @@ class Category : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.lvCategories)
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = RVAdapter_Category(data)
-
+        //Create button for Category
         val CreateCatbtnClick = view.findViewById<Button>(R.id.btnCreateCategory)
         CreateCatbtnClick.setOnClickListener {
 
             // Create an Intent to navigate to the target activity
             val intent = Intent(requireContext(), AddNewCategories::class.java)
 
-            // Optionally, add extras to the Intent
 
             // Optionally, add extras to the Intent
             intent.putExtra("key", "value")

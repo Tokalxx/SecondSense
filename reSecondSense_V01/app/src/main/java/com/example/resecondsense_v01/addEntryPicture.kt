@@ -13,7 +13,6 @@ class addEntryPicture : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_entry_picture)
 
-
         //back button
         val backbutton: Button = findViewById(R.id.btnBackHome)
         backbutton.setOnClickListener {

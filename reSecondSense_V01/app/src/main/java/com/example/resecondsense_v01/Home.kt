@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.resecondsense_v01.databinding.FragmentHomeBinding
 import java.util.Date
 
-
+//This is the home page fragment
 class Home : Fragment() {
    //binding
     private var _binding: FragmentHomeBinding? = null
@@ -48,7 +48,19 @@ class Home : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = RVAdapter_RecentEnty(data)
 
-        //binding.recentListView.adapter = CustomAdapter(this.requireActivity(),data)
+        val btnCreatEntry : Button = view.findViewById(R.id.btnCreateEntry)
+        btnCreatEntry.setOnClickListener {
+
+            // Create an Intent to navigate to the target activity
+            val intent = Intent(requireContext(), AddNewEntries::class.java)
+
+            // Optionally, add extras to the Intent
+            intent.putExtra("key", "value")
+
+
+            // Start the activity
+            startActivity(intent)
+        }
 
 
 

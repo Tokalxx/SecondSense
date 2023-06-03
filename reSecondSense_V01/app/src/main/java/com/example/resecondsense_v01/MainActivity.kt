@@ -11,7 +11,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.example.resecondsense_v01.databinding.ActivitySigninPageBinding
 import java.util.Date
-
+//Main activity for Login and sign up
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySigninPageBinding
@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SignUpActivity::class.java)
             // Start the activity
             startActivity(intent) }
-
-
 
     }
 }
