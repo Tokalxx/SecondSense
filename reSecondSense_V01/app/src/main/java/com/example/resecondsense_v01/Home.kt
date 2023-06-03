@@ -26,6 +26,9 @@ class Home : Fragment() {
         //Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_home, container, false)
         //View binding
+
+
+
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
 

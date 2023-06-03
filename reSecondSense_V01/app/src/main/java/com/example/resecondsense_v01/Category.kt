@@ -62,7 +62,6 @@ class Category : Fragment() {
             // Optionally, add extras to the Intent
             intent.putExtra("key", "value")
 
-            // Start the activity
 
             // Start the activity
             startActivity(intent)

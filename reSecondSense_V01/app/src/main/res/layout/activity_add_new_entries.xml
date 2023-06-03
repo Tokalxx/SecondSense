@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddNewEntries"
+    android:focusableInTouchMode="true"
     android:fitsSystemWindows="true">
 
 
@@ -152,20 +153,28 @@
                     android:gravity="center_vertical"
                     app:layout_constraintTop_toBottomOf="@id/layoutStartAndEndTime">
 
+
+
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="Category"
-                        android:layout_margin="10dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/categoryEditText"
+                        android:layout_margin="10dp"
+                        >
+                        <AutoCompleteTextView
+                            android:id="@+id/cmbCategory"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="none"
-                            android:enabled="false" />
+                            android:inputType="none"/>
+
+<!--                        <com.google.android.material.textfield.TextInputEditText-->
+<!--                            android:id="@+id/txtCategoryName"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:inputType="none"-->
+<!--                            android:enabled="false" />-->
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -175,7 +184,6 @@
                         android:layout_height="48dp"
                         android:text="PICTURE"
                         android:layout_margin="10dp"
-
                         android:background="@drawable/ic_grey_roundedcorner_background" />
 
                 </LinearLayout>
