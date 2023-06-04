@@ -50,8 +50,7 @@ class Entries : Fragment() {
             data_Entries("English", "88 hrs", currentDate),
             // Add more items as needed
         )
-        // Inflate the layout for this fragment
-       // return inflater.inflate(R.layout.fragment_entries, container, false)
+
         //establishing the view that will display the different categories
         val recyclerView: RecyclerView = view.findViewById(R.id.lvEntries)
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

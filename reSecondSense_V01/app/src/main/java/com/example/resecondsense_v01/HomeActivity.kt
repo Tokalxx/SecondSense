@@ -6,7 +6,7 @@ import androidx.viewpager.widget.ViewPager
 import com.example.resecondsense_v01.databinding.ActivityHomePageBinding
 import com.google.android.material.tabs.TabLayout
 import java.util.Date
-
+//This class holds the fragments
 class HomeActivity :  AppCompatActivity() {
 
     private lateinit var binding: ActivityHomePageBinding
