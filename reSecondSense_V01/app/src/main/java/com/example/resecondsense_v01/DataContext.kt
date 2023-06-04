@@ -23,5 +23,5 @@ class DataContext {
         //adds to the list
         Users.add(data_User(Name,UserID,Password))
     }
-    
+
 }

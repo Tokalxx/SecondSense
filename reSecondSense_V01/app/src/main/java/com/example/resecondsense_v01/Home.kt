@@ -1,12 +1,15 @@
 package com.example.resecondsense_v01
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.resecondsense_v01.databinding.FragmentHomeBinding
@@ -17,6 +20,7 @@ class Home : Fragment() {
    //binding
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
 
 
     override fun onCreateView(
@@ -61,6 +65,19 @@ class Home : Fragment() {
             // Start the activity
             startActivity(intent)
         }
+
+        //Progress bar for min and max values
+        val loadingBar = view.findViewById<ProgressBar>(R.id.minMaxLoadingBar)
+        val minValue = 2
+        val maxValue = 100
+        val progressValue = 80
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            loadingBar.min = minValue
+        }
+
+        loadingBar.max = maxValue
+        loadingBar.progress = progressValue
 
 
 
