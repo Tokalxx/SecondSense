@@ -69,27 +69,11 @@
                     android:layout_width="0dp"
                     android:layout_height="32dp"
                     android:layout_weight="1"
-                    android:text="Today"
+                    android:text="All"
                     android:background="@drawable/ic_grey_roundedcorner_background"
                     android:layout_marginEnd="4dp"/>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnWeek"
-                    android:layout_width="0dp"
-                    android:layout_height="32dp"
-                    android:layout_weight="1"
-                    android:text="Week"
-                    android:background="@drawable/ic_grey_roundedcorner_background"
-                    android:layout_marginEnd="4dp"/>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnMonth"
-                    android:layout_width="0dp"
-                    android:layout_height="32dp"
-                    android:layout_weight="1"
-                    android:text="Month"
-                    android:background="@drawable/ic_grey_roundedcorner_background"
-                    android:layout_marginEnd="4dp"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnCustom"

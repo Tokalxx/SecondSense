@@ -24,31 +24,15 @@ class Category : Fragment() {
 
         _binding = FragmentCategoryBinding.inflate(inflater, container, false)
         val view = binding.root
-        val currentDate: Date = Date()
 
-        //This is dummy data to test the view
-        val data = arrayListOf(
-            data_Category("Math", "2 hrs", currentDate),
-            data_Category("Science", "3 hrs", currentDate),
-            data_Category("English", "3 hrs", currentDate),
-            data_Category("Biology", "10 hrs", currentDate),
-            data_Category("Math", "2 hrs", currentDate),
-            data_Category("Science", "3 hrs", currentDate),
-            data_Category("English", "3 hrs", currentDate),
-            data_Category("Biology", "10 hrs", currentDate),
-            data_Category("Math", "2 hrs", currentDate),
-            data_Category("Science", "3 hrs", currentDate),
-            data_Category("English", "3 hrs", currentDate),
-            data_Category("Biology", "10 hrs", currentDate),
-            data_Category("Biology", "133 hrs", currentDate),
-            data_Category("Biology", "1388 hrs", currentDate)
+        val DCCategoryObj = DataContext()
 
-            // Add more items as needed
-        )
+
         //establishing the view that will display the different categories
         val recyclerView: RecyclerView = view.findViewById(R.id.lvCategories)
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        recyclerView.adapter = RVAdapter_Category(data)
+        recyclerView.adapter = RVAdapter_Category(DCCategoryObj.getCategory())
+        onResume()
         //Create button for Category
         val CreateCatbtnClick = view.findViewById<Button>(R.id.btnCreateCategory)
         CreateCatbtnClick.setOnClickListener {
@@ -57,8 +41,7 @@ class Category : Fragment() {
             val intent = Intent(requireContext(), AddNewCategories::class.java)
 
 
-            // Optionally, add extras to the Intent
-            intent.putExtra("key", "value")
+
 
 
             // Start the activity
@@ -69,4 +52,11 @@ class Category : Fragment() {
     }
 
 
+    override fun onResume(){
+        super.onResume()
+        val DCCategoryObj = DataContext()
+        val adapter = RVAdapter_Category(DCCategoryObj.getCategory())
+        adapter.notifyDataSetChanged()
+
+    }
 }

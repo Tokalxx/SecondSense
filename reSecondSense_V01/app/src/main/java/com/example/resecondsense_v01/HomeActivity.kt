@@ -38,6 +38,8 @@ class HomeActivity :  AppCompatActivity() {
         viewPage.adapter = vpAdapter
         tabLayout.setupWithViewPager(viewPage)
 
+        val CategoryPosition = intent.getIntExtra("CATEGORY",1)
+        viewPage.currentItem=CategoryPosition
 
     }
 }

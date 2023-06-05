@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, HomeActivity::class.java)
             //checking if user exists
             if (ModelObj.findUser(UserID.text.toString(), Password.text.toString())){
-            startActivity(intent)} else {
+                startActivity(intent)} else {
                 invalidCredentials(this)
             }
         }
