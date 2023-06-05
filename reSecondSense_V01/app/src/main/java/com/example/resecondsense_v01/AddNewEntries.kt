@@ -16,7 +16,7 @@ import android.widget.Toast
 import com.google.android.material.textfield.TextInputLayout
 
 class AddNewEntries : AppCompatActivity() {
-    private lateinit var time : TextInputLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_new_entries)
@@ -39,7 +39,7 @@ class AddNewEntries : AppCompatActivity() {
         }
 
 
-      
+
 
 
         //add picture button
