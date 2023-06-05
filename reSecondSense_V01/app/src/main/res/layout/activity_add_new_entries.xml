@@ -73,7 +73,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Date"
+                        android:hint="Date YYYY/MM/DD"
                         android:paddingVertical="8dp"
                         android:layout_margin="10dp">
 
@@ -83,7 +83,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="none"
                             android:focusable="false"
-                            android:onClick="showDatePickerDialog" />
+                           />
 
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
@@ -113,7 +113,7 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="none"
                                 android:focusable="false"
-                                android:onClick="showTimePickerDialog" />
+                               />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -138,7 +138,7 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="none"
                                 android:focusable="false"
-                                android:onClick="showTimePickerDialog" />
+                               />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
