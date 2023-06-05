@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RVAdapter_Category(val categoryList: ArrayList<data_Category>) : RecyclerView.Adapter<RVAdapter_Category.ViewHolder>() {
+class RVAdapter_Category(val categoryList: MutableList<data_Category>) : RecyclerView.Adapter<RVAdapter_Category.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -23,7 +23,7 @@ class RVAdapter_Category(val categoryList: ArrayList<data_Category>) : RecyclerV
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = categoryList[position]
-        holder.hoursView.text = currentItem.hoursSpent
+        holder.hoursView.text = currentItem.hoursSpent.toString()
         holder.titleView.text = currentItem.category_Title
         holder.dateView.text = currentItem.categoryDate.toString()
     }

@@ -16,12 +16,11 @@ class AddNewEntries : AppCompatActivity() {
 
 
         //Filling the category drop down
-        val items = listOf("DummyData","Math","English","Afrikaans")
+        val items = listOf("DummyData","Math","English","Afrikaans")//This is dummy data for what will go in the drop down
         val autoComplete : AutoCompleteTextView = findViewById(R.id.cmbCategory)
 
         val adapter = ArrayAdapter(this,R.layout.template_categorydropdown,items)
         autoComplete.setAdapter(adapter)
-
         autoComplete.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, i, l ->
             val selectedItem =  adapterView.getItemAtPosition(i)
             Toast.makeText(this, "Item ${selectedItem}", Toast.LENGTH_SHORT).show()

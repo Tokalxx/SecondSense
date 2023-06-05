@@ -6,7 +6,7 @@ import androidx.viewpager.widget.ViewPager
 import com.example.resecondsense_v01.databinding.ActivityHomePageBinding
 import com.google.android.material.tabs.TabLayout
 import java.util.Date
-
+//This class holds the fragments
 class HomeActivity :  AppCompatActivity() {
 
     private lateinit var binding: ActivityHomePageBinding
@@ -38,6 +38,8 @@ class HomeActivity :  AppCompatActivity() {
         viewPage.adapter = vpAdapter
         tabLayout.setupWithViewPager(viewPage)
 
+        val CategoryPosition = intent.getIntExtra("CATEGORY",1)
+        viewPage.currentItem=CategoryPosition
 
     }
 }
