@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.Navigation
 import androidx.viewpager.widget.ViewPager
@@ -45,17 +46,15 @@ class AddNewCategories : AppCompatActivity() {
 
             // Show a toast message to indicate the data has been added
             Toast.makeText(this, "Data added successfully", Toast.LENGTH_SHORT).show()
-
+            //navigate back to fragment
+            val desiredFragmentIndex = 1 // Set the desired fragment index to navigate to
 
             val intent = Intent(this, HomeActivity::class.java)
-            intent.putExtra("CategoryPosition",1)
+            intent.putExtra("FRAGMENT_INDEX", desiredFragmentIndex)
             startActivity(intent)
-//            val myviewPager : ViewPager = findViewById(R.id.vpNavigation)
-//            myviewPager.currentItem = 1
-//            val fragment = Category()
-//            val transaction = supportFragmentManager.beginTransaction()
-//            transaction.replace(R.id.vpNavigation, fragment)
-//            transaction.commit()
+
         }
     }
+
+
 }

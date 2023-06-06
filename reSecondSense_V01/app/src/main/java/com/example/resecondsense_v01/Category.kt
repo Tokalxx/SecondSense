@@ -15,48 +15,57 @@ import java.util.Date
 class Category : Fragment() {
     //binding
     private var _binding: FragmentCategoryBinding? = null
+    private lateinit var recyclerViewAdapter: RVAdapter_Category
+    val dataObj = DataContext()
+    private var dataList: MutableList<data_Category> = dataObj.getCategory()
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
+
     ): View? {
 
         _binding = FragmentCategoryBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val DCCategoryObj = DataContext()
-
+        var DCCategoryObj = DataContext()
 
         //establishing the view that will display the different categories
-        val recyclerView: RecyclerView = view.findViewById(R.id.lvCategories)
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        var recyclerView: RecyclerView = view.findViewById(R.id.lvCategories)
+        recyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = RVAdapter_Category(DCCategoryObj.getCategory())
-        onResume()
+
+
         //Create button for Category
         val CreateCatbtnClick = view.findViewById<Button>(R.id.btnCreateCategory)
         CreateCatbtnClick.setOnClickListener {
 
             // Create an Intent to navigate to the target activity
             val intent = Intent(requireContext(), AddNewCategories::class.java)
-
-
-
-
-
+            intent.putExtra("FragmentInstance", "CATEGORY")
             // Start the activity
             startActivity(intent)
         }
-
-        return view
+         return view
     }
 
 
-    override fun onResume(){
+    override fun onResume() {
         super.onResume()
         val DCCategoryObj = DataContext()
         val adapter = RVAdapter_Category(DCCategoryObj.getCategory())
         adapter.notifyDataSetChanged()
 
     }
+    fun updateRecyclerView(newItem: data_Category) {
+        // Add the new item to the dataset
+        dataObj.Cat.add(newItem)
+
+        // Notify the adapter of the data change
+        recyclerViewAdapter.notifyDataSetChanged()
+    }
+
+
 }
