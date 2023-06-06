@@ -1,15 +1,20 @@
 package com.example.resecondsense_v01
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager.widget.ViewPager
 import com.example.resecondsense_v01.databinding.ActivityHomePageBinding
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import java.util.Date
 //This class holds the fragments
 class HomeActivity :  AppCompatActivity() {
 
     private lateinit var binding: ActivityHomePageBinding
+    private lateinit var drawerLayout: DrawerLayout
     val currentDate: Date = Date()
     val data = listOf(
         data_RecentEntry(R.drawable.the_goat, "Title 1", currentDate),
@@ -37,9 +42,15 @@ class HomeActivity :  AppCompatActivity() {
         // Set the adapter to the ViewPager
         viewPage.adapter = vpAdapter
         tabLayout.setupWithViewPager(viewPage)
+        //navigation drawer
+        val btnopenDrawer : Button = findViewById(R.id.btnMenuDrawer)
+        val navView : NavigationView = findViewById(R.id.navDrawerView)
+        drawerLayout = findViewById(R.id.drawerLayout)
+        btnopenDrawer.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
 
-        val CategoryPosition = intent.getIntExtra("CATEGORY",1)
-        viewPage.currentItem=CategoryPosition
+
 
     }
 }
