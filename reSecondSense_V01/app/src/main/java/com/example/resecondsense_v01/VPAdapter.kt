@@ -13,10 +13,12 @@ class VPAdapter(fragmentActivity: FragmentManager) : FragmentStatePagerAdapter(f
     private var fragmentList: MutableList<Fragment> = ArrayList()
     private var titleList: MutableList<String> = ArrayList()
     override fun getCount(): Int {
+
        return fragmentList.size
     }
 
     override fun getItem(position: Int): Fragment {
+
         return fragmentList[position]
     }
 

@@ -3,11 +3,10 @@ package com.example.resecondsense_v01
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RVAdapter_Category(val categoryList: MutableList<data_Category>) : RecyclerView.Adapter<RVAdapter_Category.ViewHolder>() {
+class RVAdapter_Category(var categoryList: MutableList<data_Category>) : RecyclerView.Adapter<RVAdapter_Category.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -20,7 +19,10 @@ class RVAdapter_Category(val categoryList: MutableList<data_Category>) : Recycle
     override fun getItemCount(): Int {
         return categoryList.size
     }
-
+    fun updateList(data: MutableList<data_Category>) {
+        categoryList = data
+        notifyDataSetChanged()
+    }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = categoryList[position]
         holder.hoursView.text = currentItem.hoursSpent.toString()
