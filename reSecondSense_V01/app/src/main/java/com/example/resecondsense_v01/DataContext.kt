@@ -2,7 +2,9 @@ package com.example.resecondsense_v01
 
 import java.util.Date
 
-class DataContext {
+object DataContext {
+
+
 
     //Dummy Users
     val Users = mutableListOf<data_User>(
@@ -15,21 +17,22 @@ class DataContext {
     val currentDate: Date = Date()
 
     val Cat = mutableListOf<data_Category>(
-        data_Category("Math", 2, currentDate),
-        data_Category("Science", 2, currentDate),
-        data_Category("English", 2, currentDate),
-        data_Category("Biology", 2, currentDate),
-        data_Category("Math", 3, currentDate),
-        data_Category("Science", 4, currentDate),
-        data_Category("English", 6, currentDate),
-        data_Category("Biology", 8, currentDate),
-        data_Category("Math", 2, currentDate),
-        data_Category("Science", 5, currentDate),
-        data_Category("English", 6, currentDate),
-        data_Category("Biology", 8, currentDate),
-        data_Category("Biology", 133, currentDate),
-        data_Category("Biology", 1323, currentDate)
+        data_Category("Math", 2, currentDate.toString()),
+        data_Category("Science", 2, currentDate.toString()),
+        data_Category("English", 2, currentDate.toString()),
+        data_Category("Biology", 2, currentDate.toString()),
+        data_Category("Math", 3, currentDate.toString()),
+        data_Category("Science", 4, currentDate.toString()),
+        data_Category("English", 6, currentDate.toString()),
+        data_Category("Biology", 8, currentDate.toString()),
+        data_Category("Math", 2, currentDate.toString()),
+        data_Category("Science", 5, currentDate.toString()),
+        data_Category("English", 6, currentDate.toString()),
+        data_Category("Biology", 8, currentDate.toString()),
+        data_Category("Biology", 133, currentDate.toString()),
+        data_Category("Biology", 1323, currentDate.toString())
     )
+
 
     //Function to find a user
     fun findUser(UserID : String, Password : String): Boolean {
@@ -47,7 +50,7 @@ class DataContext {
     }
 
     fun CreateCategory(catName: String){
-        Cat.add(data_Category(catName, 0, currentDate))
+        Cat.add(data_Category(catName, 0, currentDate.toString()))
     }
 
     fun getCategory(): MutableList<data_Category> {

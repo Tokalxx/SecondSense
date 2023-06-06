@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin_page)
 
-        val ModelObj = DataContext()
+        val ModelObj = DataContext
         //User Credentials
         val UserID : TextView = findViewById(R.id.txtUsername)
         val Password : TextView = findViewById(R.id.txtPassword)

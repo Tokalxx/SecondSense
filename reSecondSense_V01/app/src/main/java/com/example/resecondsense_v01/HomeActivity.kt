@@ -50,10 +50,12 @@ class HomeActivity :  AppCompatActivity() {
             drawerLayout.openDrawer(GravityCompat.START)
         }
         //navigation from activities
-        if (intent.hasExtra("FRAGMENT_INDEX")) {
-            val desiredFragmentIndex = intent.getIntExtra("FRAGMENT_INDEX", 0)
+        if (intent.hasExtra("DATA")) {
+            val desiredFragmentIndex = intent.getIntExtra("DATA", 1)
             viewPage.currentItem = desiredFragmentIndex
         }
+
+
 
 
 
