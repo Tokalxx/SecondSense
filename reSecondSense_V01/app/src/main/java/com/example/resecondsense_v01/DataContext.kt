@@ -8,19 +8,19 @@ object DataContext {
     var Username : String = ""
 
     var TimeSheetEntries = mutableListOf<data_Entries>(
-        data_Entries("Math", 2, currentDate.toString(),"User1","Description"),
-        data_Entries("Science", 2, currentDate.toString(),"User2","Description"),
-        data_Entries("English", 2, currentDate.toString(),"User1","Description"),
-        data_Entries("Math", 2, currentDate.toString(),"User3","Description"),
-        data_Entries("Science", 2, currentDate.toString(),"User1","Description"),
-        data_Entries("English", 3, currentDate.toString(),"User2","Description"),
-        data_Entries("Math", 2, currentDate.toString(),"User2","Description"),
-        data_Entries("Science", 3, currentDate.toString(),"User3","Description"),
-        data_Entries("English", 3, currentDate.toString(),"User3","Description"),
-        data_Entries("Math", 2, currentDate.toString(),"User1","Description"),
-        data_Entries("Science", 2, currentDate.toString(),"User1","Description"),
-        data_Entries("English", 2, currentDate.toString(),"User2","Description"),
-        data_Entries("English", 2, currentDate.toString(),"User1","Description"),
+        data_Entries("Math", 2, currentDate.toString(),"User1","Description",null),
+        data_Entries("Science", 2, currentDate.toString(),"User2","Description",null),
+        data_Entries("English", 2, currentDate.toString(),"User1","Description",null),
+        data_Entries("Math", 2, currentDate.toString(),"User3","Description",null),
+        data_Entries("Science", 2, currentDate.toString(),"User1","Description",null),
+        data_Entries("English", 3, currentDate.toString(),"User2","Description",null),
+        data_Entries("Math", 2, currentDate.toString(),"User2","Description",null),
+        data_Entries("Science", 3, currentDate.toString(),"User3","Description",null),
+        data_Entries("English", 3, currentDate.toString(),"User3","Description",null),
+        data_Entries("Math", 2, currentDate.toString(),"User1","Description",null),
+        data_Entries("Science", 2, currentDate.toString(),"User1","Description",null),
+        data_Entries("English", 2, currentDate.toString(),"User2","Description",null),
+        data_Entries("English", 2, currentDate.toString(),"User1","Description",null),
         // Add more items as needed
     )
 
@@ -98,6 +98,14 @@ object DataContext {
     fun getRecentEntry(): List<data_RecentEntry> {
         data = data.filter { it.UserId == Username }.toMutableList()
         return data
+    }
+
+
+    fun createEntry(dataEntries: data_Entries){
+
+        TimeSheetEntries.add(
+            dataEntries
+        )
     }
 
 }
