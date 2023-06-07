@@ -42,7 +42,7 @@ class AddNewCategories : AppCompatActivity() {
             val catDBObj = DataContext()
 
             catDBObj.CreateCategory(catTempText.text.toString())
-
+          //  catDBObj.extractDetails(catTempText.text.toString())
             // Show a toast message to indicate the data has been added
             Toast.makeText(this, "Data added successfully", Toast.LENGTH_SHORT).show()
 
