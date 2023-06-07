@@ -74,6 +74,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="Date"
+                        android:clickable="false"
+                        android:focusable="false"
                         android:paddingVertical="8dp"
                         android:layout_margin="10dp">
 
@@ -84,7 +86,7 @@
                             android:inputType="none"
                             android:focusable="false"
                             android:clickable="false"
-                            android:onClick="showDatePickerDialog" />
+                            android:textIsSelectable="true" />
 
 
 
@@ -126,7 +128,7 @@
                                 android:inputType="none"
                                 android:focusable="false"
                                 android:clickable="false"
-                                android:onClick="showTimePickerDialog" />
+                                android:textIsSelectable="true" />
 
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatButton
@@ -160,7 +162,7 @@
                                 android:inputType="none"
                                 android:focusable="false"
                                 android:clickable="false"
-                                android:onClick="showTimePickerDialog" />
+                                android:textIsSelectable="true" />
 
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatButton
@@ -227,7 +229,7 @@
                         android:layout_margin="10dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/descriptionEditText"
+                            android:id="@+id/txtEntryDescription"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textMultiLine"

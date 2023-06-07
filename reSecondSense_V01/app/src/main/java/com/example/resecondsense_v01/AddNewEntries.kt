@@ -29,11 +29,11 @@ class AddNewEntries : AppCompatActivity() {
         setContentView( R.layout.activity_add_new_entries)
 
         //binding = setContentView( R.layout.activity_add_new_entries) as ActivityAddNewEntriesBinding
-
+        val Dbhelper = DataContext
         //variables
         val backbutton: Button = findViewById(R.id.btnBackHome)
         val addPicbutton: Button = findViewById(R.id.btnAddPicture)
-
+        val description : TextView = findViewById(R.id.txtEntryDescription)
         var txtDate : TextView = findViewById(R.id.txtEntryDate)
         var txtStartTime : TextView = findViewById(R.id.txtEntryStartTime)
         var txtEndTime : TextView = findViewById(R.id.txtEntryStartTime)
@@ -44,10 +44,10 @@ class AddNewEntries : AppCompatActivity() {
 
 
 
-
-
         //Filling the category drop down
-        val items = listOf("DummyData","Math","English","Afrikaans")//This is dummy data for what will go in the drop down
+
+
+        val items = Dbhelper.getCategory().map { it.category_Title }
         val autoComplete : AutoCompleteTextView = findViewById(R.id.cmbCategory)
 
         val adapter = ArrayAdapter(this,R.layout.template_categorydropdown,items)
