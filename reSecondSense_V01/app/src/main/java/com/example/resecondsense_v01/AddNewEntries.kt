@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.icu.util.Calendar
+import android.net.Uri
 import android.os.Bundle
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -17,6 +18,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.resecondsense_v01.databinding.ActivityAddNewEntriesBinding
 import java.io.IOException
+import java.io.Serializable
 
 
 class AddNewEntries : AppCompatActivity() {
@@ -29,6 +31,8 @@ class AddNewEntries : AppCompatActivity() {
     private  var mMinute:kotlin.Int = 0
     private lateinit var binding: ActivityAddNewEntriesBinding
     private lateinit var imageView: ImageView
+    private var imgUri: Uri? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,14 +45,16 @@ class AddNewEntries : AppCompatActivity() {
         //variables
         val backbutton: Button = findViewById(R.id.btnBackHome)
         val addPicbutton: Button = findViewById(R.id.btnAddPicture)
-        val description : TextView = findViewById(R.id.txtEntryDescription)
+        val txtDescription : TextView = findViewById(R.id.txtEntryDescription)
         var txtDate : TextView = findViewById(R.id.txtEntryDate)
         var txtStartTime : TextView = findViewById(R.id.txtEntryStartTime)
         var txtEndTime : TextView = findViewById(R.id.txtEntryStartTime)
+        var txtEntryTitle : TextView = findViewById(R.id.txtEntryTitle)
         //date picker buttons
         val btnEntryDatebutton: Button = findViewById(R.id.btnEntryDatepicker)
         val btnStartTime: Button = findViewById(R.id.btnStartTimePicker)
         val btnEndTimebutton: Button = findViewById(R.id.btnEndTimePicker)
+        val btnDone : Button = findViewById(R.id.btnFinalEntryCreate)
 
 
 
@@ -126,6 +132,38 @@ class AddNewEntries : AppCompatActivity() {
             timePickerDialog.show()
 
         }
+        //once alll details have been entered
+        btnDone.setOnClickListener{
+            var dataEntries :data_Entries
+            dataEntries = data_Entries(
+                txtEntryTitle.text.toString(),
+                22,
+                txtDate.text.toString(),
+                Dbhelper.Username,
+                txtDescription.text.toString(),
+                imgUri.toString()
+
+            )
+
+            Dbhelper.createEntry(dataEntries)
+
+            // Show a toast message to indicate the data has been added
+            Toast.makeText(this, "Data added successfully", Toast.LENGTH_SHORT).show()
+
+            // Create an Intent to hold the result data
+            val intent = Intent()
+
+            // Put the updated list of categories as an extra in the intent using the same key as before
+            intent.putExtra("DATA_ENTRIES", Dbhelper.getEntries() as Serializable)
+
+            // Set the result code and the intent
+            setResult(RESULT_OK, intent)
+
+            // Finish the activity and resume the HomeActivity
+            finish()
+
+
+        }
 
 
 
@@ -137,10 +175,14 @@ class AddNewEntries : AppCompatActivity() {
         startActivityForResult(intent, addEntryPicture.IMAGE_REQUEST_CODE)
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == addEntryPicture.IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
             val imageUri = imageView.setImageURI(data?.data)
+            
+            imgUri = data?.data
+            imageView.setImageURI(imgUri)
 
         }
     }
@@ -159,4 +201,7 @@ class AddNewEntries : AppCompatActivity() {
             Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show()
         }
     }
+
+
+
 }
