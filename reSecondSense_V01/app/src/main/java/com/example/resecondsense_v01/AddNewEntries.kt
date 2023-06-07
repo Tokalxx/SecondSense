@@ -5,8 +5,10 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -15,10 +17,15 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.resecondsense_v01.databinding.ActivityAddNewEntriesBinding
 import java.io.IOException
 import java.io.Serializable
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.concurrent.TimeUnit
 
 
 class AddNewEntries : AppCompatActivity() {
@@ -33,6 +40,7 @@ class AddNewEntries : AppCompatActivity() {
     private lateinit var imageView: ImageView
     private var imgUri: Uri? = null
     lateinit var dataEntries :data_Entries
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +64,8 @@ class AddNewEntries : AppCompatActivity() {
         val btnStartTime: Button = findViewById(R.id.btnStartTimePicker)
         val btnEndTimebutton: Button = findViewById(R.id.btnEndTimePicker)
         val btnDone : Button = findViewById(R.id.btnFinalEntryCreate)
+
+
 
 
 
@@ -135,10 +145,17 @@ class AddNewEntries : AppCompatActivity() {
         }
         //once alll details have been entered
         btnDone.setOnClickListener{
+            val formatter = SimpleDateFormat("HH:mm")
+            var startTime: Date = formatter.parse(txtStartTime.text.toString()) // Parse the start time string
+            var endTime: Date = formatter.parse(txtEndTime.text.toString())
+
+
+            var duration = endTime.time - startTime.time
+            val hours = TimeUnit.MILLISECONDS.toHours(duration).toInt()
 
             dataEntries = data_Entries(
                 txtEntryTitle.text.toString(),
-                22,
+                hours,
                 txtDate.text.toString(),
                 Dbhelper.Username,
                 txtDescription.text.toString(),
