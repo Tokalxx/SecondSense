@@ -13,6 +13,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.Toast
 import android.widget.ImageView
+import com.example.resecondsense_v01.DataContext.data
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -24,6 +25,9 @@ class addEntryPicture : AppCompatActivity() {
     private lateinit var button1: Button
     private lateinit var imageView: ImageView
     private lateinit var button2: Button
+
+    val data_entries = mutableListOf<data_Entries>() // Create an empty list
+
 
     companion object{
         val IMAGE_REQUEST_CODE = 100
@@ -45,10 +49,17 @@ class addEntryPicture : AppCompatActivity() {
             val bitmap = (imageView.drawable as? BitmapDrawable)?.bitmap
             if (bitmap != null) {
                 saveImageToInternalStorage(bitmap)
+                // Add the data entry object to the list here, after saving the image
+                val imageUri = intent.data // Get the URI from the intent parameter, not from the data class variable
+                val dataEntry = data_Entries("Some title", "Some hours", "Some date", "Some user", imageUri.toString()) // Create a data entry object with the image URI
+                data_entries.add(dataEntry) // Add the object to your list
+
             } else {
                 Toast.makeText(this, "Failed to get image", Toast.LENGTH_SHORT).show()
             }
         }
+
+
 
         //back button
         val backbutton: Button = findViewById(R.id.btnBackHome)

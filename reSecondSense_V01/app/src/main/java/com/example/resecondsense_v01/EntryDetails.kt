@@ -22,9 +22,5 @@ class EntryDetails : AppCompatActivity() {
         val txtDescription : TextView = findViewById(R.id.txtDescription)
 
 
-
-
-
-
     }
 }
