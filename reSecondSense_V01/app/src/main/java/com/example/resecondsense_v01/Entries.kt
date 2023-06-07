@@ -1,5 +1,6 @@
 package com.example.resecondsense_v01
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -121,7 +122,25 @@ class Entries : Fragment() {
         Toast.makeText(requireContext(), "Data filtered successfully", Toast.LENGTH_SHORT).show()
     }
 
+    @Override
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
+        if (requestCode == 1) {
+            // Check if the result code matches the one set by the other activity
+            if (resultCode == Activity.RESULT_OK) {
+                // Check if the intent and its extras are not null
+                if (data != null && data.hasExtra("DATA_ENTRIES")) {
+                    // Get the updated list of categories from the intent using the same key as before
+                    val newData = data.getSerializableExtra("DATA_ENTRIES") as List<data_Entries>
+                    // Pass the updated list of categories to the adapter of the RecyclerView
+                    recyclerView.adapter = RVAdapter_Entries(newData)
+                    // Notify the adapter that the data set has changed
+                    recyclerView.adapter?.notifyDataSetChanged()
+                }
+            }
+        }
+    }
 
 
 

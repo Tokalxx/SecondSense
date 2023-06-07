@@ -50,9 +50,9 @@ class addEntryPicture : AppCompatActivity() {
             if (bitmap != null) {
                 saveImageToInternalStorage(bitmap)
                 // Add the data entry object to the list here, after saving the image
-                val imageUri = intent.data // Get the URI from the intent parameter, not from the data class variable
-                val dataEntry = data_Entries("Some title", 0, "Some date", "Some user", imageUri.toString()) // Create a data entry object with the image URI
-                data_entries.add(dataEntry) // Add the object to your list
+                //val imageUri = intent.data // Get the URI from the intent parameter, not from the data class variable
+                //val dataEntry = data_Entries("Some title", 0, "Some date", "Some user", imageUri.toString()) // Create a data entry object with the image URI
+                //data_entries.add(dataEntry) // Add the object to your list
 
             } else {
                 Toast.makeText(this, "Failed to get image", Toast.LENGTH_SHORT).show()
