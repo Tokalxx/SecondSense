@@ -31,7 +31,7 @@ class Entries : Fragment() {
     //binding
     private var _binding: FragmentEntriesBinding? = null
     private lateinit var recyclerView: RecyclerView // Declare recyclerView as a class-level property
-    private var data: ArrayList<data_Entries> = arrayListOf() // Declare data as a class-level property
+    private lateinit var data: List<data_Entries> // Declare data as a class-level property
 
 
     private val binding get() = _binding!!
@@ -45,16 +45,8 @@ class Entries : Fragment() {
         _binding = FragmentEntriesBinding.inflate(inflater, container, false)
         val view = binding.root
         val currentDate: Date = Date()
-        val data = arrayListOf(
-            data_Entries("Math", "2 hrs", "2023-05-10", "User1"),
-            data_Entries("English", "4 hrs", "2023-05-15", "User2"),
-            data_Entries("Science", "1 hrs", "2023-05-17", "User1"),
-            data_Entries("Biology", "3 hrs", "2023-05-22", "User1"),
-            data_Entries("Social Studius", "4 hrs", "2023-05-25", "User2"),
-
-            // Add more items as needed
-        )
-
+        val dbhelper = DataContext
+        data = DataContext.getEntries()
         recyclerView = view.findViewById(R.id.lvEntries) // Initialize recyclerView
 
 

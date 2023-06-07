@@ -2,17 +2,21 @@ package com.example.resecondsense_v01
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.resecondsense_v01.databinding.ActivityAddNewEntriesBinding
+import java.io.IOException
 
 
 class AddNewEntries : AppCompatActivity() {
@@ -24,9 +28,13 @@ class AddNewEntries : AppCompatActivity() {
     private  var mHour:kotlin.Int = 0
     private  var mMinute:kotlin.Int = 0
     private lateinit var binding: ActivityAddNewEntriesBinding
+    private lateinit var imageView: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView( R.layout.activity_add_new_entries)
+
+        imageView = findViewById(R.id.imgEntryImage)
 
         //binding = setContentView( R.layout.activity_add_new_entries) as ActivityAddNewEntriesBinding
         val Dbhelper = DataContext
@@ -45,8 +53,6 @@ class AddNewEntries : AppCompatActivity() {
 
 
         //Filling the category drop down
-
-
         val items = Dbhelper.getCategory().map { it.category_Title }
         val autoComplete : AutoCompleteTextView = findViewById(R.id.cmbCategory)
 
@@ -66,11 +72,11 @@ class AddNewEntries : AppCompatActivity() {
         addPicbutton.setOnClickListener {
             val intent = Intent(this, addEntryPicture::class.java)
             // start your next activity
-            startActivity(intent)
+            //startActivity(intent)
+            pickImageFromGallery()
         }
 
         btnEntryDatebutton.setOnClickListener {
-            // Get Current Date
             // Get Current Date
             val c: Calendar = Calendar.getInstance()
             mYear = c.get(Calendar.YEAR)
@@ -89,7 +95,6 @@ class AddNewEntries : AppCompatActivity() {
 
         btnStartTime.setOnClickListener {
             // Get Current Time
-            // Get Current Time
             val c = Calendar.getInstance()
             mHour = c[Calendar.HOUR_OF_DAY]
             mMinute = c[Calendar.MINUTE]
@@ -107,12 +112,9 @@ class AddNewEntries : AppCompatActivity() {
         }
         btnEndTimebutton.setOnClickListener {
             // Get Current Time
-            // Get Current Time
             val c = Calendar.getInstance()
             mHour = c[Calendar.HOUR_OF_DAY]
             mMinute = c[Calendar.MINUTE]
-
-            // Launch Time Picker Dialog
 
             // Launch Time Picker Dialog
             val timePickerDialog = TimePickerDialog(this,
@@ -127,5 +129,33 @@ class AddNewEntries : AppCompatActivity() {
 
 
 
+    }
+
+    private fun pickImageFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, addEntryPicture.IMAGE_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == addEntryPicture.IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
+            imageView.setImageURI(data?.data)
+        }
+    }
+
+    private fun saveImageToInternalStorage(bitmap: Bitmap) {
+        val filename = "image.jpg" // Specify the desired filename for your image
+
+        try {
+            val outputStream = openFileOutput(filename, Context.MODE_PRIVATE)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            outputStream.flush()
+            outputStream.close()
+            Toast.makeText(this, "Image saved", Toast.LENGTH_SHORT).show()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show()
+        }
     }
 }
