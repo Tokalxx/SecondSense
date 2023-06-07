@@ -53,7 +53,6 @@ class Home : Fragment() {
             // Optionally, add extras to the Intent
             intent.putExtra("key", "value")
 
-
             // Start the activity
             startActivity(intent)
         }
@@ -70,7 +69,6 @@ class Home : Fragment() {
 
         loadingBar.max = maxValue
         loadingBar.progress = progressValue
-
 
 
         return view
