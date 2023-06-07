@@ -12,180 +12,181 @@
 
 
 
-        <ScrollView
-            android:id="@+id/scrollLayout"
+    <ScrollView
+        android:id="@+id/scrollLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             >
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <RelativeLayout
+                android:id="@+id/layoutTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_margin="10dp"
                 >
-
-                <RelativeLayout
-                    android:id="@+id/layoutTitle"
-                    android:layout_width="match_parent"
+                <!--Recent title-->
+                <TextView
+                    android:id="@+id/lblNewEntry"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_margin="10dp"
-                    >
-                    <!--Recent title-->
-                    <TextView
-                        android:id="@+id/lblNewEntry"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="New Entry"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
+                    android:layout_centerVertical="true"
+                    android:text="New Entry"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 
-                </RelativeLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutInputTitleAndDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/layoutTitle">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/titleTextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Entry Title"
+                    android:paddingVertical="8dp"
+                    android:layout_margin="10dp">
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txtEntryTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dateTextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Date"
+                    android:paddingVertical="8dp"
+                    android:layout_margin="10dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txtEntryDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:onClick="showDatePickerDialog" />
+
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnEntryDatepicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:background="@drawable/ic_grey_roundedcorner_background"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:onClick="showDatePickerDialog" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutStartAndEndTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/layoutInputTitleAndDate">
 
                 <LinearLayout
-                    android:id="@+id/layoutInputTitleAndDate"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@id/layoutTitle">
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_margin="10dp">
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/titleTextInputLayout"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Entry Title"
-                        android:paddingVertical="8dp"
-                        android:layout_margin="10dp">
-
+                        android:hint="Start Time"
+                        android:paddingVertical="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/txtEntryTitle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="text" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/dateTextInputLayout"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Date"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:paddingVertical="8dp"
-                        android:layout_margin="10dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/txtEntryDate"
+                            android:id="@+id/txtEntryStartTime"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none"
                             android:focusable="false"
                             android:clickable="false"
-                            android:textIsSelectable="true" />
-
-
+                            android:onClick="showTimePickerDialog" />
 
                     </com.google.android.material.textfield.TextInputLayout>
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btnEntryDatepicker"
+                        android:id="@+id/btnStartTimePicker"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Date"
+                        android:text="Start Time"
+                        android:layout_margin="10dp"
                         android:background="@drawable/ic_grey_roundedcorner_background"
-                        android:layout_gravity="center_vertical"
-                        android:layout_margin="5dp"
-                        android:onClick="showDatePickerDialog" />
+                        android:layout_gravity="center_horizontal"
+                        android:onClick="showTimePickerDialog" />
                 </LinearLayout>
+
                 <LinearLayout
-                    android:id="@+id/layoutStartAndEndTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_margin="10dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="End Time"
+                        android:paddingVertical="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtEntryEndTime"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:focusable="false"
+                            android:clickable="false"
+                            android:onClick="showTimePickerDialog" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnEndTimePicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="End Time"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/ic_grey_roundedcorner_background"
+                        android:layout_gravity="center_horizontal"
+                        android:onClick="showTimePickerDialog" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutCatAndPicture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/layoutStartAndEndTime">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@id/layoutInputTitleAndDate">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_margin="10dp">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Start Time"
-                            android:paddingVertical="8dp">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txtEntryStartTime"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="none"
-                                android:focusable="false"
-                                android:clickable="false"
-                                android:textIsSelectable="true" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btnStartTimePicker"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Start Time"
-                            android:layout_margin="10dp"
-                            android:background="@drawable/ic_grey_roundedcorner_background"
-                            android:layout_gravity="center_horizontal"
-                            android:onClick="showTimePickerDialog" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_margin="10dp">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="End Time"
-                            android:paddingVertical="8dp">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txtEntryEndTime"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="none"
-                                android:focusable="false"
-                                android:clickable="false"
-                                android:textIsSelectable="true" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btnEndTimePicker"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="End Time"
-                            android:layout_margin="10dp"
-                            android:background="@drawable/ic_grey_roundedcorner_background"
-                            android:layout_gravity="center_horizontal"
-                            android:onClick="showTimePickerDialog" />
-                    </LinearLayout>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/layoutCatAndPicture"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    app:layout_constraintTop_toBottomOf="@id/layoutStartAndEndTime">
-
-
+                    android:gravity="center_vertical">
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -193,16 +194,12 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="Category"
-                        android:layout_margin="10dp"
-                        >
+                        android:layout_margin="10dp">
                         <AutoCompleteTextView
                             android:id="@+id/cmbCategory"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none"/>
-
-
-
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -215,60 +212,70 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <ImageView
+                    android:id="@+id/imgEntryImage"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="centerCrop"
+                    android:layout_gravity="center_horizontal"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                app:layout_constraintTop_toBottomOf="@id/layoutCatAndPicture">
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:hint="Description"
+                    android:layout_margin="10dp">
 
-                    app:layout_constraintTop_toBottomOf="@id/layoutCatAndPicture">
-
-                    <com.google.android.material.textfield.TextInputLayout
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/descriptionEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Description"
-                        android:layout_margin="10dp">
+                        android:inputType="textMultiLine"
+                        android:minLines="3"
+                        android:maxLines="5" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/txtEntryDescription"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textMultiLine"
-                            android:minLines="3"
-                            android:maxLines="5" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    </com.google.android.material.textfield.TextInputLayout>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnBackHome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="BACK"
+                        android:background="@drawable/ic_grey_roundedcorner_background"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="15dp"/>
 
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btnBackHome"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="BACK"
-                            android:background="@drawable/ic_grey_roundedcorner_background"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginEnd="15dp"
-                            android:layout_marginBottom="15dp"/>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnCreateEntry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DONE"
+                        android:background="@drawable/ic_grey_roundedcorner_background"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="15dp"/>
 
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btnCreateEntry"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="DONE"
-                            android:background="@drawable/ic_grey_roundedcorner_background"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginEnd="15dp"
-                            android:layout_marginBottom="15dp"/>
+                </RelativeLayout>
 
-                    </RelativeLayout>
-
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

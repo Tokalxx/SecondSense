@@ -8,19 +8,19 @@ object DataContext {
     var Username : String = ""
 
     var TimeSheetEntries = mutableListOf<data_Entries>(
-        data_Entries("Math", "2 hrs", currentDate.toString(),"User1"),
-        data_Entries("Science", "3 hrs", currentDate.toString(),"User2"),
-        data_Entries("English", "3 hrs", currentDate.toString(),"User1"),
-        data_Entries("Math", "2 hrs", currentDate.toString(),"User3"),
-        data_Entries("Science", "3 hrs", currentDate.toString(),"User1"),
-        data_Entries("English", "3 hrs", currentDate.toString(),"User2"),
-        data_Entries("Math", "2 hrs", currentDate.toString(),"User2"),
-        data_Entries("Science", "3 hrs", currentDate.toString(),"User3"),
-        data_Entries("English", "3 hrs", currentDate.toString(),"User3"),
-        data_Entries("Math", "2 hrs", currentDate.toString(),"User1"),
-        data_Entries("Science", "3 hrs", currentDate.toString(),"User1"),
-        data_Entries("English", "3 hrs", currentDate.toString(),"User2"),
-        data_Entries("English", "88 hrs", currentDate.toString(),"User1"),
+        data_Entries("Math", "2 hrs", currentDate.toString(),"User1",""),
+        data_Entries("Science", "3 hrs", currentDate.toString(),"User2",""),
+        data_Entries("English", "3 hrs", currentDate.toString(),"User1",""),
+        data_Entries("Math", "2 hrs", currentDate.toString(),"User3",""),
+        data_Entries("Science", "3 hrs", currentDate.toString(),"User1",""),
+        data_Entries("English", "3 hrs", currentDate.toString(),"User2",""),
+        data_Entries("Math", "2 hrs", currentDate.toString(),"User2",""),
+        data_Entries("Science", "3 hrs", currentDate.toString(),"User3",""),
+        data_Entries("English", "3 hrs", currentDate.toString(),"User3",""),
+        data_Entries("Math", "2 hrs", currentDate.toString(),"User1",""),
+        data_Entries("Science", "3 hrs", currentDate.toString(),"User1",""),
+        data_Entries("English", "3 hrs", currentDate.toString(),"User2",""),
+        data_Entries("English", "88 hrs", currentDate.toString(),"User1",""),
         // Add more items as needed
     )
 
