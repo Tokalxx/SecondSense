@@ -16,12 +16,6 @@ class HomeActivity :  AppCompatActivity() {
     private lateinit var binding: ActivityHomePageBinding
     private lateinit var drawerLayout: DrawerLayout
     val currentDate: Date = Date()
-    val data = listOf(
-        data_RecentEntry(R.drawable.the_goat, "Title 1", currentDate),
-        data_RecentEntry(R.drawable.the_cow, "Title 2", currentDate),
-        data_RecentEntry(R.drawable.the_other_goat, "Title 3", currentDate),
-        // Add more items as needed
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

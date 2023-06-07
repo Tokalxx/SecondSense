@@ -18,7 +18,7 @@ class Category : Fragment() {
     private var _binding: FragmentCategoryBinding? = null
     private lateinit var recyclerViewAdapter: RVAdapter_Category
     val dataObj = DataContext
-    private var dataList: MutableList<data_Category> = dataObj.getCategory()
+    private var dataList: List<data_Category> = dataObj.getCategory()
     lateinit var recyclerView : RecyclerView
     private val binding get() = _binding!!
 
