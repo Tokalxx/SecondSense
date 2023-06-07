@@ -18,7 +18,7 @@ class RVAdapter_Entries(val entryList: List<data_Entries>) : RecyclerView.Adapte
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = entryList[position]
-        holder.hoursView.text = currentItem.hoursSpent
+        holder.hoursView.text = currentItem.hoursSpent.toString()+" hrs"
         holder.titleView.text = currentItem.entry_Title
         holder.dateView.text = currentItem.entryDate.toString()
     }
