@@ -83,9 +83,21 @@
                             android:layout_height="wrap_content"
                             android:inputType="none"
                             android:focusable="false"
+                            android:clickable="false"
                             android:onClick="showDatePickerDialog" />
 
+
+
                     </com.google.android.material.textfield.TextInputLayout>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnEntryDatepicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date"
+                        android:background="@drawable/ic_grey_roundedcorner_background"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="5dp"
+                        android:onClick="showDatePickerDialog" />
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/layoutStartAndEndTime"
@@ -113,10 +125,19 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="none"
                                 android:focusable="false"
+                                android:clickable="false"
                                 android:onClick="showTimePickerDialog" />
 
                         </com.google.android.material.textfield.TextInputLayout>
-
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnStartTimePicker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Start Time"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/ic_grey_roundedcorner_background"
+                            android:layout_gravity="center_horizontal"
+                            android:onClick="showTimePickerDialog" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -138,10 +159,19 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="none"
                                 android:focusable="false"
+                                android:clickable="false"
                                 android:onClick="showTimePickerDialog" />
 
                         </com.google.android.material.textfield.TextInputLayout>
-
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnEndTimePicker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="End Time"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/ic_grey_roundedcorner_background"
+                            android:layout_gravity="center_horizontal"
+                            android:onClick="showTimePickerDialog" />
                     </LinearLayout>
 
                 </LinearLayout>
