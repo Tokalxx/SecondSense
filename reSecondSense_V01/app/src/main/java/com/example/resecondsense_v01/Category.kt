@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -44,6 +45,10 @@ class Category : Fragment() {
 
         // Set the adapter to the recycler view
         recyclerView.adapter = recyclerViewAdapter
+
+        val output: TextView =view.findViewById(R.id.txtTotal)
+        var obj=DataContext
+        output.setText(obj.run{ calavulateent().toString()})
 
 
         //Create button for Category

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -42,9 +43,14 @@ class Entries : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         //binding
         _binding = FragmentEntriesBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        val output:TextView =view.findViewById(R.id.txtTotal)
+        var obj=DataContext
+        output.setText(obj.run{ calavulateent().toString()})
         //object
         //getting the list of entries
         data = dbhelper.getEntries()

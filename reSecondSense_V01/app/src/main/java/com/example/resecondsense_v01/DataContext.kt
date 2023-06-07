@@ -107,5 +107,17 @@ object DataContext {
             dataEntries
         )
     }
+fun calavulateent():Int
+{
+    TimeSheetEntries= TimeSheetEntries.filter { it.UserID== Username }.toMutableList()
+    val total = TimeSheetEntries.sumOf { it.hoursSpent }
+    return total
+}
 
+    fun calavulateCat():Int
+    {
+        Cat= Cat.filter { it.UserId== Username }.toMutableList()
+        val total = Cat.sumOf { it.hoursSpent }
+        return total
+    }
 }
