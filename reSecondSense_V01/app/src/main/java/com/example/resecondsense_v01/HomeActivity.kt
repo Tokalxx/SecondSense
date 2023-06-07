@@ -62,6 +62,11 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
             val desiredFragmentIndex = intent.getIntExtra("DATA", 1)
             viewPage.currentItem = desiredFragmentIndex
         }
+
+        if (intent.hasExtra("DATA_ENTRIES")) {
+            val desiredFragmentIndex = intent.getIntExtra("DATA_ENTRIES", 3)
+            viewPage.currentItem = desiredFragmentIndex
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

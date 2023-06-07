@@ -32,6 +32,7 @@ class AddNewEntries : AppCompatActivity() {
     private lateinit var binding: ActivityAddNewEntriesBinding
     private lateinit var imageView: ImageView
     private var imgUri: Uri? = null
+    lateinit var dataEntries :data_Entries
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -134,7 +135,7 @@ class AddNewEntries : AppCompatActivity() {
         }
         //once alll details have been entered
         btnDone.setOnClickListener{
-            var dataEntries :data_Entries
+
             dataEntries = data_Entries(
                 txtEntryTitle.text.toString(),
                 22,
