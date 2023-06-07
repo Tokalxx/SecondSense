@@ -46,19 +46,12 @@ class Entries : Fragment() {
         val view = binding.root
         val currentDate: Date = Date()
         val data = arrayListOf(
-            data_Entries("Math", "2 hrs", "2023-05-22", "User1"),
-            // data_Entries("Science", "3 hrs", currentDate),
-            // data_Entries("English", "3 hrs", currentDate),
-            data_Entries("Math", "2 hrs", SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2023-05-12")),
-            //data_Entries("Science", "3 hrs", currentDate),
-            //data_Entries("English", "3 hrs", currentDate),
-            data_Entries("Math", "2 hrs", SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2023-05-25")),
-            // data_Entries("Science", "3 hrs", currentDate),
-            //data_Entries("English", "3 hrs", currentDate),
-            data_Entries("Math", "2 hrs", SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2023-05-01")),
-            //data_Entries("Science", "3 hrs", currentDate),
-            // data_Entries("English", "3 hrs", currentDate),
-            data_Entries("English", "88 hrs", SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2023-05-07")),
+            data_Entries("Math", "2 hrs", "2023-05-10", "User1"),
+            data_Entries("English", "4 hrs", "2023-05-15", "User2"),
+            data_Entries("Science", "1 hrs", "2023-05-17", "User1"),
+            data_Entries("Biology", "3 hrs", "2023-05-22", "User1"),
+            data_Entries("Social Studius", "4 hrs", "2023-05-25", "User2"),
+
             // Add more items as needed
         )
 
