@@ -48,7 +48,7 @@ class AddNewEntries : AppCompatActivity() {
         val txtDescription : TextView = findViewById(R.id.txtEntryDescription)
         var txtDate : TextView = findViewById(R.id.txtEntryDate)
         var txtStartTime : TextView = findViewById(R.id.txtEntryStartTime)
-        var txtEndTime : TextView = findViewById(R.id.txtEntryStartTime)
+        var txtEndTime : TextView = findViewById(R.id.txtEntryEndTime)
         var txtEntryTitle : TextView = findViewById(R.id.txtEntryTitle)
         //date picker buttons
         val btnEntryDatebutton: Button = findViewById(R.id.btnEntryDatepicker)
