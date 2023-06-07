@@ -51,7 +51,7 @@ class addEntryPicture : AppCompatActivity() {
                 saveImageToInternalStorage(bitmap)
                 // Add the data entry object to the list here, after saving the image
                 val imageUri = intent.data // Get the URI from the intent parameter, not from the data class variable
-                val dataEntry = data_Entries("Some title", "Some hours", "Some date", "Some user", imageUri.toString()) // Create a data entry object with the image URI
+                val dataEntry = data_Entries("Some title", 0, "Some date", "Some user", imageUri.toString()) // Create a data entry object with the image URI
                 data_entries.add(dataEntry) // Add the object to your list
 
             } else {

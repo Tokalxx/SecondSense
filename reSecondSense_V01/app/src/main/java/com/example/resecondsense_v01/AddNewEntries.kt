@@ -140,7 +140,8 @@ class AddNewEntries : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == addEntryPicture.IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
-            imageView.setImageURI(data?.data)
+            val imageUri = imageView.setImageURI(data?.data)
+
         }
     }
 

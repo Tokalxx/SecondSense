@@ -1,6 +1,10 @@
 package com.example.resecondsense_v01
 
+import android.content.ClipData
+import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -11,7 +15,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import java.util.Date
 //This class holds the fragments
-class HomeActivity :  AppCompatActivity() {
+class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding: ActivityHomePageBinding
     private lateinit var drawerLayout: DrawerLayout
@@ -36,22 +40,43 @@ class HomeActivity :  AppCompatActivity() {
         // Set the adapter to the ViewPager
         viewPage.adapter = vpAdapter
         tabLayout.setupWithViewPager(viewPage)
+
+
         //navigation drawer
         val btnopenDrawer : Button = findViewById(R.id.btnMenuDrawer)
         val navView : NavigationView = findViewById(R.id.navDrawerView)
         drawerLayout = findViewById(R.id.drawerLayout)
         btnopenDrawer.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
+
+            navView.setNavigationItemSelectedListener(this)
+
         }
+
+
+
         //navigation from activities
         if (intent.hasExtra("DATA")) {
             val desiredFragmentIndex = intent.getIntExtra("DATA", 1)
             viewPage.currentItem = desiredFragmentIndex
         }
-
-
-
-
-
     }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.navSetUserGoals -> {
+                // Handle home item click
+            }
+            R.id.nav_logout -> {
+                val intent = Intent(this, SignUpActivity::class.java)
+                startActivity(intent)
+
+            }
+
+        }
+        return true
+    }
+
+
+
 }
