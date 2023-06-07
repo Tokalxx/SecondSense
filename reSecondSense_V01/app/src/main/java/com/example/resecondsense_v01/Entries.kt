@@ -34,27 +34,12 @@ class Entries : Fragment() {
         _binding = FragmentEntriesBinding.inflate(inflater, container, false)
         val view = binding.root
         val currentDate: Date = Date()
-        val data = arrayListOf(
-            data_Entries("Math", "2 hrs", currentDate),
-            data_Entries("Science", "3 hrs", currentDate),
-            data_Entries("English", "3 hrs", currentDate),
-            data_Entries("Math", "2 hrs", currentDate),
-            data_Entries("Science", "3 hrs", currentDate),
-            data_Entries("English", "3 hrs", currentDate),
-            data_Entries("Math", "2 hrs", currentDate),
-            data_Entries("Science", "3 hrs", currentDate),
-            data_Entries("English", "3 hrs", currentDate),
-            data_Entries("Math", "2 hrs", currentDate),
-            data_Entries("Science", "3 hrs", currentDate),
-            data_Entries("English", "3 hrs", currentDate),
-            data_Entries("English", "88 hrs", currentDate),
-            // Add more items as needed
-        )
+        var DBObj = DataContext
 
         //establishing the view that will display the different categories
         val recyclerView: RecyclerView = view.findViewById(R.id.lvEntries)
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        recyclerView.adapter = RVAdapter_Entries(data)
+        recyclerView.adapter = RVAdapter_Entries(DBObj.getEntries())
 
         val CreateEntybtnClick = view.findViewById<Button>(R.id.btnCreateEntry)
         CreateEntybtnClick.setOnClickListener {

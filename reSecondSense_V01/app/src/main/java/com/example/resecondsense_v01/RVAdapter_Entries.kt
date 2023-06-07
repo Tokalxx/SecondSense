@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RVAdapter_Entries(val entryList: ArrayList<data_Entries>) : RecyclerView.Adapter<RVAdapter_Entries.ViewHolder>() {
+class RVAdapter_Entries(val entryList: List<data_Entries>) : RecyclerView.Adapter<RVAdapter_Entries.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RVAdapter_Entries.ViewHolder {

@@ -1,5 +1,6 @@
 package com.example.resecondsense_v01
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,8 +17,9 @@ class Category : Fragment() {
     //binding
     private var _binding: FragmentCategoryBinding? = null
     private lateinit var recyclerViewAdapter: RVAdapter_Category
-    val dataObj = DataContext()
-    private var dataList: MutableList<data_Category> = dataObj.getCategory()
+    val dataObj = DataContext
+    private var dataList: List<data_Category> = dataObj.getCategory()
+    lateinit var recyclerView : RecyclerView
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -29,34 +31,43 @@ class Category : Fragment() {
         _binding = FragmentCategoryBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        var DCCategoryObj = DataContext()
+        recyclerView= view.findViewById(R.id.lvCategories)
+        val DCCategoryObj = DataContext
 
         //establishing the view that will display the different categories
-        var recyclerView: RecyclerView = view.findViewById(R.id.lvCategories)
+
         recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        recyclerView.adapter = RVAdapter_Category(DCCategoryObj.getCategory())
+
+        // Create the adapter for the recycler view only once
+        recyclerViewAdapter = RVAdapter_Category(DCCategoryObj.getCategory())
+
+        // Set the adapter to the recycler view
+        recyclerView.adapter = recyclerViewAdapter
 
 
         //Create button for Category
         val CreateCatbtnClick = view.findViewById<Button>(R.id.btnCreateCategory)
         CreateCatbtnClick.setOnClickListener {
-
             // Create an Intent to navigate to the target activity
             val intent = Intent(requireContext(), AddNewCategories::class.java)
-            intent.putExtra("FragmentInstance", "CATEGORY")
-            // Start the activity
-            startActivity(intent)
+
+            // Use a consistent key for passing data between activities and fragments
+            intent.putExtra("DATA", "CATEGORY")
+
+            // Start the activity with a request code
+            startActivityForResult(intent, 1)
         }
-         return view
+        return view
     }
 
 
     override fun onResume() {
         super.onResume()
-        val DCCategoryObj = DataContext()
-        val adapter = RVAdapter_Category(DCCategoryObj.getCategory())
-        adapter.notifyDataSetChanged()
+
+        // No need to create a new adapter here
+        // Just notify the existing adapter of any data changes
+        recyclerViewAdapter.notifyDataSetChanged()
 
     }
     fun updateRecyclerView(newItem: data_Category) {
@@ -65,6 +76,25 @@ class Category : Fragment() {
 
         // Notify the adapter of the data change
         recyclerViewAdapter.notifyDataSetChanged()
+    }
+    @Override
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 1) {
+            // Check if the result code matches the one set by the other activity
+            if (resultCode == RESULT_OK) {
+                // Check if the intent and its extras are not null
+                if (data != null && data.hasExtra("DATA")) {
+                    // Get the updated list of categories from the intent using the same key as before
+                    val newData = data.getSerializableExtra("DATA") as List<data_Category>
+                    // Pass the updated list of categories to the adapter of the RecyclerView
+                    recyclerView.adapter = RVAdapter_Category(newData)
+                    // Notify the adapter that the data set has changed
+                    recyclerView.adapter?.notifyDataSetChanged()
+                }
+            }
+        }
     }
 
 

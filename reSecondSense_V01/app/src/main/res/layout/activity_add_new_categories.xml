@@ -89,6 +89,17 @@
                     app:layout_constraintTop_toBottomOf="@+id/catTextBoxLayout"
                     android:background="@drawable/ic_grey_roundedcorner_background"
                     android:text="BACK" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnFinishActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="15dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/catTextBoxLayout"
+                    android:background="@drawable/ic_grey_roundedcorner_background"
+                    android:text="Finish"
+                    android:visibility="gone" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 //This is the recycler view adapter that connects the template_recententry to the date
 // just needs an Array list with the data of the Recent entry, but can be change to some other list
 // This method returns a the Recyler view
-class RVAdapter_RecentEnty(val entryList: ArrayList<data_RecentEntry>) : RecyclerView.Adapter<RVAdapter_RecentEnty.ViewHolder>() {
+class RVAdapter_RecentEnty(val entryList: List<data_RecentEntry>) : RecyclerView.Adapter<RVAdapter_RecentEnty.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

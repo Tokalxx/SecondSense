@@ -6,7 +6,21 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RVAdapter_Category(var categoryList: MutableList<data_Category>) : RecyclerView.Adapter<RVAdapter_Category.ViewHolder>() {
+
+class RVAdapter_Category(var categoryList: List<data_Category>) : RecyclerView.Adapter<RVAdapter_Category.ViewHolder>() {
+    public var data: List<data_Category>? = null
+    fun RVAdapter_Category( ) {
+        this.data = categoryList
+    }
+
+    fun clear() {
+        // Get the size of the data set before clearing it
+        val size = data!!.size
+        // Clear the data set
+        data = emptyList()
+        // Notify the adapter that all the items have been removed
+        notifyItemRangeRemoved(0, size)
+    }
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -14,6 +28,17 @@ class RVAdapter_Category(var categoryList: MutableList<data_Category>) : Recycle
         val categoryView = LayoutInflater.from(parent.context).inflate(R.layout.template_category,
             parent,false)
         return ViewHolder(categoryView)
+    }
+
+    fun addAll(newData: List<data_Category>?) {
+        // Get the current size of the data set before adding new items
+        val size = data!!.size
+        // Add all the new items to the data set
+        data = newData
+        // Notify the adapter that new items have been inserted
+        if (newData != null) {
+            notifyItemRangeInserted(size, newData.size)
+        }
     }
 
     override fun getItemCount(): Int {

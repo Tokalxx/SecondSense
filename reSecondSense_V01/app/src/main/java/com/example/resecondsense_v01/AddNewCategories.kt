@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.Navigation
 import androidx.viewpager.widget.ViewPager
 import com.example.resecondsense_v01.databinding.ActivityAddNewCategoriesBinding
+import java.io.Serializable
 import java.util.Date
 
 
@@ -32,27 +33,29 @@ class AddNewCategories : AppCompatActivity() {
         btnbackHome.setOnClickListener {
             onBackPressed()
         }
+        var catDBObj = DataContext
 
         val catTempText: TextView = findViewById(R.id.txtCategoryName)
 
         // Code below is suppose to add the details into he arrayList.
         val btnCatCreate: Button = findViewById(R.id.btnCatCreate)
         btnCatCreate.setOnClickListener {
-
-            //Calling data from dataContext
-            val catDBObj = DataContext()
-
             catDBObj.CreateCategory(catTempText.text.toString())
 
             // Show a toast message to indicate the data has been added
             Toast.makeText(this, "Data added successfully", Toast.LENGTH_SHORT).show()
-            //navigate back to fragment
-            val desiredFragmentIndex = 1 // Set the desired fragment index to navigate to
 
-            val intent = Intent(this, HomeActivity::class.java)
-            intent.putExtra("FRAGMENT_INDEX", desiredFragmentIndex)
-            startActivity(intent)
+            // Create an Intent to hold the result data
+            val intent = Intent()
 
+            // Put the updated list of categories as an extra in the intent using the same key as before
+            intent.putExtra("DATA", catDBObj.getCategory() as Serializable)
+
+            // Set the result code and the intent
+            setResult(RESULT_OK, intent)
+
+            // Finish the activity and resume the HomeActivity
+            finish()
         }
     }
 
