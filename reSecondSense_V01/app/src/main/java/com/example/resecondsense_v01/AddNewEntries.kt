@@ -32,6 +32,7 @@ class AddNewEntries : AppCompatActivity() {
     private lateinit var binding: ActivityAddNewEntriesBinding
     private lateinit var imageView: ImageView
     private var imgUri: Uri? = null
+    lateinit var dataEntries :data_Entries
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +49,7 @@ class AddNewEntries : AppCompatActivity() {
         val txtDescription : TextView = findViewById(R.id.txtEntryDescription)
         var txtDate : TextView = findViewById(R.id.txtEntryDate)
         var txtStartTime : TextView = findViewById(R.id.txtEntryStartTime)
-        var txtEndTime : TextView = findViewById(R.id.txtEntryStartTime)
+        var txtEndTime : TextView = findViewById(R.id.txtEntryEndTime)
         var txtEntryTitle : TextView = findViewById(R.id.txtEntryTitle)
         //date picker buttons
         val btnEntryDatebutton: Button = findViewById(R.id.btnEntryDatepicker)
@@ -134,7 +135,7 @@ class AddNewEntries : AppCompatActivity() {
         }
         //once alll details have been entered
         btnDone.setOnClickListener{
-            var dataEntries :data_Entries
+
             dataEntries = data_Entries(
                 txtEntryTitle.text.toString(),
                 22,

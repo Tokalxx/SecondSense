@@ -30,6 +30,8 @@ private const val ARG_PARAM2 = "param2"
  */
 class Entries : Fragment() {
     //binding
+    val dbhelper = DataContext
+    private lateinit var recyclerViewAdapter: RVAdapter_Entries
     private var _binding: FragmentEntriesBinding? = null
     private lateinit var recyclerView: RecyclerView // Declare recyclerView as a class-level property
     private lateinit var data: List<data_Entries> // Declare data as a class-level property
@@ -40,37 +42,36 @@ class Entries : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
-
+        //binding
         _binding = FragmentEntriesBinding.inflate(inflater, container, false)
         val view = binding.root
-        val currentDate: Date = Date()
-        val dbhelper = DataContext
-        data = DataContext.getEntries()
+        //object
+        //getting the list of entries
+        data = dbhelper.getEntries()
         recyclerView = view.findViewById(R.id.lvEntries) // Initialize recyclerView
-
+        recyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         //establishing the view that will display the different categories
-        val recyclerView: RecyclerView = view.findViewById(R.id.lvEntries)
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        recyclerView.adapter = RVAdapter_Entries(data)
+        recyclerViewAdapter = RVAdapter_Entries(dbhelper.getEntries())
+
+
+        recyclerView.adapter = recyclerViewAdapter
 
         val CreateEntybtnClick = view.findViewById<Button>(R.id.btnCreateEntry)
+
         CreateEntybtnClick.setOnClickListener {
 
             // Create an Intent to navigate to the target activity
             val intent = Intent(requireContext(), AddNewEntries::class.java)
 
-            // Optionally, add extras to the Intent
+
 
             // Optionally, add extras to the Intent
-            intent.putExtra("key", "value")
+            intent.putExtra("DATA_ENTRIES", "ENTRIES")
 
             // Start the activity
-
-            // Start the activity
-            startActivity(intent)
+            startActivityForResult(intent,1)
         }
 
         val showCustomPopup: Button = view.findViewById(R.id.btnCustom)
@@ -104,6 +105,22 @@ class Entries : Fragment() {
         }
 
         dialog.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // No need to create a new adapter here
+        // Just notify the existing adapter of any data changes
+        recyclerViewAdapter.notifyDataSetChanged()
+
+    }
+    fun updateRecyclerView(newItem: data_Entries) {
+        // Add the new item to the dataset
+        dbhelper.TimeSheetEntries.add(newItem)
+
+        // Notify the adapter of the data change
+        recyclerViewAdapter.notifyDataSetChanged()
     }
 
 
