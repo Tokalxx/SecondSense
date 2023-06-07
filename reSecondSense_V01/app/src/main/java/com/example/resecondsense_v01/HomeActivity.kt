@@ -1,12 +1,15 @@
 package com.example.resecondsense_v01
 
+import android.app.AlertDialog
 import android.content.ClipData
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager.widget.ViewPager
@@ -17,7 +20,6 @@ import java.util.Date
 //This class holds the fragments
 class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var binding: ActivityHomePageBinding
     private lateinit var drawerLayout: DrawerLayout
     val currentDate: Date = Date()
 
@@ -65,10 +67,16 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navSetUserGoals -> {
-                // Handle home item click
+                val popupView = layoutInflater.inflate(R.layout.popoup_min_max, null)
+                val dialogBuilder = AlertDialog.Builder(this)
+                    .setView(popupView)
+                val dialog = dialogBuilder.create()
+
+                val MaxView: TextView = popupView.findViewById(R.id.MinMaxTitle)
+                dialog.show()
             }
             R.id.nav_logout -> {
-                val intent = Intent(this, SignUpActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
 
             }
