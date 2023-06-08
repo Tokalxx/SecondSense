@@ -36,7 +36,8 @@ class Entries : Fragment() {
     private var _binding: FragmentEntriesBinding? = null
     private lateinit var recyclerView: RecyclerView // Declare recyclerView as a class-level property
     private lateinit var data: List<data_Entries> // Declare data as a class-level property
-
+    private lateinit var TotalHours : TextView
+    var obj=DataContext
 
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -48,9 +49,11 @@ class Entries : Fragment() {
         _binding = FragmentEntriesBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val output:TextView =view.findViewById(R.id.txtTotal)
-        var obj=DataContext
-        output.setText(obj.run{ calavulateent().toString()})
+        TotalHours =view.findViewById(R.id.txtTotal)
+
+
+
+        TotalHours.setText(obj.run{ calavulateent().toString()})
         //object
         //getting the list of entries
         data = dbhelper.getEntries()
@@ -158,6 +161,7 @@ class Entries : Fragment() {
                     val newData = data.getSerializableExtra("DATA_ENTRIES") as List<data_Entries>
                     // Pass the updated list of categories to the adapter of the RecyclerView
                     recyclerView.adapter = RVAdapter_Entries(newData)
+                    TotalHours.setText(obj.run{ DataContext.calavulateent().toString()})
                     // Notify the adapter that the data set has changed
                     recyclerView.adapter?.notifyDataSetChanged()
                 }

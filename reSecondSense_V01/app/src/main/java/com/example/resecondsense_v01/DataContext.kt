@@ -8,19 +8,13 @@ object DataContext {
     var Username : String = ""
 
     var TimeSheetEntries = mutableListOf<data_Entries>(
-        data_Entries("Math", 2, currentDate.toString(),"User1","Description",null),
-        data_Entries("Science", 2, currentDate.toString(),"User2","Description",null),
-        data_Entries("English", 2, currentDate.toString(),"User1","Description",null),
-        data_Entries("Math", 2, currentDate.toString(),"User3","Description",null),
-        data_Entries("Science", 2, currentDate.toString(),"User1","Description",null),
-        data_Entries("English", 3, currentDate.toString(),"User2","Description",null),
-        data_Entries("Math", 2, currentDate.toString(),"User2","Description",null),
-        data_Entries("Science", 3, currentDate.toString(),"User3","Description",null),
-        data_Entries("English", 3, currentDate.toString(),"User3","Description",null),
-        data_Entries("Math", 2, currentDate.toString(),"User1","Description",null),
-        data_Entries("Science", 2, currentDate.toString(),"User1","Description",null),
-        data_Entries("English", 2, currentDate.toString(),"User2","Description",null),
-        data_Entries("English", 2, currentDate.toString(),"User1","Description",null),
+        data_Entries("Math", 2, currentDate.toString(),"User1","Description","Math User 1",null),
+        data_Entries("Science", 2, currentDate.toString(),"User2","Description","",null),
+        data_Entries("English", 2, currentDate.toString(),"User1","Description","Math User 1",null),
+        data_Entries("Math", 2, currentDate.toString(),"User1","Description","Math User 1",null),
+        data_Entries("Science", 2, currentDate.toString(),"User3","Description","Science User3",null),
+        data_Entries("English", 2, currentDate.toString(),"User2","Description","",null),
+        data_Entries("English", 2, currentDate.toString(),"User1","Description","Math User 1",null),
         // Add more items as needed
     )
 
@@ -49,15 +43,6 @@ object DataContext {
         data_Category("Math User 1", 2, currentDate.toString(),"User1"),
         data_Category("Science User3", 2, currentDate.toString(),"User3"),
         data_Category("English", 2, currentDate.toString(),"User1"),
-        data_Category("Biology", 2, currentDate.toString(),"User3"),
-        data_Category("Math", 3, currentDate.toString(),"User1"),
-        data_Category("Science", 4, currentDate.toString(),"User3"),
-        data_Category("English", 6, currentDate.toString(),"User1"),
-        data_Category("Biology User2", 8, currentDate.toString(),"User2"),
-        data_Category("Math", 2, currentDate.toString(),"User3"),
-        data_Category("Science", 5, currentDate.toString(),"User2"),
-        data_Category("English", 6, currentDate.toString(),"User3"),
-        data_Category("Biology", 8, currentDate.toString(),"User2"),
         data_Category("Biology", 133, currentDate.toString(),"User3"),
         data_Category("Biology", 1323, currentDate.toString(),"User2")
     )
@@ -87,17 +72,20 @@ object DataContext {
     }
 
     fun getEntries(): List<data_Entries> {
-        TimeSheetEntries = TimeSheetEntries.filter { it.UserID == Username }.toMutableList()
-        return TimeSheetEntries
+        var tempTimesheet : List<data_Entries>
+        tempTimesheet = TimeSheetEntries.filter { it.UserID == Username }.toMutableList()
+        return tempTimesheet
     }
     fun getCategory(): List<data_Category> {
-        Cat = Cat.filter { it.UserId == Username }.toMutableList()
-        return Cat
+        var tempCategories : List<data_Category>
+        tempCategories = Cat.filter { it.UserId == Username }.toMutableList()
+        return tempCategories
     }
 
     fun getRecentEntry(): List<data_RecentEntry> {
-        data = data.filter { it.UserId == Username }.toMutableList()
-        return data
+        var tempRecent : List<data_RecentEntry>
+        tempRecent = data.filter { it.UserId == Username }.toMutableList()
+        return tempRecent
     }
 
 
@@ -106,11 +94,14 @@ object DataContext {
         TimeSheetEntries.add(
             dataEntries
         )
+        var reCategory : data_Category
+        Cat.filter { it.UserId == Username && it.category_Title == dataEntries.CategoryTitle }.first().hoursSpent+=dataEntries.hoursSpent
+
     }
 fun calavulateent():Int
-{
-    TimeSheetEntries= TimeSheetEntries.filter { it.UserID== Username }.toMutableList()
-    val total = TimeSheetEntries.sumOf { it.hoursSpent }
+{var tempTimesheetEntires : List<data_Entries>
+    tempTimesheetEntires= TimeSheetEntries.filter { it.UserID== Username }.toMutableList()
+    val total = tempTimesheetEntires.sumOf { it.hoursSpent }
     return total
 }
 

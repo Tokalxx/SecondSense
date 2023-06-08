@@ -21,22 +21,19 @@ class Category : Fragment() {
     val dataObj = DataContext
     private var dataList: List<data_Category> = dataObj.getCategory()
     lateinit var recyclerView : RecyclerView
+    val DCCategoryObj = DataContext
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-
     ): View? {
 
         _binding = FragmentCategoryBinding.inflate(inflater, container, false)
         val view = binding.root
-
         recyclerView= view.findViewById(R.id.lvCategories)
-        val DCCategoryObj = DataContext
 
         //establishing the view that will display the different categories
-
         recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 

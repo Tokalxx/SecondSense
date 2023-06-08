@@ -59,6 +59,7 @@ class AddNewEntries : AppCompatActivity() {
         var txtStartTime : TextView = findViewById(R.id.txtEntryStartTime)
         var txtEndTime : TextView = findViewById(R.id.txtEntryEndTime)
         var txtEntryTitle : TextView = findViewById(R.id.txtEntryTitle)
+        var txtEntryCategory : AutoCompleteTextView = findViewById(R.id.cmbCategory)
         //date picker buttons
         val btnEntryDatebutton: Button = findViewById(R.id.btnEntryDatepicker)
         val btnStartTime: Button = findViewById(R.id.btnStartTimePicker)
@@ -159,6 +160,7 @@ class AddNewEntries : AppCompatActivity() {
                 txtDate.text.toString(),
                 Dbhelper.Username,
                 txtDescription.text.toString(),
+                txtEntryCategory.text.toString(),
                 imgUri.toString()
 
             )
