@@ -7,20 +7,27 @@ import android.widget.TextView
 
 class EntryDetails : AppCompatActivity() {
 
-
+    private lateinit var TimesheetItem : data_Entries
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry_details)
-
+        var dbhelper = DataContext
         //variables
-        val txtEntryTitle : TextView = findViewById(R.id.txtEntryTitle)
-        val imgEntryImage : ImageView = findViewById(R.id.imgEntryImage)
-        val txtEntryDate : TextView = findViewById(R.id.txtDate)
-        val txtEntryDuration : TextView = findViewById(R.id.txtDuration)
-        val txtCategory : TextView = findViewById(R.id.txtCategory)
-        val txtDescription : TextView = findViewById(R.id.txtDescription)
-
+        var txtEntryTitle : TextView = findViewById(R.id.txtEntryTitle)
+        var imgEntryImage : ImageView = findViewById(R.id.imgEntryImage)
+        var txtEntryDate : TextView = findViewById(R.id.txtDate)
+        var txtEntryDuration : TextView = findViewById(R.id.txtDuration)
+        var txtCategory : TextView = findViewById(R.id.txtCategory)
+        var txtDescription : TextView = findViewById(R.id.txtDescription)
+        //the value being passed from the entries view when and item is clicked
+        var itemId = intent.getStringExtra("EntryId")
+        //getting an entry with a certain id
+        if (itemId != null) {
+            TimesheetItem = dbhelper.getTimeSheetEntry( itemId.toInt())
+        }
+        //setting the data on the screen
+        txtEntryTitle.setText(TimesheetItem.entry_Title)
 
     }
 }

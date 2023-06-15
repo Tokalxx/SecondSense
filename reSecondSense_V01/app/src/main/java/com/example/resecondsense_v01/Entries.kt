@@ -29,7 +29,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [Entries.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Entries : Fragment() {
+class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
     //binding
     val dbhelper = DataContext
     private lateinit var recyclerViewAdapter: RVAdapter_Entries
@@ -63,7 +63,7 @@ class Entries : Fragment() {
 
         //establishing the view that will display the different categories
         recyclerViewAdapter = RVAdapter_Entries(dbhelper.getEntries())
-
+        recyclerViewAdapter.itemClickListener = this
 
         recyclerView.adapter = recyclerViewAdapter
 
@@ -73,8 +73,6 @@ class Entries : Fragment() {
 
             // Create an Intent to navigate to the target activity
             val intent = Intent(requireContext(), AddNewEntries::class.java)
-
-
 
             // Optionally, add extras to the Intent
             intent.putExtra("DATA_ENTRIES", "ENTRIES")
@@ -87,6 +85,9 @@ class Entries : Fragment() {
         showCustomPopup.setOnClickListener {
             showPopupDialog()
         }
+
+
+
 
 
         return view
@@ -169,8 +170,12 @@ class Entries : Fragment() {
         }
     }
 
-
-
+    //click event that will direct the user to see the details of an entry
+    override fun onItemClick(itemId: String) {
+        val intent = Intent(requireContext(), EntryDetails::class.java)
+        intent.putExtra("EntryId", itemId)
+        startActivityForResult(intent, 1)
+    }
 
 
 }

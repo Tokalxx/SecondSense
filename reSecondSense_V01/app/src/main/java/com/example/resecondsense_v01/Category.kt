@@ -19,6 +19,7 @@ class Category : Fragment() {
     private var _binding: FragmentCategoryBinding? = null
     private lateinit var recyclerViewAdapter: RVAdapter_Category
     val dataObj = DataContext
+    lateinit var output:TextView
     private var dataList: List<data_Category> = dataObj.getCategory()
     lateinit var recyclerView : RecyclerView
     val DCCategoryObj = DataContext
@@ -43,9 +44,9 @@ class Category : Fragment() {
         // Set the adapter to the recycler view
         recyclerView.adapter = recyclerViewAdapter
 
-        val output: TextView =view.findViewById(R.id.txtTotal)
-        var obj=DataContext
-        output.setText(obj.run{ calavulateent().toString()})
+        output =view.findViewById(R.id.txtTotal)
+
+        output.setText(dataObj.run{ calavulateCat().toString()})
 
 
         //Create button for Category
@@ -92,6 +93,7 @@ class Category : Fragment() {
                     val newData = data.getSerializableExtra("DATA") as List<data_Category>
                     // Pass the updated list of categories to the adapter of the RecyclerView
                     recyclerView.adapter = RVAdapter_Category(newData)
+                    output.setText(dataObj.run{ calavulateCat().toString()})
                     // Notify the adapter that the data set has changed
                     recyclerView.adapter?.notifyDataSetChanged()
                 }

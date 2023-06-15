@@ -155,6 +155,7 @@ class AddNewEntries : AppCompatActivity() {
             val hours = TimeUnit.MILLISECONDS.toHours(duration).toInt()
 
             dataEntries = data_Entries(
+                Dbhelper.generateEntryId(),
                 txtEntryTitle.text.toString(),
                 hours,
                 txtDate.text.toString(),

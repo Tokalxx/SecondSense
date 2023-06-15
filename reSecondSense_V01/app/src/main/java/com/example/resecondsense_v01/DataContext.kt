@@ -6,15 +6,16 @@ object DataContext {
     //Dummy Category Data
     val currentDate: Date = Date()
     var Username : String = ""
+    var clickedCategory : String = ""
 
     var TimeSheetEntries = mutableListOf<data_Entries>(
-        data_Entries("Math", 2, currentDate.toString(),"User1","Description","Math User 1",null),
-        data_Entries("Science", 2, currentDate.toString(),"User2","Description","",null),
-        data_Entries("English", 2, currentDate.toString(),"User1","Description","Math User 1",null),
-        data_Entries("Math", 2, currentDate.toString(),"User1","Description","Math User 1",null),
-        data_Entries("Science", 2, currentDate.toString(),"User3","Description","Science User3",null),
-        data_Entries("English", 2, currentDate.toString(),"User2","Description","",null),
-        data_Entries("English", 2, currentDate.toString(),"User1","Description","Math User 1",null),
+        data_Entries(1,"Math", 2, currentDate.toString(),"User1","Description","Math User 1",null),
+        data_Entries(2,"Science", 2, currentDate.toString(),"User2","Description","",null),
+        data_Entries(3,"English", 2, currentDate.toString(),"User1","Description","Math User 1",null),
+        data_Entries(4,"Math", 2, currentDate.toString(),"User1","Description","Math User 1",null),
+        data_Entries(5,"Science", 2, currentDate.toString(),"User3","Description","Science User3",null),
+        data_Entries(6,"English", 2, currentDate.toString(),"User2","Description","",null),
+        data_Entries(7,"English", 2, currentDate.toString(),"User1","Description","Math User 1",null),
         // Add more items as needed
     )
 
@@ -107,8 +108,27 @@ fun calavulateent():Int
 
     fun calavulateCat():Int
     {
-        Cat= Cat.filter { it.UserId== Username }.toMutableList()
-        val total = Cat.sumOf { it.hoursSpent }
+        var tempCatCalculate : List<data_Category>
+        tempCatCalculate= Cat.filter { it.UserId== Username }.toMutableList()
+        var total = tempCatCalculate.sumOf { it.hoursSpent }
         return total
     }
+    fun generateEntryId():Int{
+        var newId : Int
+        newId = TimeSheetEntries[TimeSheetEntries.size-1].entryId+1
+        return newId
+    }
+
+    fun getTimeSheetEntry(EntryId: Int):data_Entries{
+        var data_Entries = TimeSheetEntries.get(EntryId - 1)
+        return data_Entries
+    }
+
+//    fun getACategory(): data_Category{
+//
+//    }
+//
+//    fun deleteCategory(){
+//
+//    }
 }
