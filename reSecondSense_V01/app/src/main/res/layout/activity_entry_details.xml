@@ -30,6 +30,7 @@
         android:layout_marginTop="50dp"/>
 
     <LinearLayout
+        android:id="@+id/loEntryDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -76,7 +77,18 @@
 
 
 
+
+
     </LinearLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBackHome"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/ic_grey_roundedcorner_background"
+            app:layout_constraintTop_toBottomOf="@+id/loEntryDetails"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="BACK" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

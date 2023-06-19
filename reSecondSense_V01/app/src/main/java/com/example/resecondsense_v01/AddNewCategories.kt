@@ -40,7 +40,7 @@ class AddNewCategories : AppCompatActivity() {
         // Code below is suppose to add the details into he arrayList.
         val btnCatCreate: Button = findViewById(R.id.btnCatCreate)
         btnCatCreate.setOnClickListener {
-            catDBObj.CreateCategory(catTempText.text.toString())
+            catDBObj.createCategory(catTempText.text.toString())
 
             // Show a toast message to indicate the data has been added
             Toast.makeText(this, "Data added successfully", Toast.LENGTH_SHORT).show()

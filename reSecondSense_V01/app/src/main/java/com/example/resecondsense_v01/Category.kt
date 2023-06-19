@@ -14,15 +14,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.resecondsense_v01.databinding.FragmentCategoryBinding
 import java.util.Date
 
-class Category : Fragment() {
+class Category : Fragment(), RVAdapter_Category.OnItemClickListener {
     //binding
     private var _binding: FragmentCategoryBinding? = null
     private lateinit var recyclerViewAdapter: RVAdapter_Category
     val dataObj = DataContext
     lateinit var output:TextView
-    private var dataList: List<data_Category> = dataObj.getCategory()
     lateinit var recyclerView : RecyclerView
-    val DCCategoryObj = DataContext
+
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -39,7 +38,7 @@ class Category : Fragment() {
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         // Create the adapter for the recycler view only once
-        recyclerViewAdapter = RVAdapter_Category(DCCategoryObj.getCategory())
+        recyclerViewAdapter = RVAdapter_Category(dataObj.getCategory())
 
         // Set the adapter to the recycler view
         recyclerView.adapter = recyclerViewAdapter
@@ -99,6 +98,10 @@ class Category : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onItemClick(itemId: String) {
+
     }
 
 

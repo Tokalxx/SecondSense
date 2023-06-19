@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/txtTotal"
+            app:layout_constraintBottom_toTopOf="@+id/loTotal"
             >
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -63,6 +63,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     <LinearLayout
+        android:id="@+id/loTotal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

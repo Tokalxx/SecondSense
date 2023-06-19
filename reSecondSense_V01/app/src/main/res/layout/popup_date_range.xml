@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,75 +8,106 @@
     tools:context=".MainActivity">
 
 
+
+
     <TextView
         android:id="@+id/CRTitle"
-        android:layout_width="379dp"
-        android:layout_height="59dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
         android:text="Custom Range"
         android:textIsSelectable="false"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.468"
+        android:gravity="left"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
+         />
+<LinearLayout
+    android:id="@+id/loStartDate"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    app:layout_constraintTop_toBottomOf="@+id/CRTitle"
+    android:orientation="vertical"
+    >
     <TextView
-        android:id="@+id/SDView"
-        android:layout_width="110dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="28dp"
+        android:id="@+id/SDView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
         android:text="Start Date:"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/EnterStDate"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CRTitle"
         tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/EDView"
-        android:layout_width="110dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="32dp"
-        android:text="End Date:"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/EnterEdDate2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SDView"
-        tools:ignore="MissingConstraints" />
-    <EditText
-        android:id="@+id/EnterStDate"
-        android:layout_width="237dp"
-        android:layout_height="40dp"
-        android:layout_centerInParent="true"
-        android:layout_margin="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="40dp"
-        android:background="#d3d3d3"
-        android:inputType="date"
-        android:hint="Enter date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CRTitle" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/SDView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:hint="Start date"
+        android:paddingVertical="8dp">
 
-    <EditText
-        android:id="@+id/EnterEdDate2"
-        android:layout_width="237dp"
-        android:layout_height="40dp"
-        android:layout_centerInParent="true"
-        android:layout_margin="20dp"
-        android:background="#d3d3d3"
-        android:inputType="date"
-        android:hint="Enter date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EnterStDate" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtStartdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/loEndDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/loStartDate"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/EDView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="End Date:"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:ignore="MissingConstraints" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/eDView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Start date"
+            android:paddingVertical="8dp"
+            android:layout_margin="10dp">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtEnddate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    </LinearLayout>
+
+
     <Button
         android:id="@+id/CanButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
         android:backgroundTint="#d3d3d3"
         android:text="Cancel"
         android:textColor="#FC000000"
@@ -84,7 +116,7 @@
         app:layout_constraintEnd_toStartOf="@+id/DnButton"
         app:layout_constraintHorizontal_bias="0.075"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EDView"
+        app:layout_constraintTop_toBottomOf="@+id/loEndDate"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
@@ -93,13 +125,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
         android:backgroundTint="#d3d3d3"
         android:text="Done"
         android:textColor="#FC000000"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EnterEdDate2"
+        app:layout_constraintTop_toBottomOf="@+id/loEndDate"
         app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.example.resecondsense_v01
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 
@@ -15,6 +16,7 @@ class EntryDetails : AppCompatActivity() {
         var dbhelper = DataContext
         //variables
         var txtEntryTitle : TextView = findViewById(R.id.txtEntryTitle)
+        val btnBack: Button = findViewById(R.id.btnBackHome)
         var imgEntryImage : ImageView = findViewById(R.id.imgEntryImage)
         var txtEntryDate : TextView = findViewById(R.id.txtDate)
         var txtEntryDuration : TextView = findViewById(R.id.txtDuration)
@@ -28,6 +30,12 @@ class EntryDetails : AppCompatActivity() {
         }
         //setting the data on the screen
         txtEntryTitle.setText(TimesheetItem.entry_Title)
+
+        //Go back home
+
+        btnBack.setOnClickListener {
+            onBackPressed()
+        }
 
     }
 }

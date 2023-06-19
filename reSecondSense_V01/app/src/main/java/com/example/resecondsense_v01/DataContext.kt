@@ -62,34 +62,38 @@ object DataContext {
         return false
     }
 
+
+
     //Function to create a user
-    fun CreateUser(UserID : String, Password : String,Name: String){
+    fun createUser(UserID : String, Password : String,Name: String){
         //adds to the list
         Users.add(data_User(Name,UserID,Password))
     }
-
-    fun CreateCategory(catName: String){
+    //function to add a new category
+    fun createCategory(catName: String){
         Cat.add(data_Category(catName, 0, currentDate.toString(), Username))
     }
-
+    //function to get all entries that belong to a specific user
     fun getEntries(): List<data_Entries> {
         var tempTimesheet : List<data_Entries>
         tempTimesheet = TimeSheetEntries.filter { it.UserID == Username }.toMutableList()
         return tempTimesheet
     }
+
+    //function to get all categories that belong to a specific user
     fun getCategory(): List<data_Category> {
         var tempCategories : List<data_Category>
         tempCategories = Cat.filter { it.UserId == Username }.toMutableList()
         return tempCategories
     }
-
+    //functions to get all recent entries that belong to a specific user
     fun getRecentEntry(): List<data_RecentEntry> {
         var tempRecent : List<data_RecentEntry>
         tempRecent = data.filter { it.UserId == Username }.toMutableList()
         return tempRecent
     }
 
-
+    //function to create a new entry
     fun createEntry(dataEntries: data_Entries){
 
         TimeSheetEntries.add(
@@ -99,12 +103,13 @@ object DataContext {
         Cat.filter { it.UserId == Username && it.category_Title == dataEntries.CategoryTitle }.first().hoursSpent+=dataEntries.hoursSpent
 
     }
-fun calavulateent():Int
-{var tempTimesheetEntires : List<data_Entries>
+    //function to calculate the total hours for all entries
+    fun calavulateent():Int
+    {var tempTimesheetEntires : List<data_Entries>
     tempTimesheetEntires= TimeSheetEntries.filter { it.UserID== Username }.toMutableList()
     val total = tempTimesheetEntires.sumOf { it.hoursSpent }
     return total
-}
+    }
 
     fun calavulateCat():Int
     {
@@ -113,22 +118,20 @@ fun calavulateent():Int
         var total = tempCatCalculate.sumOf { it.hoursSpent }
         return total
     }
+    //function o create an ID for every entry
     fun generateEntryId():Int{
         var newId : Int
         newId = TimeSheetEntries[TimeSheetEntries.size-1].entryId+1
         return newId
     }
-
+    //function to get a specific entry and the details
     fun getTimeSheetEntry(EntryId: Int):data_Entries{
         var data_Entries = TimeSheetEntries.get(EntryId - 1)
         return data_Entries
     }
 
-//    fun getACategory(): data_Category{
-//
-//    }
-//
-//    fun deleteCategory(){
-//
-//    }
+    //function to check if duplicate categories exist
+    fun checkDuplicatCategory(categoryTitle : String){}
+
+
 }

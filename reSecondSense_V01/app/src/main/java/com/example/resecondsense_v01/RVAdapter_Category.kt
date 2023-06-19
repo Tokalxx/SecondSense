@@ -12,7 +12,8 @@ class RVAdapter_Category(var categoryList: List<data_Category>) : RecyclerView.A
     fun RVAdapter_Category( ) {
         this.data = categoryList
     }
-
+    public var itemClickListener: RVAdapter_Entries.OnItemClickListener? = null
+    var dbhelper = DataContext
     fun clear() {
         // Get the size of the data set before clearing it
         val size = data!!.size
@@ -50,6 +51,12 @@ class RVAdapter_Category(var categoryList: List<data_Category>) : RecyclerView.A
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = categoryList[position]
+
+        //click event for a category
+        holder.itemView.setOnClickListener {
+        val clickedItemId = currentItem.category_Title.toString()
+        itemClickListener?.onItemClick(clickedItemId)
+        }
         holder.hoursView.text = currentItem.hoursSpent.toString()
         holder.titleView.text = currentItem.category_Title
         holder.dateView.text = currentItem.categoryDate.toString()
@@ -60,5 +67,9 @@ class RVAdapter_Category(var categoryList: List<data_Category>) : RecyclerView.A
         val titleView : TextView = itemView.findViewById(R.id.txtCatTitle)
         val hoursView : TextView = itemView.findViewById(R.id.txtCatHours)
         val dateView : TextView = itemView.findViewById(R.id.txtCatDate)
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(itemId: String)
     }
 }
