@@ -35,9 +35,6 @@ class Home : Fragment() {
         val view = binding.root
         var DBObj = DataContext
 
-        var reRVAdapterRecentEnty: RVAdapter_RecentEnty
-        var newRecentRecView: RecyclerView
-        val currentDate: Date = Date()
 
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recentRecyclerView)
