@@ -14,41 +14,38 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.resecondsense_v01.databinding.FragmentCategoryBinding
 import java.util.Date
 
-class Category : Fragment() {
+class Category : Fragment(), RVAdapter_Category.OnItemClickListener {
     //binding
     private var _binding: FragmentCategoryBinding? = null
     private lateinit var recyclerViewAdapter: RVAdapter_Category
     val dataObj = DataContext
-    private var dataList: List<data_Category> = dataObj.getCategory()
+    lateinit var output:TextView
     lateinit var recyclerView : RecyclerView
+
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-
     ): View? {
 
         _binding = FragmentCategoryBinding.inflate(inflater, container, false)
         val view = binding.root
-
         recyclerView= view.findViewById(R.id.lvCategories)
-        val DCCategoryObj = DataContext
 
         //establishing the view that will display the different categories
-
         recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         // Create the adapter for the recycler view only once
-        recyclerViewAdapter = RVAdapter_Category(DCCategoryObj.getCategory())
+        recyclerViewAdapter = RVAdapter_Category(dataObj.getCategory())
 
         // Set the adapter to the recycler view
         recyclerView.adapter = recyclerViewAdapter
 
-        val output: TextView =view.findViewById(R.id.txtTotal)
-        var obj=DataContext
-        output.setText(obj.run{ calavulateent().toString()})
+        output =view.findViewById(R.id.txtTotal)
+
+        output.setText(dataObj.run{ calavulateCat().toString()})
 
 
         //Create button for Category
@@ -95,11 +92,16 @@ class Category : Fragment() {
                     val newData = data.getSerializableExtra("DATA") as List<data_Category>
                     // Pass the updated list of categories to the adapter of the RecyclerView
                     recyclerView.adapter = RVAdapter_Category(newData)
+                    output.setText(dataObj.run{ calavulateCat().toString()})
                     // Notify the adapter that the data set has changed
                     recyclerView.adapter?.notifyDataSetChanged()
                 }
             }
         }
+    }
+
+    override fun onItemClick(itemId: String) {
+
     }
 
 

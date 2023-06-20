@@ -1,5 +1,6 @@
 package com.example.resecondsense_v01
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 //This is the recycler view adapter that connects the template_recententry to the date
 // just needs an Array list with the data of the Recent entry, but can be change to some other list
 // This method returns a the Recyler view
-class RVAdapter_RecentEnty(val entryList: List<data_RecentEntry>) : RecyclerView.Adapter<RVAdapter_RecentEnty.ViewHolder>() {
+class RVAdapter_RecentEnty(val entryList: List<data_Entries>) : RecyclerView.Adapter<RVAdapter_RecentEnty.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,14 +25,18 @@ class RVAdapter_RecentEnty(val entryList: List<data_RecentEntry>) : RecyclerView
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
        val currentItem = entryList[position]
-        holder.imageView.setImageResource(currentItem.imageResId)
-        holder.textView.text = currentItem.title
-        holder.dateView.text = currentItem.date.toString()
+        if (!currentItem.imageData.isNullOrEmpty()) {
+            holder.imageView?.setImageURI(Uri.parse(currentItem.imageData))
+        } else {
+            holder.imageView?.setImageResource(R.drawable.default_large)
+        }
+        holder.textView.text = currentItem.entry_Title
+        holder.dateView.text = currentItem.entryDate
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val imageView : ImageView = itemView.findViewById(R.id.imgViewRecent)
+        val imageView : ImageView? = itemView.findViewById(R.id.imgViewRecent)
         val textView : TextView = itemView.findViewById(R.id.txtEntryTitle)
         val dateView : TextView = itemView.findViewById(R.id.txtEntryDate)
     }

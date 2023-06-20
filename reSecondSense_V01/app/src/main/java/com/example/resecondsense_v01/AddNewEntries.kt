@@ -59,10 +59,8 @@ class AddNewEntries : AppCompatActivity() {
         var txtStartTime : TextView = findViewById(R.id.txtEntryStartTime)
         var txtEndTime : TextView = findViewById(R.id.txtEntryEndTime)
         var txtEntryTitle : TextView = findViewById(R.id.txtEntryTitle)
+        var txtEntryCategory : AutoCompleteTextView = findViewById(R.id.cmbCategory)
         //date picker buttons
-        val btnEntryDatebutton: Button = findViewById(R.id.btnEntryDatepicker)
-        val btnStartTime: Button = findViewById(R.id.btnStartTimePicker)
-        val btnEndTimebutton: Button = findViewById(R.id.btnEndTimePicker)
         val btnDone : Button = findViewById(R.id.btnFinalEntryCreate)
 
 
@@ -93,8 +91,8 @@ class AddNewEntries : AppCompatActivity() {
             pickImageFromGallery()
         }
 
-        btnEntryDatebutton.setOnClickListener {
-            // Get Current Date
+        //setting the date and time
+        txtDate.setOnClickListener{  // Get Current Date
             val c: Calendar = Calendar.getInstance()
             mYear = c.get(Calendar.YEAR)
             mMonth = c.get(Calendar.MONTH)
@@ -107,16 +105,15 @@ class AddNewEntries : AppCompatActivity() {
                 mMonth,
                 mDay
             )
-            datePickerDialog.show()
-        }
+            datePickerDialog.show()}
 
-        btnStartTime.setOnClickListener {
+        txtStartTime.setOnClickListener {
             // Get Current Time
             val c = Calendar.getInstance()
             mHour = c[Calendar.HOUR_OF_DAY]
             mMinute = c[Calendar.MINUTE]
 
-            // Launch Time Picker Dialog
+
 
             // Launch Time Picker Dialog
             val timePickerDialog = TimePickerDialog(this,
@@ -127,7 +124,7 @@ class AddNewEntries : AppCompatActivity() {
             )
             timePickerDialog.show()
         }
-        btnEndTimebutton.setOnClickListener {
+        txtEndTime.setOnClickListener {
             // Get Current Time
             val c = Calendar.getInstance()
             mHour = c[Calendar.HOUR_OF_DAY]
@@ -143,22 +140,26 @@ class AddNewEntries : AppCompatActivity() {
             timePickerDialog.show()
 
         }
-        //once alll details have been entered
+
+        //once all details have been entered
         btnDone.setOnClickListener{
+            //converting the time to hours and minutes
             val formatter = SimpleDateFormat("HH:mm")
             var startTime: Date = formatter.parse(txtStartTime.text.toString()) // Parse the start time string
             var endTime: Date = formatter.parse(txtEndTime.text.toString())
 
-
+            //finding the duration which is the differenc e between the start time and end time
             var duration = endTime.time - startTime.time
             val hours = TimeUnit.MILLISECONDS.toHours(duration).toInt()
 
             dataEntries = data_Entries(
+                Dbhelper.generateEntryId(),
                 txtEntryTitle.text.toString(),
                 hours,
                 txtDate.text.toString(),
                 Dbhelper.Username,
                 txtDescription.text.toString(),
+                txtEntryCategory.text.toString(),
                 imgUri.toString()
 
             )

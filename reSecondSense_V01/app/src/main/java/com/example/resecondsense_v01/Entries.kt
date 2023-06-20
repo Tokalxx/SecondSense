@@ -2,7 +2,9 @@ package com.example.resecondsense_v01
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -29,13 +31,19 @@ private const val ARG_PARAM2 = "param2"
  * Use the [Entries.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Entries : Fragment() {
+class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
     //binding
     val dbhelper = DataContext
     private lateinit var recyclerViewAdapter: RVAdapter_Entries
     private var _binding: FragmentEntriesBinding? = null
     private lateinit var recyclerView: RecyclerView // Declare recyclerView as a class-level property
     private lateinit var data: List<data_Entries> // Declare data as a class-level property
+    private lateinit var TotalHours : TextView
+    private var mYear = 0
+    private  var mMonth:kotlin.Int = 0
+    private  var mDay:kotlin.Int = 0
+    private  var mHour:kotlin.Int = 0
+    private  var mMinute:kotlin.Int = 0
 
 
     private val binding get() = _binding!!
@@ -48,30 +56,29 @@ class Entries : Fragment() {
         _binding = FragmentEntriesBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val output:TextView =view.findViewById(R.id.txtTotal)
-        var obj=DataContext
-        output.setText(obj.run{ calavulateent().toString()})
+        TotalHours =view.findViewById(R.id.txtTotal)
+        val btnCreateEntry = view.findViewById<Button>(R.id.btnCreateEntry)
+
+
+        TotalHours.setText(dbhelper.run{ calavulateent().toString()})
         //object
         //getting the list of entries
         data = dbhelper.getEntries()
         recyclerView = view.findViewById(R.id.lvEntries) // Initialize recyclerView
-        recyclerView.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         //establishing the view that will display the different categories
         recyclerViewAdapter = RVAdapter_Entries(dbhelper.getEntries())
-
+        recyclerViewAdapter.itemClickListener = this
 
         recyclerView.adapter = recyclerViewAdapter
 
-        val CreateEntybtnClick = view.findViewById<Button>(R.id.btnCreateEntry)
 
-        CreateEntybtnClick.setOnClickListener {
+
+        btnCreateEntry.setOnClickListener {
 
             // Create an Intent to navigate to the target activity
             val intent = Intent(requireContext(), AddNewEntries::class.java)
-
-
 
             // Optionally, add extras to the Intent
             intent.putExtra("DATA_ENTRIES", "ENTRIES")
@@ -94,13 +101,44 @@ class Entries : Fragment() {
             .setView(popupView)
         val dialog = dialogBuilder.create()
 
-        val enterStartDate: EditText = popupView.findViewById(R.id.EnterStDate)
-        val enterEndDate: EditText = popupView.findViewById(R.id.EnterEdDate2)
+        val enterStartDate: EditText = popupView.findViewById(R.id.txtStartdate)
+        val enterEndDate: EditText = popupView.findViewById(R.id.txtEnddate)
         val cancelButton: Button = popupView.findViewById(R.id.CanButton)
         val doneButton: Button = popupView.findViewById(R.id.DnButton)
 
         cancelButton.setOnClickListener {
             dialog.dismiss()
+        }
+
+        enterStartDate.setOnClickListener {
+            val c: Calendar = Calendar.getInstance()
+            mYear = c.get(Calendar.YEAR)
+            mMonth = c.get(Calendar.MONTH)
+            mDay = c.get(Calendar.DAY_OF_MONTH)
+
+
+            val datePickerDialog = DatePickerDialog(requireContext(),
+                { view, year, monthOfYear, dayOfMonth -> enterStartDate!!.setText(dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year) },
+                mYear,
+                mMonth,
+                mDay
+            )
+            datePickerDialog.show()
+        }
+        enterEndDate.setOnClickListener {
+            val c: Calendar = Calendar.getInstance()
+            mYear = c.get(Calendar.YEAR)
+            mMonth = c.get(Calendar.MONTH)
+            mDay = c.get(Calendar.DAY_OF_MONTH)
+
+
+            val datePickerDialog = DatePickerDialog(requireContext(),
+                { view, year, monthOfYear, dayOfMonth -> enterEndDate!!.setText(dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year) },
+                mYear,
+                mMonth,
+                mDay
+            )
+            datePickerDialog.show()
         }
 
         doneButton.setOnClickListener {
@@ -158,6 +196,7 @@ class Entries : Fragment() {
                     val newData = data.getSerializableExtra("DATA_ENTRIES") as List<data_Entries>
                     // Pass the updated list of categories to the adapter of the RecyclerView
                     recyclerView.adapter = RVAdapter_Entries(newData)
+                    TotalHours.setText(dbhelper.run{ DataContext.calavulateent().toString()})
                     // Notify the adapter that the data set has changed
                     recyclerView.adapter?.notifyDataSetChanged()
                 }
@@ -165,8 +204,12 @@ class Entries : Fragment() {
         }
     }
 
-
-
+    //click event that will direct the user to see the details of an entry
+    override fun onItemClick(itemId: String) {
+        val intent = Intent(requireContext(), EntryDetails::class.java)
+        intent.putExtra("EntryId", itemId)
+        startActivityForResult(intent, 1)
+    }
 
 
 }
