@@ -12,7 +12,7 @@ class RVAdapter_Category(var categoryList: List<data_Category>) : RecyclerView.A
     fun RVAdapter_Category( ) {
         this.data = categoryList
     }
-    public var itemClickListener: RVAdapter_Entries.OnItemClickListener? = null
+    public var itemClickListener: RVAdapter_Category.OnItemClickListener? = null
     var dbhelper = DataContext
     fun clear() {
         // Get the size of the data set before clearing it

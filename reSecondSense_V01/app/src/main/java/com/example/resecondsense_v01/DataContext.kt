@@ -66,16 +66,7 @@ object DataContext {
         // Add more items as needed
     )
 
-    //This is dummy data to test the view
-    var data = mutableListOf<data_RecentEntry>(
-        data_RecentEntry(R.drawable.the_goat, "Title 1", currentDate.toString(), "User1"),
-        data_RecentEntry(R.drawable.the_cow, "Title 2", currentDate.toString(), "User1"),
-        data_RecentEntry(R.drawable.the_other_goat, "Title 3", currentDate.toString(), "User2"),
-        data_RecentEntry(R.drawable.the_cow, "Title 2", currentDate.toString(), "User2"),
-        data_RecentEntry(R.drawable.the_goat, "Title 1", currentDate.toString(), "User3"),
-        data_RecentEntry(R.drawable.the_cow, "Title 2", currentDate.toString(), "User3"),
-        // Add more items as needed
-    )
+
 
 
     //Dummy Users
@@ -87,7 +78,7 @@ object DataContext {
 
 
     var Cat = mutableListOf<data_Category>(
-        data_Category("Math User 1", 2, currentDate.toString(), "User1"),
+        data_Category("Math User 1", calavulateCat(getEntriesCategory()), currentDate.toString(), "User1"),
         data_Category("Science User3", 2, currentDate.toString(), "User3"),
         data_Category("English", 2, currentDate.toString(), "User1"),
         data_Category("Biology", 133, currentDate.toString(), "User3"),
@@ -209,6 +200,17 @@ object DataContext {
 
         }
 
+    }
 
+    fun getEntriesCategory(categoryName : String) :  List<data_Entries> {
+        var tempentries : List<data_Entries> =  getEntries()
+        tempentries = tempentries.filter { it.CategoryTitle == categoryName }
+        return tempentries
+    }
+
+    fun calavulateCat(cetainList : List<data_Entries>): Int {
+        var total=0
+        total = cetainList.sumOf { it.hoursSpent }
+        return total
     }
 }

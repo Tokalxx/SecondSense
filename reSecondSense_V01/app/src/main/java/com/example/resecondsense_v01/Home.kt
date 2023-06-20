@@ -1,5 +1,6 @@
 package com.example.resecondsense_v01
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -20,8 +21,9 @@ class Home : Fragment() {
    //binding
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private lateinit var recyclerView: RecyclerView
 
-
+    var DBObj = DataContext
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,11 +35,10 @@ class Home : Fragment() {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
-        var DBObj = DataContext
 
 
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.recentRecyclerView)
+        recyclerView = view.findViewById(R.id.recentRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = RVAdapter_RecentEnty(DBObj.getRecentEntry())
 
@@ -73,6 +74,24 @@ class Home : Fragment() {
 
 
     }
+    @Override
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
+        if (requestCode == 1) {
+            // Check if the result code matches the one set by the other activity
+            if (resultCode == Activity.RESULT_OK) {
+                // Check if the intent and its extras are not null
+                if (data != null && data.hasExtra("DATA_ENTRIES")) {
+                    // Get the updated list of categories from the intent using the same key as before
+                    val newData = data.getSerializableExtra("DATA_ENTRIES") as List<data_Entries>
+                    // Pass the updated list of categories to the adapter of the RecyclerView
+                    recyclerView.adapter = RVAdapter_Entries(DBObj.getRecentEntry())
+                    // Notify the adapter that the data set has changed
+                    recyclerView.adapter?.notifyDataSetChanged()
+                }
+            }
+        }
+    }
 
 }

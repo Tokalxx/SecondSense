@@ -31,6 +31,7 @@ class Category : Fragment(), RVAdapter_Category.OnItemClickListener {
 
         _binding = FragmentCategoryBinding.inflate(inflater, container, false)
         val view = binding.root
+
         recyclerView= view.findViewById(R.id.lvCategories)
 
         //establishing the view that will display the different categories
@@ -40,6 +41,7 @@ class Category : Fragment(), RVAdapter_Category.OnItemClickListener {
         // Create the adapter for the recycler view only once
         recyclerViewAdapter = RVAdapter_Category(dataObj.getCategory())
 
+        recyclerViewAdapter.itemClickListener = this
         // Set the adapter to the recycler view
         recyclerView.adapter = recyclerViewAdapter
 
@@ -101,7 +103,9 @@ class Category : Fragment(), RVAdapter_Category.OnItemClickListener {
     }
 
     override fun onItemClick(itemId: String) {
-
+        val intent = Intent(requireContext(), CategoriesForACategory::class.java)
+        intent.putExtra("categoryId", itemId)
+        startActivityForResult(intent, 1)
     }
 
 
