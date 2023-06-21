@@ -220,4 +220,14 @@ object DataContext {
         total = tempList.sumOf { it.hoursSpent }
         return total
     }
+
+    //function to check if the start time is before end time
+    fun checkDate(startTime: Date, endTime: Date): Boolean {
+        return endTime.before(startTime)
+    }
+
+    //function to check if category exists
+    fun isCategoryAlreadyExists(updatedTitle: String): Boolean {
+        return getCategory().any { it.category_Title == updatedTitle }
+    }
 }

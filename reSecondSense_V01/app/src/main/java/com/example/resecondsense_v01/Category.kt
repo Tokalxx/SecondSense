@@ -47,7 +47,7 @@ class Category : Fragment(), RVAdapter_Category.OnItemClickListener {
 
         output =view.findViewById(R.id.txtTotal)
 
-        output.setText(dataObj.run{ calavulateCat().toString()})
+        output.setText("Total: "+dataObj.run{ calavulateent().toString()})
 
 
         //Create button for Category

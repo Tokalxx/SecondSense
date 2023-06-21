@@ -55,8 +55,6 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
 
         }
 
-
-
         //navigation from activities
         if (intent.hasExtra("DATA")) {
             val desiredFragmentIndex = intent.getIntExtra("DATA", 1)

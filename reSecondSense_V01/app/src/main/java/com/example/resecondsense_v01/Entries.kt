@@ -62,7 +62,7 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
         val btnCreateEntry = view.findViewById<Button>(R.id.btnCreateEntry)
         data = dbhelper.getEntries()
 
-        TotalHours.setText(dbhelper.run{ calavulateent().toString()})
+        TotalHours.setText("Total: "+dbhelper.run{ calavulateent().toString()})
         //getting the list of entries
         recyclerView = view.findViewById(R.id.lvEntries) // Initialize recyclerView
         searchView = binding.entrySerachView //Initialize searchView
