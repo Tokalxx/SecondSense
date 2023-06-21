@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,6 +45,7 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
     private  var mDay:kotlin.Int = 0
     private  var mHour:kotlin.Int = 0
     private  var mMinute:kotlin.Int = 0
+    private lateinit var searchView: SearchView
 
 
     private val binding get() = _binding!!
@@ -58,11 +60,12 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
 
         TotalHours =view.findViewById(R.id.txtTotal)
         val btnCreateEntry = view.findViewById<Button>(R.id.btnCreateEntry)
-
+        data = dbhelper.getEntries()
 
         TotalHours.setText(dbhelper.run{ calavulateent().toString()})
         //getting the list of entries
         recyclerView = view.findViewById(R.id.lvEntries) // Initialize recyclerView
+        searchView = binding.entrySerachView //Initialize searchView
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         //establishing the view that will display the different categories
@@ -70,6 +73,18 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
         recyclerViewAdapter.itemClickListener = this
 
         recyclerView.adapter = recyclerViewAdapter
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                filterList(p0)
+                return true
+            }
+
+        })
 
 
 
@@ -92,6 +107,25 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
 
         return view
     }
+
+    private fun filterList(query : String?){
+        if (query != null) {
+            var filteredList = ArrayList<data_Entries>()
+            for (i in dbhelper.getEntries()) {
+                if (i.entry_Title.lowercase(Locale.ROOT).contains(query)) {
+                    filteredList.add(i)
+                }
+            }
+
+            if (filteredList.isEmpty()) {
+                Toast.makeText(requireContext(), "No Data found", Toast.LENGTH_SHORT).show()
+
+            } else {
+                recyclerViewAdapter.setFilteredList(filteredList)
+            }
+        }
+    }
+
     private fun showPopupDialog() {
         val popupView = layoutInflater.inflate(R.layout.popup_date_range, null)
         val dialogBuilder = AlertDialog.Builder(requireContext())

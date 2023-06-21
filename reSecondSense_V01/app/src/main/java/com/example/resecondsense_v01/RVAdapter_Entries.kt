@@ -17,6 +17,11 @@ class RVAdapter_Entries(var entryList: List<data_Entries>) : RecyclerView.Adapte
         return ViewHolder(entryView)
     }
 
+    fun setFilteredList(mList: List<data_Entries>){
+        this.entryList = mList
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = entryList[position]
 
