@@ -192,7 +192,7 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
                     // Get the updated list of categories from the intent using the same key as before
                     val newData = data.getSerializableExtra("DATA_ENTRIES") as List<data_Entries>
                     // Pass the updated list of categories to the adapter of the RecyclerView
-                    recyclerView.adapter = RVAdapter_Entries(newData)
+                    (recyclerView.adapter as? RVAdapter_Entries)?.updateData(newData)
                     TotalHours.setText(dbhelper.run{ DataContext.calavulateent().toString()})
                     // Notify the adapter that the data set has changed
                     recyclerView.adapter?.notifyDataSetChanged()

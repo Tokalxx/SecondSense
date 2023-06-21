@@ -57,7 +57,7 @@ class RVAdapter_Category(var categoryList: List<data_Category>) : RecyclerView.A
         val clickedItemId = currentItem.category_Title.toString()
         itemClickListener?.onItemClick(clickedItemId)
         }
-        holder.hoursView.text = currentItem.hoursSpent.toString()
+        holder.hoursView.text = dbhelper.calavulateCat(currentItem.category_Title).toString()
         holder.titleView.text = currentItem.category_Title
         holder.dateView.text = currentItem.categoryDate.toString()
     }
@@ -67,6 +67,11 @@ class RVAdapter_Category(var categoryList: List<data_Category>) : RecyclerView.A
         val titleView : TextView = itemView.findViewById(R.id.txtCatTitle)
         val hoursView : TextView = itemView.findViewById(R.id.txtCatHours)
         val dateView : TextView = itemView.findViewById(R.id.txtCatDate)
+    }
+
+    fun updateData(newData: List<data_Category>) {
+        categoryList = newData
+        notifyDataSetChanged()
     }
 
     interface OnItemClickListener {

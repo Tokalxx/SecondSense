@@ -78,7 +78,7 @@ object DataContext {
 
 
     var Cat = mutableListOf<data_Category>(
-        data_Category("Math User 1", calavulateCat(getEntriesCategory()), currentDate.toString(), "User1"),
+        data_Category("Math User 1", 2, currentDate.toString(), "User1"),
         data_Category("Science User3", 2, currentDate.toString(), "User3"),
         data_Category("English", 2, currentDate.toString(), "User1"),
         data_Category("Biology", 133, currentDate.toString(), "User3"),
@@ -211,6 +211,13 @@ object DataContext {
     fun calavulateCat(cetainList : List<data_Entries>): Int {
         var total=0
         total = cetainList.sumOf { it.hoursSpent }
+        return total
+    }
+
+    fun calavulateCat(cetainCategoryName : String): Int {
+        var total=0
+        var tempList= getEntriesCategory(cetainCategoryName)
+        total = tempList.sumOf { it.hoursSpent }
         return total
     }
 }

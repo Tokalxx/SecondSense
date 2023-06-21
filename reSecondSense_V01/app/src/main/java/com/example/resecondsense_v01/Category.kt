@@ -91,12 +91,14 @@ class Category : Fragment(), RVAdapter_Category.OnItemClickListener {
                 // Check if the intent and its extras are not null
                 if (data != null && data.hasExtra("DATA")) {
                     // Get the updated list of categories from the intent using the same key as before
-                    val newData = data.getSerializableExtra("DATA") as List<data_Category>
+                    var newData = data.getSerializableExtra("DATA") as List<data_Category>
+                    newData = dataObj.getCategory()
                     // Pass the updated list of categories to the adapter of the RecyclerView
-                    recyclerView.adapter = RVAdapter_Category(newData)
+                    (recyclerView.adapter as? RVAdapter_Category)?.updateData(newData)
                     output.setText(dataObj.run{ calavulateCat().toString()})
                     // Notify the adapter that the data set has changed
                     recyclerView.adapter?.notifyDataSetChanged()
+
                 }
             }
         }
