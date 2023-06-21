@@ -61,9 +61,7 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
 
 
         TotalHours.setText(dbhelper.run{ calavulateent().toString()})
-        //object
         //getting the list of entries
-        data = dbhelper.getEntries()
         recyclerView = view.findViewById(R.id.lvEntries) // Initialize recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
@@ -91,7 +89,6 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
         showCustomPopup.setOnClickListener {
             showPopupDialog()
         }
-
 
         return view
     }
@@ -182,7 +179,7 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
         // Show a toast message to indicate the data has been filtered
         Toast.makeText(requireContext(), "Data filtered successfully", Toast.LENGTH_SHORT).show()
     }
-
+    //updates the recycler view when a new item is created
     @Override
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -195,7 +192,7 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
                     // Get the updated list of categories from the intent using the same key as before
                     val newData = data.getSerializableExtra("DATA_ENTRIES") as List<data_Entries>
                     // Pass the updated list of categories to the adapter of the RecyclerView
-                    recyclerView.adapter = RVAdapter_Entries(newData)
+                    (recyclerView.adapter as? RVAdapter_Entries)?.updateData(newData)
                     TotalHours.setText(dbhelper.run{ DataContext.calavulateent().toString()})
                     // Notify the adapter that the data set has changed
                     recyclerView.adapter?.notifyDataSetChanged()

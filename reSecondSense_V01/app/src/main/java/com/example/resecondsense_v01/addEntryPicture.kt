@@ -13,7 +13,6 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.Toast
 import android.widget.ImageView
-import com.example.resecondsense_v01.DataContext.data
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException

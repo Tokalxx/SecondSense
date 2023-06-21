@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RVAdapter_Entries(val entryList: List<data_Entries>) : RecyclerView.Adapter<RVAdapter_Entries.ViewHolder>() {
+class RVAdapter_Entries(var entryList: List<data_Entries>) : RecyclerView.Adapter<RVAdapter_Entries.ViewHolder>() {
 
     public var itemClickListener: OnItemClickListener? = null
     var dbhelper = DataContext
@@ -43,5 +43,10 @@ class RVAdapter_Entries(val entryList: List<data_Entries>) : RecyclerView.Adapte
     }
     interface OnItemClickListener {
         fun onItemClick(itemId: String)
+    }
+
+    fun updateData(newData: List<data_Entries>) {
+        entryList = newData
+        notifyDataSetChanged()
     }
 }
