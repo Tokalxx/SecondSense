@@ -230,4 +230,17 @@ object DataContext {
     fun isCategoryAlreadyExists(updatedTitle: String): Boolean {
         return getCategory().any { it.category_Title == updatedTitle }
     }
+
+    //function that takes 2 dates and returns the list of entries made between 2 dates
+    fun filterObjectsByDate(startDate: Date, endDate: Date, objects: List<data_Entries>): List<data_Entries> {
+        var filteredDateList : List<data_Entries>
+        filteredDateList= objects.filter { convertStringToDate(it.entryDate,"yyyy-MM-dd")  in startDate..endDate }
+        return filteredDateList
+    }
+
+    //function to convert dates from string to dates
+    fun convertStringToDate(dateString: String, dateFormat: String): Date {
+        val formatter = SimpleDateFormat(dateFormat)
+        return formatter.parse(dateString)
+    }
 }

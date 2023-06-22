@@ -175,6 +175,8 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
         doneButton.setOnClickListener {
             val startDate = enterStartDate.text.toString()
             val endDate = enterEndDate.text.toString()
+
+
             filterData(startDate, endDate)
             dialog.dismiss()
         }
