@@ -39,6 +39,7 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
         vpAdapter.addFragment(Home(),"HOME")
         vpAdapter.addFragment(Category(),"CATEGORY")
         vpAdapter.addFragment(Entries(),"ENTRIES")
+        vpAdapter.addFragment(Analytics(),"ANALYTICS")
         // Set the adapter to the ViewPager
         viewPage.adapter = vpAdapter
         tabLayout.setupWithViewPager(viewPage)
