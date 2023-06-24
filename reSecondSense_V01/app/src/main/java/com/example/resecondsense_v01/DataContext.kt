@@ -7,7 +7,8 @@ import java.util.Locale
 object DataContext {
     //Dummy Category Data
     val currentDate: Date = Date()
-    var Username: String = ""
+    val dateFormat : String ="dd-MM-yyyy"
+    var Username: String = " "
     var clickedCategory: String = ""
 
     var TimeSheetEntries = mutableListOf<data_Entries>(
@@ -15,18 +16,18 @@ object DataContext {
             1,
             "Math",
             2,
-            currentDate.toString(),
+            "01-06-2023",
             "User1",
             "Description",
             "Math User 1",
             null
         ),
-        data_Entries(2, "Science", 2, currentDate.toString(), "User2", "Description", "", null),
+        data_Entries(2, "Science", 2, "07-06-2023", "User2", "Description", "", null),
         data_Entries(
             3,
             "English",
             2,
-            currentDate.toString(),
+            "12-06-2023",
             "User1",
             "Description",
             "Math User 1",
@@ -36,7 +37,7 @@ object DataContext {
             4,
             "Math",
             2,
-            currentDate.toString(),
+            "19-06-2023",
             "User1",
             "Description",
             "Math User 1",
@@ -46,18 +47,18 @@ object DataContext {
             5,
             "Science",
             2,
-            currentDate.toString(),
+            "25-06-2023",
             "User3",
             "Description",
             "Science User3",
             null
         ),
-        data_Entries(6, "English", 2, currentDate.toString(), "User2", "Description", "", null),
+        data_Entries(6, "English", 2, "19-06-2023", "User2", "Description", "", null),
         data_Entries(
             7,
             "English",
             2,
-            currentDate.toString(),
+            "25-06-2023",
             "User1",
             "Description",
             "Math User 1",
@@ -130,7 +131,7 @@ object DataContext {
         var tempRecent: List<data_Entries>
 
         tempRecent = TimeSheetEntries.filter { it.UserID == Username }.toMutableList()
-        tempRecent = sortBydate2(tempRecent)
+        tempRecent = sortBydate(tempRecent)
         if (tempRecent.size < 7) {
             return tempRecent
         } else {
@@ -182,13 +183,8 @@ object DataContext {
     fun checkDuplicatCategory(categoryTitle: String) {}
 
     //function to sort the entry list by date
-    fun sortByDate(list: List<data_Entries>): List<data_Entries> {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
-        return list.sortedByDescending { dateFormat.parse(it.entryDate) }
-    }
-
-    fun sortBydate2(entries: List<data_Entries>): List<data_Entries> {
+    fun sortBydate(entries: List<data_Entries>): List<data_Entries> {
 
         val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.getDefault())
         return entries.sortedBy{ entry ->
@@ -223,7 +219,7 @@ object DataContext {
 
     //function to check if the start time is before end time
     fun checkDate(startTime: Date, endTime: Date): Boolean {
-        return endTime.before(startTime)
+        return startTime.before(endTime)
     }
 
     //function to check if category exists
@@ -234,7 +230,7 @@ object DataContext {
     //function that takes 2 dates and returns the list of entries made between 2 dates
     fun filterObjectsByDate(startDate: Date, endDate: Date, objects: List<data_Entries>): List<data_Entries> {
         var filteredDateList : List<data_Entries>
-        filteredDateList= objects.filter { convertStringToDate(it.entryDate,"yyyy-MM-dd")  in startDate..endDate }
+        filteredDateList= objects.filter { convertStringToDate(it.entryDate, dateFormat)  in startDate..endDate }
         return filteredDateList
     }
 

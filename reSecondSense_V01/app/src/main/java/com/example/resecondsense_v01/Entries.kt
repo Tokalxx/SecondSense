@@ -60,6 +60,8 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
 
         TotalHours =view.findViewById(R.id.txtTotal)
         val btnCreateEntry = view.findViewById<Button>(R.id.btnCreateEntry)
+
+        val btnAll : Button = view.findViewById(R.id.btnViewAll)
         data = dbhelper.getEntries()
 
         TotalHours.setText("Total: "+dbhelper.run{ calavulateent().toString()})
@@ -74,6 +76,7 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
 
         recyclerView.adapter = recyclerViewAdapter
 
+        //search for an entry with a specific name
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 return false
@@ -87,7 +90,7 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
         })
 
 
-
+        //Create button, directs to the create Entry screen
         btnCreateEntry.setOnClickListener {
 
             // Create an Intent to navigate to the target activity
@@ -99,12 +102,16 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
             // Start the activity
             startActivityForResult(intent,1)
         }
-
+        //Popup to sort filter the Entries by date
         val showCustomPopup: Button = view.findViewById(R.id.btnCustom)
         showCustomPopup.setOnClickListener {
             showPopupDialog()
         }
-
+        //btn to view all entries
+        btnAll.setOnClickListener {
+            var allEntries = dbhelper.getEntries()
+            recyclerViewAdapter.setFilteredList(allEntries)
+        }
         return view
     }
 
@@ -202,16 +209,12 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
 
 
     private fun filterData(startDate: String, endDate: String) {
-        val startDateObj = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(startDate)
-        val endDateObj = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(endDate)
+        val startDateObj = dbhelper.convertStringToDate(startDate,dbhelper.dateFormat)
+        val endDateObj = dbhelper.convertStringToDate(endDate,dbhelper.dateFormat)
 
-        val filteredData = data.filter { entry ->
-            val entryDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(entry.entryDate)
-            entryDate in startDateObj..endDateObj
-        }
-        val filteredArrayList = ArrayList(filteredData) // Convert the filtered list to an ArrayList
-        recyclerView.adapter = RVAdapter_Entries(filteredArrayList)
-
+        val filteredArrayList = dbhelper.filterObjectsByDate(startDateObj,endDateObj,dbhelper.getEntries())// Convert the filtered list to an ArrayList
+        //recyclerView.adapter = RVAdapter_Entries(filteredArrayList)
+        recyclerViewAdapter.setFilteredList(filteredArrayList)
         // Show a toast message to indicate the data has been filtered
         Toast.makeText(requireContext(), "Data filtered successfully", Toast.LENGTH_SHORT).show()
     }
