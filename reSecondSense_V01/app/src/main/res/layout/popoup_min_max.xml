@@ -6,63 +6,134 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/CnButton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/lobuttonContent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginBottom="468dp"
-        android:backgroundTint="#d3d3d3"
-        android:text="Cancel"
-        android:textColor="#FC000000"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/loMaxContent"
+        android:gravity="center"
+        android:layout_margin="15dp">
 
-    <Button
-        android:id="@+id/DoButton"
-        android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/CnButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#d3d3d3"
+                android:text="Cancel"
+                android:textColor="#FC000000"
+                android:textStyle="bold"
+                android:layout_gravity="start"
+                android:layout_margin="15dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            >
+
+            <Button
+                android:id="@+id/DoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#d3d3d3"
+                android:text="Done"
+                android:textColor="#FC000000"
+                android:textStyle="bold"
+                android:layout_gravity="end"
+                android:layout_margin="15dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/loMinContent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="468dp"
-        android:backgroundTint="#d3d3d3"
-        android:text="Done"
-        android:textColor="#FC000000"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.862"
-        app:layout_constraintStart_toEndOf="@+id/CnButton" />
+        app:layout_constraintTop_toBottomOf="@+id/MinMaxTitle"
+        android:gravity="center">
+
+
     <TextView
         android:id="@+id/MinView"
-        android:layout_width="110dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Minimum:"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/MaxView"
-        app:layout_constraintEnd_toStartOf="@+id/InputMin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MinMaxTitle"
+        android:layout_margin="15dp"
         tools:ignore="MissingConstraints" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loMinInput"
+        android:layout_width="216dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="Min"
+        android:paddingVertical="8dp"
+        android:layout_margin="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/loMaxInput"
+        app:layout_constraintTop_toBottomOf="@+id/MinMaxTitle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/InputMin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/loMaxContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/loMinContent"
+        android:gravity="center">
     <TextView
         android:id="@+id/MaxView"
-        android:layout_width="110dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
         android:text="Maximum:"
         android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/CnButton"
-        app:layout_constraintEnd_toStartOf="@+id/InputMax"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/loMaxInput"
+            android:layout_width="216dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Max"
+            android:paddingVertical="8dp"
+            android:layout_margin="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/DoButton"
+            app:layout_constraintEnd_toEndOf="parent" >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/InputMax"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/MinMaxTitle"
-        android:layout_width="379dp"
-        android:layout_height="59dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Min/Max"
+        android:padding="15dp"
         android:textIsSelectable="false"
         android:textSize="34sp"
         android:textStyle="bold"
@@ -70,30 +141,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
-    <EditText
-        android:id="@+id/InputMin"
-        android:layout_width="216dp"
-        android:layout_height="37dp"
-        android:layout_marginEnd="28dp"
-        android:background="#d3d3d3"
-        android:ems="10"
-        android:inputType="text"
-        android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/InputMax"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MinMaxTitle"
-        app:layout_constraintVertical_bias="0.45" />
 
-    <EditText
-        android:id="@+id/InputMax"
-        android:layout_width="215dp"
-        android:layout_height="37dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="20dp"
-        android:background="#d3d3d3"
-        android:ems="10"
-        android:inputType="text"
-        android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/DoButton"
-        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
