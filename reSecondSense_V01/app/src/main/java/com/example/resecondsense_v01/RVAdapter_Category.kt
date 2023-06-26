@@ -45,10 +45,7 @@ class RVAdapter_Category(var categoryList: List<data_Category>) : RecyclerView.A
     override fun getItemCount(): Int {
         return categoryList.size
     }
-    fun updateList(data: MutableList<data_Category>) {
-        categoryList = data
-        notifyDataSetChanged()
-    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = categoryList[position]
 

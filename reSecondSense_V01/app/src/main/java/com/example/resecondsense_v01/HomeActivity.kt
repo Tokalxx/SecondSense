@@ -39,6 +39,7 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
         vpAdapter.addFragment(Home(),"HOME")
         vpAdapter.addFragment(Category(),"CATEGORY")
         vpAdapter.addFragment(Entries(),"ENTRIES")
+        vpAdapter.addFragment(Analytics(),"ANALYTICS")
         // Set the adapter to the ViewPager
         viewPage.adapter = vpAdapter
         tabLayout.setupWithViewPager(viewPage)
@@ -54,8 +55,6 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
             navView.setNavigationItemSelectedListener(this)
 
         }
-
-
 
         //navigation from activities
         if (intent.hasExtra("DATA")) {

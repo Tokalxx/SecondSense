@@ -17,11 +17,12 @@ import com.example.resecondsense_v01.databinding.FragmentHomeBinding
 import java.util.Date
 
 //This is the home page fragment
-class Home : Fragment() {
+class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener {
    //binding
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerViewAdapter: RVAdapter_RecentEnty
 
     var DBObj = DataContext
 
@@ -36,11 +37,12 @@ class Home : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
 
-
-
         recyclerView = view.findViewById(R.id.recentRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = RVAdapter_RecentEnty(DBObj.getRecentEntry())
+        recyclerViewAdapter = RVAdapter_RecentEnty(DBObj.getRecentEntry())
+
+        recyclerViewAdapter.itemClickListener = this
+        recyclerView.adapter = recyclerViewAdapter
 
         val btnCreatEntry : Button = view.findViewById(R.id.btnCreateEntry)
         btnCreatEntry.setOnClickListener {
@@ -84,14 +86,20 @@ class Home : Fragment() {
                 // Check if the intent and its extras are not null
                 if (data != null && data.hasExtra("DATA_ENTRIES")) {
                     // Get the updated list of categories from the intent using the same key as before
-                    val newData = data.getSerializableExtra("DATA_ENTRIES") as List<data_Entries>
+                    val newData = DBObj.getRecentEntry()
                     // Pass the updated list of categories to the adapter of the RecyclerView
-                    recyclerView.adapter = RVAdapter_Entries(DBObj.getRecentEntry())
+                    (recyclerView.adapter as? RVAdapter_RecentEnty)?.updateData(newData)
                     // Notify the adapter that the data set has changed
                     recyclerView.adapter?.notifyDataSetChanged()
                 }
             }
         }
+    }
+
+    override fun onItemClick(itemId: String) {
+        val intent = Intent(requireContext(), EntryDetails::class.java)
+        intent.putExtra("EntryId", itemId)
+        startActivityForResult(intent, 1)
     }
 
 }

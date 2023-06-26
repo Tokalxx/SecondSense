@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1084714538379",
+    "project_id": "resecondsense-v0-1",
+    "storage_bucket": "resecondsense-v0-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084714538379:android:787ace0dcf502983100b8e",
+        "android_client_info": {
+          "package_name": "com.example.resecondsense_v01"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084714538379-ugrkjag9ut969se9o9glp3g4v497tne5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxdPYZEdTOXchJRI9RSm4DyJcCm3A6kgI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1084714538379-ugrkjag9ut969se9o9glp3g4v497tne5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

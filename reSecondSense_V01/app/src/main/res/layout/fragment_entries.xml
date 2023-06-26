@@ -73,7 +73,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/entrySerachView">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnToday"
+                    android:id="@+id/btnViewAll"
                     android:layout_width="0dp"
                     android:layout_height="32dp"
                     android:layout_weight="1"

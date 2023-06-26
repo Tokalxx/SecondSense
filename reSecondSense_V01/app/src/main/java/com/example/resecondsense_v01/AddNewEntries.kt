@@ -141,46 +141,50 @@ class AddNewEntries : AppCompatActivity() {
 
         }
 
+
+
         //once all details have been entered
         btnDone.setOnClickListener{
             //converting the time to hours and minutes
             val formatter = SimpleDateFormat("HH:mm")
             var startTime: Date = formatter.parse(txtStartTime.text.toString()) // Parse the start time string
             var endTime: Date = formatter.parse(txtEndTime.text.toString())
+            //checking if start time is before end time
+            val isEndTimeBeforeStartTime = Dbhelper.checkDate(startTime, endTime)
+            if (isEndTimeBeforeStartTime) {
+                //finding the duration which is the differenc e between the start time and end time
+                var duration = endTime.time - startTime.time
+                val hours = TimeUnit.MILLISECONDS.toHours(duration).toInt()
 
-            //finding the duration which is the differenc e between the start time and end time
-            var duration = endTime.time - startTime.time
-            val hours = TimeUnit.MILLISECONDS.toHours(duration).toInt()
+                dataEntries = data_Entries(
+                    Dbhelper.generateEntryId(),
+                    txtEntryTitle.text.toString(),
+                    hours,
+                    txtDate.text.toString(),
+                    Dbhelper.Username,
+                    txtDescription.text.toString(),
+                    txtEntryCategory.text.toString(),
+                    imgUri.toString()
 
-            dataEntries = data_Entries(
-                Dbhelper.generateEntryId(),
-                txtEntryTitle.text.toString(),
-                hours,
-                txtDate.text.toString(),
-                Dbhelper.Username,
-                txtDescription.text.toString(),
-                txtEntryCategory.text.toString(),
-                imgUri.toString()
+                )
 
-            )
+                Dbhelper.createEntry(dataEntries)
 
-            Dbhelper.createEntry(dataEntries)
+                // Show a toast message to indicate the data has been added
+                Toast.makeText(this, "Data added successfully", Toast.LENGTH_SHORT).show()
 
-            // Show a toast message to indicate the data has been added
-            Toast.makeText(this, "Data added successfully", Toast.LENGTH_SHORT).show()
+                // Create an Intent to hold the result data
+                val intent = Intent()
 
-            // Create an Intent to hold the result data
-            val intent = Intent()
+                // Put the updated list of categories as an extra in the intent using the same key as before
+                intent.putExtra("DATA_ENTRIES", Dbhelper.getEntries() as Serializable)
 
-            // Put the updated list of categories as an extra in the intent using the same key as before
-            intent.putExtra("DATA_ENTRIES", Dbhelper.getEntries() as Serializable)
+                // Set the result code and the intent
+                setResult(RESULT_OK, intent)
 
-            // Set the result code and the intent
-            setResult(RESULT_OK, intent)
-
-            // Finish the activity and resume the HomeActivity
-            finish()
-
+                // Finish the activity and resume the HomeActivity
+                finish()
+            }else{Toast.makeText(this, "Error, end time can't be before start time. ", Toast.LENGTH_SHORT).show()}
 
         }
 
