@@ -34,7 +34,7 @@ class CategoriesForACategory : AppCompatActivity() {
         //setting the title
         txtCategoryTitle.setText(itemId.toString())
 
-        //calculating the totla
+        //calculating the total
         var total = dataObj.calavulateCat(data)
 
         //setting the total text

@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.GravityCompat
@@ -17,6 +19,8 @@ import com.example.resecondsense_v01.databinding.ActivityHomePageBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import java.util.Date
+import com.example.resecondsense_v01.AnalyticsFragment
+
 //This class holds the fragments
 class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
 
@@ -39,7 +43,7 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
         vpAdapter.addFragment(Home(),"HOME")
         vpAdapter.addFragment(Category(),"CATEGORY")
         vpAdapter.addFragment(Entries(),"ENTRIES")
-        vpAdapter.addFragment(Analytics(),"ANALYTICS")
+        vpAdapter.addFragment(AnalyticsFragment(),"ANALYTICS")
         // Set the adapter to the ViewPager
         viewPage.adapter = vpAdapter
         tabLayout.setupWithViewPager(viewPage)
@@ -74,11 +78,45 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
                 val popupView = layoutInflater.inflate(R.layout.popoup_min_max, null)
                 val dialogBuilder = AlertDialog.Builder(this)
                     .setView(popupView)
+                val cancelButton: Button = popupView.findViewById(R.id.CnButton)
+                val doneButton: Button = popupView.findViewById(R.id.DoButton)
+                val minEditText: EditText = popupView.findViewById(R.id.InputMin)
+                val maxEditText: EditText = popupView.findViewById(R.id.InputMax)
                 val dialog = dialogBuilder.create()
 
                 val MaxView: TextView = popupView.findViewById(R.id.MinMaxTitle)
                 dialog.show()
+                cancelButton.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                doneButton.setOnClickListener{
+                    // Retrieve the minimum and maximum values from the input fields
+
+
+                    val minValue = minEditText.text.toString().toIntOrNull()
+                    val maxValue = maxEditText.text.toString().toIntOrNull()
+
+                    if (minValue != null && maxValue != null) {
+                        // Check if both values are valid integers
+                        if (minValue <= maxValue) {
+                            // Valid input values
+
+                            // Do whatever you want with the minimum and maximum values here
+                            Toast.makeText(this, "Successfully", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(this, "Invalid input, show an error or handle it accordingly", Toast.LENGTH_SHORT).show()
+
+                        }
+                    } else {
+                        Toast.makeText(this, "Invalid input, show an error or handle it accordingly", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                showMinMax()
+
+
             }
+
             R.id.nav_logout -> {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
@@ -87,6 +125,10 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
 
         }
         return true
+    }
+
+    private fun showMinMax(){
+
     }
 
 
