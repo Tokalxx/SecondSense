@@ -53,4 +53,6 @@ dependencies {
     implementation 'androidx.databinding:databinding-runtime:7.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
 }
