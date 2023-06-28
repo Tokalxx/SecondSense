@@ -6,29 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [Analytics.newInstance] factory method to
- * create an instance of this fragment.
- */
-class Analytics : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+class AnalyticsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,23 +15,30 @@ class Analytics : Fragment() {
         return inflater.inflate(R.layout.fragment_analytics, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val barChart = view.findViewById<com.github.mikephil.charting.charts.BarChart>(R.id.catBarChart)
+
+        val list: ArrayList<com.github.mikephil.charting.data.BarEntry> = ArrayList()
+        list.add(com.github.mikephil.charting.data.BarEntry(100f, 10f))
+        list.add(com.github.mikephil.charting.data.BarEntry(101f, 20f))
+        list.add(com.github.mikephil.charting.data.BarEntry(102f, 30f))
+        list.add(com.github.mikephil.charting.data.BarEntry(103f, 40f))
+        list.add(com.github.mikephil.charting.data.BarEntry(104f, 50f))
+
+        val barDataSet = com.github.mikephil.charting.data.BarDataSet(list, "Cats")
+        barDataSet.setColors(com.github.mikephil.charting.utils.ColorTemplate.MATERIAL_COLORS, 255)
+        barDataSet.valueTextColor = android.graphics.Color.BLACK
+
+        val barData = com.github.mikephil.charting.data.BarData(barDataSet)
+        barChart.setFitBars(true)
+        barChart.data = barData
+        barChart.description.text = "Bar Chart"
+        barChart.animateY(2000)
+    }
+
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Analytics.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Analytics().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        fun newInstance() = AnalyticsFragment()
     }
 }
