@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="717d679f-93d4-49ae-9bf6-d6a9767064ef" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/reSecondSense_V01/app/src/main/java/com/example/resecondsense_v01/EntryStorage.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reSecondSense_V01/app/src/main/java/com/example/resecondsense_v01/EntryDetails.kt" beforeDir="false" afterPath="$PROJECT_DIR$/reSecondSense_V01/app/src/main/java/com/example/resecondsense_v01/EntryDetails.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reSecondSense_V01/app/src/main/java/com/example/resecondsense_v01/RVAdapter_Entries.kt" beforeDir="false" afterPath="$PROJECT_DIR$/reSecondSense_V01/app/src/main/java/com/example/resecondsense_v01/RVAdapter_Entries.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reSecondSense_V01/app/src/main/res/layout/fragment_entries.xml" beforeDir="false" afterPath="$PROJECT_DIR$/reSecondSense_V01/app/src/main/res/layout/fragment_entries.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +34,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "cidr.known.project.marker": "true",
-    "last_opened_file_path": "C:/Users/tokal/Desktop/Test Project/SecondSense/reSecondSense_V01"
+    "last_opened_file_path": "C:/Users/ssgog/OneDrive/Documents/SecondSenseV2/SecondSense/reSecondSense_V01"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

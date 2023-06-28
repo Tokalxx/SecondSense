@@ -22,6 +22,8 @@ class RVAdapter_Entries(var entryList: List<data_Entries>) : RecyclerView.Adapte
         notifyDataSetChanged()
     }
 
+
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = entryList[position]
 
@@ -38,6 +40,15 @@ class RVAdapter_Entries(var entryList: List<data_Entries>) : RecyclerView.Adapte
         return entryList.size
     }
 
+    private lateinit var myListner : onitemClicklistener
+    interface onitemClicklistener{
+        fun onItemClick(position: Int)
+    }
+
+    fun setOnItemClickListner (listner: onitemClicklistener){
+        myListner = listner
+    }
+
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -45,6 +56,14 @@ class RVAdapter_Entries(var entryList: List<data_Entries>) : RecyclerView.Adapte
         val titleView : TextView = itemView.findViewById(R.id.txtCatTitle)
         val hoursView : TextView = itemView.findViewById(R.id.txtCatHours)
         val dateView : TextView = itemView.findViewById(R.id.txtCatDate)
+
+
+//        init {
+//            itemView.setOnClickListener {
+//
+//                listner.onItemClick(adapterPosition)
+//            }
+//        }
     }
     interface OnItemClickListener {
         fun onItemClick(itemId: String)

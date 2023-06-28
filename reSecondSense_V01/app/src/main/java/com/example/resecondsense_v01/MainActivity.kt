@@ -42,12 +42,13 @@ class MainActivity : AppCompatActivity() {
                 firebaseAuth.signInWithEmailAndPassword(Username,password).addOnCompleteListener {
                     if(it.isSuccessful){
                         val intent = Intent(this, HomeActivity::class.java)
+
                         startActivity(intent)
                     } else{
                         Toast.makeText(this, "Login Failed, Username or Password is incorrect", Toast.LENGTH_SHORT).show()
                     }
                 }
-//
+
 
             }
 
