@@ -2,7 +2,6 @@ package com.example.resecondsense_v01
 
 import android.content.Intent
 import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuth
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -16,7 +15,8 @@ object DataContext {
     val dateFormat: String = "dd-MM-yyyy"
     var Username: String = " "
     var clickedCategory: String = ""
-    lateinit var firebaseAuth: FirebaseAuth
+   var min:Int = 0;
+    var max: Int = 999;
 
     //Dummy Category Data
     var TimeSheetEntries = mutableListOf<data_Entries>(
@@ -235,4 +235,5 @@ object DataContext {
             val formatter = SimpleDateFormat(dateFormat)
             return formatter.parse(dateString)
         }
+        fun getProgress(){}
     }

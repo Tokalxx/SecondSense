@@ -68,7 +68,7 @@ graph for visual representation for goals-->
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/minValue"
+                    android:id="@+id/txtMinValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -76,7 +76,7 @@ graph for visual representation for goals-->
                     android:text="0" />
 
                 <TextView
-                    android:id="@+id/maxValue"
+                    android:id="@+id/txtMaxValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
