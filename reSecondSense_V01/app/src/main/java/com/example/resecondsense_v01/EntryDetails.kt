@@ -1,5 +1,8 @@
 package com.example.resecondsense_v01
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -30,6 +33,15 @@ class EntryDetails : AppCompatActivity() {
         }
         //setting the data on the screen
         txtEntryTitle.setText(TimesheetItem.entry_Title)
+        txtEntryDate.setText(TimesheetItem.entryDate)
+        txtEntryDuration.setText(TimesheetItem.hoursSpent)
+        txtCategory.setText(TimesheetItem.CategoryTitle)
+        txtDescription.setText(TimesheetItem.Description)
+        imgEntryImage.setImageURI(Uri.parse(TimesheetItem.imageData))
+
+
+
+
 
         //Go back home
 

@@ -38,7 +38,7 @@ class AddNewEntries : AppCompatActivity() {
     private  var mMinute:kotlin.Int = 0
     private lateinit var binding: ActivityAddNewEntriesBinding
     private lateinit var imageView: ImageView
-    private var imgUri: Uri? = null
+    private var imgUri: Uri? = null;
     lateinit var dataEntries :data_Entries
 
 
@@ -206,6 +206,7 @@ class AddNewEntries : AppCompatActivity() {
             
             imgUri = data?.data
             imageView.setImageURI(imgUri)
+
 
         }
     }
