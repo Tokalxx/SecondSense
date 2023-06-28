@@ -5,6 +5,9 @@ import android.widget.Toast
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 object DataContext {
 
@@ -97,8 +100,12 @@ object DataContext {
 
 
         //function to add a new category
-        fun createCategory(catName: String) {
-            Cat.add(data_Category(catName, 0, currentDate.toString(), Username))
+        fun createCategory(catName: String) :String {
+            var response :String = "Successfully added"
+            var newCat =data_Category(catName, 0, currentDate.toString(), Username)
+                Cat.add(newCat)
+            addDataCategoryToFirestore(newCat)
+            return response
         }
 
         //function to get all entries that belong to a specific user
@@ -241,4 +248,41 @@ object DataContext {
             return formatter.parse(dateString)
         }
         fun getProgress(){}
+        fun removeWhitespaces(input: String): String {
+        return input.replace("\\s".toRegex(), "")
+        }
+
+    fun addDataEntryToFirestore(dataEntry: data_Entries) : String {
+        var response : String = "ResponseMessage"
+        val db = FirebaseFirestore.getInstance()
+
+        // Specify the collection name where you want to store the entries
+        val collectionRef = db.collection("entries")
+
+        // Create a new document with an auto-generated ID
+        val documentRef = collectionRef.document()
+
+        // Set the data of the document to the properties of the dataEntry object
+        documentRef.set(dataEntry)
+            .addOnSuccessListener {
+                // Data entry added successfully
+                response = "Success"
+            }
+            .addOnFailureListener { exception ->
+                // Error occurred while adding the data entry
+                // Handle the error or show an error message to the user
+                response = "Failed"
+            }
+        return response
+    }
+    fun addDataCategoryToFirestore(dataCategory: data_Category) {
+
+        val db = Firebase.firestore
+
+        // Specify the collection name where you want to store the categories
+         db.collection("categories")
+             .add(dataCategory)
+
+    }
+
     }
