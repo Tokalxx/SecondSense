@@ -94,6 +94,8 @@ object DataContext {
 
 
 
+
+
         //function to add a new category
         fun createCategory(catName: String) {
             Cat.add(data_Category(catName, 0, currentDate.toString(), Username))
@@ -137,6 +139,9 @@ object DataContext {
                 .first().hoursSpent += dataEntries.hoursSpent
 
         }
+
+
+
 
         //function to calculate the total hours for all entries
         fun calavulateent(): Int {
