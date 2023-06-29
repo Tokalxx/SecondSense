@@ -21,11 +21,12 @@ class SignUpActivity : AppCompatActivity() {
         //setContentView(R.layout.activity_signup_page)
         firebaseAuth = FirebaseAuth.getInstance()
         binding.btnSignUp.setOnClickListener {
-            val Username = binding.txtUsername.text.toString()
+            var Username = binding.txtUsername.text.toString()
             val password = binding.txtPassword.text.toString()
             val confirmPassword = binding.txtconfirmPassword.text.toString()
 
             if (Username.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
+                Username = dbhelper.removeWhitespaces(Username)
                 if (password == confirmPassword){
                     firebaseAuth.createUserWithEmailAndPassword(Username, password).addOnCompleteListener {
                         if (it.isSuccessful) {

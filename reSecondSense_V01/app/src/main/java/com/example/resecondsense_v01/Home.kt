@@ -10,22 +10,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
-import androidx.annotation.RequiresApi
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.resecondsense_v01.databinding.FragmentHomeBinding
-import java.util.Date
 
 //This is the home page fragment
-class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener {
+class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
    //binding
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: RVAdapter_RecentEnty
+    private var valuesUpdateListener: IminMaxUpdate? = null
+    var dbhelper = DataContext
 
-    var DBObj = DataContext
-
+    private lateinit var txtMinValue: TextView
+    private lateinit var txtMaxValue: TextView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,10 +40,13 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener {
 
         recyclerView = view.findViewById(R.id.recentRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewAdapter = RVAdapter_RecentEnty(DBObj.getRecentEntry())
+        recyclerViewAdapter = RVAdapter_RecentEnty(dbhelper.getRecentEntry())
 
         recyclerViewAdapter.itemClickListener = this
         recyclerView.adapter = recyclerViewAdapter
+
+        txtMinValue = view.findViewById(R.id.txtMinValue)
+        txtMaxValue = view.findViewById(R.id.txtMaxValue)
 
         val btnCreatEntry : Button = view.findViewById(R.id.btnCreateEntry)
         btnCreatEntry.setOnClickListener {
@@ -58,7 +62,10 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener {
         }
 
         //Progress bar for min and max values
+        binding.txtMinValue.text = dbhelper.min.toString()
+        binding.txtMaxValue.text = dbhelper.min.toString()
         val loadingBar = view.findViewById<ProgressBar>(R.id.minMaxLoadingBar)
+
         val minValue = 2
         val maxValue = 100
         val progressValue = 80
@@ -86,7 +93,7 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener {
                 // Check if the intent and its extras are not null
                 if (data != null && data.hasExtra("DATA_ENTRIES")) {
                     // Get the updated list of categories from the intent using the same key as before
-                    val newData = DBObj.getRecentEntry()
+                    val newData = dbhelper.getRecentEntry()
                     // Pass the updated list of categories to the adapter of the RecyclerView
                     (recyclerView.adapter as? RVAdapter_RecentEnty)?.updateData(newData)
                     // Notify the adapter that the data set has changed
@@ -101,5 +108,12 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener {
         intent.putExtra("EntryId", itemId)
         startActivityForResult(intent, 1)
     }
+
+    override fun onValuesUpdated() {
+        view?.findViewById<TextView>(R.id.txtMinValue)?.text = dbhelper.min.toString()
+        view?.findViewById<TextView>(R.id.txtMaxValue)?.text = dbhelper.max.toString()
+    }
+
+
 
 }

@@ -34,13 +34,16 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnLogin.setOnClickListener {
             // Create an Intent to navigate to the target activity
-            val Username = binding.txtUsername.text.toString()
-            val password = binding.txtPassword.text.toString()
+            var Username = binding.txtUsername.text.toString()
+            var password = binding.txtPassword.text.toString()
 
             if(Username.isNotEmpty() && password.isNotEmpty()) {
 
+                Username = dbhelper.removeWhitespaces(Username)
+
                 firebaseAuth.signInWithEmailAndPassword(Username,password).addOnCompleteListener {
                     if(it.isSuccessful){
+                        dbhelper.Username = Username
                         val intent = Intent(this, HomeActivity::class.java)
 
                         startActivity(intent)

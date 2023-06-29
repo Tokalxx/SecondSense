@@ -84,10 +84,11 @@ class AddNewCategories : AppCompatActivity() {
 
         // Code below is suppose to add the details into he arrayList.
         btnCatCreate.setOnClickListener {
-            catDBObj.createCategory(catTempText.text.toString())
+            var responseMsg = catDBObj.createCategory(catTempText.text.toString())
+
 
             // Show a toast message to indicate the data has been added
-            Toast.makeText(this, "Data added successfully", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, responseMsg, Toast.LENGTH_SHORT).show()
 
             // Create an Intent to hold the result data
             val intent = Intent()
