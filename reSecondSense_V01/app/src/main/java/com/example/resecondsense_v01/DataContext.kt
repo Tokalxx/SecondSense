@@ -1,6 +1,8 @@
 package com.example.resecondsense_v01
 
+import android.content.ContentValues.TAG
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -20,6 +22,7 @@ object DataContext {
     var clickedCategory: String = ""
    var min:Int = 0;
     var max: Int = 999;
+    val db = Firebase.firestore
 
     //Dummy Category Data
     var TimeSheetEntries = mutableListOf<data_Entries>(
@@ -102,7 +105,7 @@ object DataContext {
         //function to add a new category
         fun createCategory(catName: String) :String {
             var response :String = "Successfully added"
-            var newCat =data_Category(catName, 0, currentDate.toString(), Username)
+            var newCat=data_Category(catName, 0, currentDate.toString(), Username)
                 Cat.add(newCat)
             addDataCategoryToFirestore(newCat)
             return response
@@ -119,6 +122,7 @@ object DataContext {
         fun getCategory(): List<data_Category> {
             var tempCategories: List<data_Category>
             tempCategories = Cat.filter { it.UserId == Username }.toMutableList()
+            tempCategories = getDataCategoryFromFirestore()
             return tempCategories
         }
 
@@ -277,12 +281,33 @@ object DataContext {
     }
     fun addDataCategoryToFirestore(dataCategory: data_Category) {
 
-        val db = Firebase.firestore
 
         // Specify the collection name where you want to store the categories
          db.collection("categories")
              .add(dataCategory)
 
+    }
+
+    fun getDataCategoryFromFirestore():List<data_Category>{
+
+        val categoryList = mutableListOf<data_Category>()
+        val catRef = db.collection("categories")
+
+        db.collection("categories")
+        .whereEqualTo("userId", Username)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    var category = document.toObject(data_Category::class.java)
+                    categoryList.add(category)
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents: ", exception)
+
+            }
+
+        return categoryList
     }
 
     }
