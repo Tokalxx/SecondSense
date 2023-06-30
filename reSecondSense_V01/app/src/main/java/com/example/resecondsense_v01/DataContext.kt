@@ -105,7 +105,7 @@ object DataContext {
         //function to add a new category
         fun createCategory(catName: String) :String {
             var response :String = "Successfully added"
-            var newCat=data_Category(catName, 0, currentDate.toString(), Username)
+            var newCat= data_Category(catName, 0, currentDate.toString(), Username)
                 Cat.add(newCat)
             addDataCategoryToFirestore(newCat)
             return response

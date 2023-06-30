@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -17,17 +16,15 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.resecondsense_v01.databinding.ActivityAddNewEntriesBinding
+import com.google.firebase.storage.FirebaseStorage
 import java.io.IOException
 import java.io.Serializable
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 import java.util.Date
-import java.util.concurrent.TimeUnit
-import com.google.firebase.storage.FirebaseStorage
 import java.util.UUID
+import java.util.concurrent.TimeUnit
+import com.squareup.picasso.Picasso;
 
 
 class AddNewEntries : AppCompatActivity() {
@@ -42,6 +39,7 @@ class AddNewEntries : AppCompatActivity() {
     private var imgUri: Uri? = null;
     lateinit var dataEntries :data_Entries
     val Dbhelper = DataContext
+    private val PICK_IMAGE_REQUEST = 1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,7 +82,7 @@ class AddNewEntries : AppCompatActivity() {
         //add picture button
 
         addPicbutton.setOnClickListener {
-            val intent = Intent(this, addEntryPicture::class.java)
+
             // start your next activity
             //startActivity(intent)
             pickImageFromGallery()
@@ -210,17 +208,20 @@ class AddNewEntries : AppCompatActivity() {
     }
 
     private fun pickImageFromGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
+        val intent = Intent()
         intent.type = "image/*"
-        startActivityForResult(intent, addEntryPicture.IMAGE_REQUEST_CODE)
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == addEntryPicture.IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+            && data != null && data.getData() != null) {
             val imageUri = imageView.setImageURI(data?.data)
             
             imgUri = data?.data
             imageView.setImageURI(imgUri)
+            Picasso.get().load(imgUri).into(imageView)
 
 
         }
