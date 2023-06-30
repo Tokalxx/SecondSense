@@ -20,8 +20,9 @@ object DataContext {
     val dateFormat: String = "dd-MM-yyyy"
     var Username: String = " "
     var clickedCategory: String = ""
-   var min:Int = 0;
+    var min:Int = 0;
     var max: Int = 999;
+    lateinit var catTempList: List<String>
     val db = Firebase.firestore
 
     //Dummy Category Data
@@ -145,9 +146,10 @@ object DataContext {
             TimeSheetEntries.add(
                 dataEntries
             )
+            addTimeSheetEntryToFirestore(dataEntries)
             var reCategory: data_Category
-            Cat.filter { it.UserId == Username && it.category_Title == dataEntries.CategoryTitle }
-                .first().hoursSpent += dataEntries.hoursSpent
+//            Cat.filter { it.UserId == Username && it.category_Title == dataEntries.CategoryTitle }
+//                .first().hoursSpent += dataEntries.hoursSpent
 
         }
 
@@ -280,6 +282,7 @@ object DataContext {
         return response
     }
     fun addDataCategoryToFirestore(dataCategory: data_Category) {
+        val db = Firebase.firestore
 
 
         // Specify the collection name where you want to store the categories
@@ -288,10 +291,20 @@ object DataContext {
 
     }
 
+    fun addTimeSheetEntryToFirestore(dataEntry: data_Entries) {
+
+        // Specify the collection name where you want to store the categories
+        db.collection("entries")
+            .add(dataEntry)
+
+    }
+
     fun getDataCategoryFromFirestore():List<data_Category>{
+        val db = Firebase.firestore
 
         val categoryList = mutableListOf<data_Category>()
         val catRef = db.collection("categories")
+        val categoryNameList = mutableListOf<String>()
 
         db.collection("categories")
         .whereEqualTo("userId", Username)
@@ -300,13 +313,14 @@ object DataContext {
                 for (document in documents) {
                     var category = document.toObject(data_Category::class.java)
                     categoryList.add(category)
+                    categoryNameList.add(category.category_Title)
                 }
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting documents: ", exception)
 
             }
-
+        catTempList = categoryNameList
         return categoryList
     }
 

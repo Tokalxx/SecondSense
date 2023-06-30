@@ -4,11 +4,14 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -17,6 +20,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.resecondsense_v01.databinding.ActivityAddNewEntriesBinding
 import com.google.firebase.storage.FirebaseStorage
 import java.io.IOException
@@ -65,7 +70,7 @@ class AddNewEntries : AppCompatActivity() {
         val btnDone : Button = findViewById(R.id.btnFinalEntryCreate)
 
         //Filling the category drop down
-        val items = Dbhelper.getCategory().map { it.category_Title }
+        val items = Dbhelper.catTempList
         val autoComplete : AutoCompleteTextView = findViewById(R.id.cmbCategory)
 
         val adapter = ArrayAdapter(this,R.layout.template_categorydropdown,items)
@@ -186,7 +191,6 @@ class AddNewEntries : AppCompatActivity() {
                 )
 
                 Dbhelper.createEntry(dataEntries)
-                Dbhelper.addDataEntryToFirestore(dataEntries)
                 // Show a toast message to indicate the data has been added
                 Toast.makeText(this, "Data added successfully", Toast.LENGTH_SHORT).show()
 
@@ -205,7 +209,11 @@ class AddNewEntries : AppCompatActivity() {
             else
             {Toast.makeText(this, "Error, end time can't be before start time. ", Toast.LENGTH_SHORT).show()}
         }
+
+
     }
+
+
 
     private fun pickImageFromGallery() {
         val intent = Intent()
