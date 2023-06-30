@@ -2,16 +2,15 @@ package com.example.resecondsense_v01
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.provider.Settings
+import android.webkit.MimeTypeMap
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -20,16 +19,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.example.resecondsense_v01.databinding.ActivityAddNewEntriesBinding
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.StorageTask
+import com.google.firebase.storage.UploadTask
+import com.squareup.picasso.Picasso
 import java.io.IOException
 import java.io.Serializable
+import java.lang.System.currentTimeMillis
 import java.util.Date
-import java.util.UUID
 import java.util.concurrent.TimeUnit
-import com.squareup.picasso.Picasso;
 
 
 class AddNewEntries : AppCompatActivity() {
@@ -46,6 +46,9 @@ class AddNewEntries : AppCompatActivity() {
     val Dbhelper = DataContext
     private val PICK_IMAGE_REQUEST = 1
 
+    private var mStorageRef: StorageReference? = null
+    private var mUploadTask: StorageTask<*>? = null
+    var imageUploadURL : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,9 +57,9 @@ class AddNewEntries : AppCompatActivity() {
         imageView = findViewById(R.id.imgEntryImage)
 
         //binding = setContentView( R.layout.activity_add_new_entries) as ActivityAddNewEntriesBinding
+        mStorageRef = FirebaseStorage.getInstance().getReference("entryImages");
 
-        val storage = FirebaseStorage.getInstance()
-        val storageRef = storage.reference
+
         //variables
         val backbutton: Button = findViewById(R.id.btnBackHome)
         val addPicbutton: Button = findViewById(R.id.btnAddPicture)
@@ -146,34 +149,19 @@ class AddNewEntries : AppCompatActivity() {
             var endTime: Date = formatter.parse(txtEndTime.text.toString())
             //checking if start time is before end time
             val isEndTimeBeforeStartTime = Dbhelper.checkDate(startTime, endTime)
-
+            if (isEndTimeBeforeStartTime) {
             if (imgUri != null) {
-                val uniqueFilename = "${System.currentTimeMillis()}_${UUID.randomUUID()}.jpg"
-                val imageRef = storageRef.child("images/$uniqueFilename")
+                val fileReference = mStorageRef!!.child(currentTimeMillis().toString() + "." + getFileExtension(imgUri!!));
 
-                val uploadTask = imageRef.putFile(imgUri!!)
-
-                uploadTask.addOnSuccessListener {
-                    // Image upload success
-                    // Retrieve the download URL for the image
-                    imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-                        val imageUrl = downloadUri.toString()
-                        // Save the image URL to Firebase Realtime Database or use it as needed
-                        // For example, you can update the 'dataEntries' object with the image URL:
-                        dataEntries.imageData = imageUrl
-
-                        // Continue with the rest of your code (e.g., saving the data to Firestore)
+                mUploadTask = fileReference.putFile(imgUri!!)
+                    .addOnSuccessListener {
+                            imageUploadURL = fileReference.downloadUrl.toString()
                     }.addOnFailureListener { exception ->
                         // Error occurred while getting the download URL
                         Toast.makeText(this, "Failed to retrieve image URL", Toast.LENGTH_SHORT).show()
                     }
-                }.addOnFailureListener { exception ->
-                    // Error occurred while uploading the image
-                    Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show()
                 }
-            }
 
-            if (isEndTimeBeforeStartTime) {
                 //finding the duration which is the differenc e between the start time and end time
                 var duration = endTime.time - startTime.time
                 val hours = TimeUnit.MILLISECONDS.toHours(duration).toInt()
@@ -186,7 +174,7 @@ class AddNewEntries : AppCompatActivity() {
                     Dbhelper.Username,
                     txtDescription.text.toString(),
                     txtEntryCategory.text.toString(),
-                    imgUri.toString()
+                    imageUploadURL
 
                 )
 
@@ -228,7 +216,6 @@ class AddNewEntries : AppCompatActivity() {
             val imageUri = imageView.setImageURI(data?.data)
             
             imgUri = data?.data
-            imageView.setImageURI(imgUri)
             Picasso.get().load(imgUri).into(imageView)
 
 
@@ -248,5 +235,11 @@ class AddNewEntries : AppCompatActivity() {
             e.printStackTrace()
             Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun getFileExtension(uri: Uri): String? {
+        val cR: ContentResolver = getContentResolver()
+        val mime = MimeTypeMap.getSingleton()
+        return mime.getExtensionFromMimeType(cR.getType(uri))
     }
 }
