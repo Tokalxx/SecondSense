@@ -1,15 +1,18 @@
 package com.example.resecondsense_v01
 
+import android.content.ContentResolver
 import android.content.ContentValues.TAG
-import android.content.Intent
+import android.net.Uri
 import android.util.Log
-import android.widget.Toast
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import android.webkit.MimeTypeMap
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
 
 object DataContext {
 
@@ -24,6 +27,7 @@ object DataContext {
     var max: Int = 999;
     lateinit var catTempList: List<String>
     val db = Firebase.firestore
+    private val mStorageRef: StorageReference? = null
 
     //Dummy Category Data
     var TimeSheetEntries = mutableListOf<data_Entries>(
@@ -323,5 +327,7 @@ object DataContext {
         catTempList = categoryNameList
         return categoryList
     }
+
+
 
     }
