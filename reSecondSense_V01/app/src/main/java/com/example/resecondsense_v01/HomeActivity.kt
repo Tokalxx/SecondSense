@@ -50,6 +50,9 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
         viewPage.adapter = vpAdapter
         tabLayout.setupWithViewPager(viewPage)
 
+        dbhelper.getTimeSheetEntryToFirestore()
+        dbhelper.getDataCategoryFromFirestore()
+
 
         //navigation drawer
         val btnopenDrawer : Button = findViewById(R.id.btnMenuDrawer)

@@ -18,7 +18,8 @@ object DataContext {
 
 
     //variables
-
+    lateinit var entList: List<data_Entries>
+    lateinit var catList: List<data_Category>
     val currentDate: Date = Date()
     val dateFormat: String = "dd-MM-yyyy"
     var Username: String = " "
@@ -29,89 +30,10 @@ object DataContext {
     val db = Firebase.firestore
     private val mStorageRef: StorageReference? = null
 
-    //Dummy Category Data
-    var TimeSheetEntries = mutableListOf<data_Entries>(
-        data_Entries(
-            1,
-            "Math",
-            2,
-            "01-06-2023",
-            "User1",
-            "Description",
-            "Math User 1",
-            null
-        ),
-        data_Entries(2, "Science", 2, "07-06-2023", "User2", "Description", "", null),
-        data_Entries(
-            3,
-            "English",
-            2,
-            "12-06-2023",
-            "User1",
-            "Description",
-            "Math User 1",
-            null
-        ),
-        data_Entries(
-            4,
-            "Math",
-            2,
-            "19-06-2023",
-            "User1",
-            "Description",
-            "Math User 1",
-            null
-        ),
-        data_Entries(
-            5,
-            "Science",
-            2,
-            "25-06-2023",
-            "User3",
-            "Description",
-            "Science User3",
-            null
-        ),
-        data_Entries(6, "English", 2, "19-06-2023", "User2", "Description", "", null),
-        data_Entries(
-            7,
-            "English",
-            2,
-            "25-06-2023",
-            "User1",
-            "Description",
-            "Math User 1",
-            null
-        ),
-        // Add more items as needed
-    )
-
-
-    //Dummy Users
-    val Users = mutableListOf<data_User>(
-        data_User("Jerry", "User1", "Pass1"),
-        data_User("Sam", "User2", "Pass1"),
-        data_User("Fiona", "User3", "Pass1")
-    )
-
-
-    var Cat = mutableListOf<data_Category>(
-        data_Category("Math User 1", 2, currentDate.toString(), "User1"),
-        data_Category("Science User3", 2, currentDate.toString(), "User3"),
-        data_Category("English", 2, currentDate.toString(), "User1"),
-        data_Category("Biology", 133, currentDate.toString(), "User3"),
-        data_Category("Biology", 1323, currentDate.toString(), "User2")
-    )
-
-
-
-
-
         //function to add a new category
         fun createCategory(catName: String) :String {
             var response :String = "Successfully added"
             var newCat= data_Category(catName, 0, currentDate.toString(), Username)
-                Cat.add(newCat)
             addDataCategoryToFirestore(newCat)
             return response
         }
@@ -119,15 +41,14 @@ object DataContext {
         //function to get all entries that belong to a specific user
         fun getEntries(): List<data_Entries> {
             var tempTimesheet: List<data_Entries>
-            tempTimesheet = TimeSheetEntries.filter { it.UserID == Username }.toMutableList()
+            tempTimesheet = entList
             return tempTimesheet
         }
 
         //function to get all categories that belong to a specific user
         fun getCategory(): List<data_Category> {
             var tempCategories: List<data_Category>
-            tempCategories = Cat.filter { it.UserId == Username }.toMutableList()
-            tempCategories = getDataCategoryFromFirestore()
+            tempCategories = catList
             return tempCategories
         }
 
@@ -135,7 +56,7 @@ object DataContext {
         fun getRecentEntry(): List<data_Entries> {
             var tempRecent: List<data_Entries>
 
-            tempRecent = TimeSheetEntries.filter { it.UserID == Username }.toMutableList()
+            tempRecent = getTimeSheetEntryToFirestore()
             tempRecent = sortBydate(tempRecent)
             if (tempRecent.size < 7) {
                 return tempRecent
@@ -147,9 +68,7 @@ object DataContext {
         //function to create a new entry
         fun createEntry(dataEntries: data_Entries) {
 
-            TimeSheetEntries.add(
-                dataEntries
-            )
+
             addTimeSheetEntryToFirestore(dataEntries)
             var reCategory: data_Category
 //            Cat.filter { it.UserId == Username && it.category_Title == dataEntries.CategoryTitle }
@@ -163,28 +82,23 @@ object DataContext {
         //function to calculate the total hours for all entries
         fun calavulateent(): Int {
             var tempTimesheetEntires: List<data_Entries>
-            tempTimesheetEntires = TimeSheetEntries.filter { it.UserID == Username }.toMutableList()
+            tempTimesheetEntires = getTimeSheetEntryToFirestore()
             val total = tempTimesheetEntires.sumOf { it.hoursSpent }
             return total
         }
 
         fun calavulateCat(): Int {
             var tempCatCalculate: List<data_Category>
-            tempCatCalculate = Cat.filter { it.UserId == Username }.toMutableList()
+            tempCatCalculate = getDataCategoryFromFirestore()
             var total = tempCatCalculate.sumOf { it.hoursSpent }
             return total
         }
 
-        //function to create an ID for every entry
-        fun generateEntryId(): Int {
-            var newId: Int
-            newId = TimeSheetEntries[TimeSheetEntries.size - 1].entryId + 1
-            return newId
-        }
+
 
         //function to get a specific entry and the details
         fun getTimeSheetEntry(EntryId: Int): data_Entries {
-            var data_Entries = TimeSheetEntries.get(EntryId - 1)
+            var data_Entries = data_Entries()
             return data_Entries
         }
 
@@ -262,6 +176,13 @@ object DataContext {
         return input.replace("\\s".toRegex(), "")
         }
 
+    //function to create an ID for every entry
+    fun generateEntryId(): Int {
+        var newId: Int
+        newId = entList.size + 100
+        return newId
+    }
+
     fun addDataEntryToFirestore(dataEntry: data_Entries) : String {
         var response : String = "ResponseMessage"
         val db = FirebaseFirestore.getInstance()
@@ -303,6 +224,28 @@ object DataContext {
 
     }
 
+    fun getTimeSheetEntryToFirestore():List<data_Entries>{
+        val db = Firebase.firestore
+
+        val entryList = mutableListOf<data_Entries>()
+
+        db.collection("entries")
+            .whereEqualTo("userID", Username)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    var entry = document.toObject(data_Entries::class.java)
+                    entryList.add(entry)
+
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents: ", exception)
+            }
+        entList = entryList
+        return entryList
+    }
+
     fun getDataCategoryFromFirestore():List<data_Category>{
         val db = Firebase.firestore
 
@@ -324,6 +267,7 @@ object DataContext {
                 Log.w(TAG, "Error getting documents: ", exception)
 
             }
+        catList = categoryList
         catTempList = categoryNameList
         return categoryList
     }

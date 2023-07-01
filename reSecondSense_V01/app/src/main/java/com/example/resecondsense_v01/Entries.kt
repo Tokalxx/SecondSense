@@ -71,7 +71,7 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         //establishing the view that will display the different categories
-        recyclerViewAdapter = RVAdapter_Entries(dbhelper.getEntries())
+        recyclerViewAdapter = RVAdapter_Entries(data)
         recyclerViewAdapter.itemClickListener = this
 
         recyclerView.adapter = recyclerViewAdapter
@@ -199,13 +199,7 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
         recyclerViewAdapter.notifyDataSetChanged()
 
     }
-    fun updateRecyclerView(newItem: data_Entries) {
-        // Add the new item to the dataset
-        dbhelper.TimeSheetEntries.add(newItem)
 
-        // Notify the adapter of the data change
-        recyclerViewAdapter.notifyDataSetChanged()
-    }
 
 
     private fun filterData(startDate: String, endDate: String) {

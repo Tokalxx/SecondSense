@@ -74,13 +74,7 @@ class Category : Fragment(), RVAdapter_Category.OnItemClickListener {
         recyclerViewAdapter.notifyDataSetChanged()
 
     }
-    fun updateRecyclerView(newItem: data_Category) {
-        // Add the new item to the dataset
-        dataObj.Cat.add(newItem)
 
-        // Notify the adapter of the data change
-        recyclerViewAdapter.notifyDataSetChanged()
-    }
     @Override
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

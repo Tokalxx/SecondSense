@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
                 firebaseAuth.signInWithEmailAndPassword(Username,password).addOnCompleteListener {
                     if(it.isSuccessful){
-                        dbhelper.Username = Username
+                        dbhelper.Username = Username.toLowerCase()
                         val intent = Intent(this, HomeActivity::class.java)
 
                         startActivity(intent)

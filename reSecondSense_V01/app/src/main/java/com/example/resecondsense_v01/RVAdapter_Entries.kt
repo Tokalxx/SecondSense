@@ -40,14 +40,8 @@ class RVAdapter_Entries(var entryList: List<data_Entries>) : RecyclerView.Adapte
         return entryList.size
     }
 
-    private lateinit var myListner : onitemClicklistener
-    interface onitemClicklistener{
-        fun onItemClick(position: Int)
-    }
 
-    fun setOnItemClickListner (listner: onitemClicklistener){
-        myListner = listner
-    }
+
 
 
 
@@ -57,13 +51,6 @@ class RVAdapter_Entries(var entryList: List<data_Entries>) : RecyclerView.Adapte
         val hoursView : TextView = itemView.findViewById(R.id.txtCatHours)
         val dateView : TextView = itemView.findViewById(R.id.txtCatDate)
 
-
-//        init {
-//            itemView.setOnClickListener {
-//
-//                listner.onItemClick(adapterPosition)
-//            }
-//        }
     }
     interface OnItemClickListener {
         fun onItemClick(itemId: String)
