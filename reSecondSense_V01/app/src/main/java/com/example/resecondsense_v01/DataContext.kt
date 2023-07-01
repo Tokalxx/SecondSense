@@ -98,8 +98,9 @@ object DataContext {
 
         //function to get a specific entry and the details
         fun getTimeSheetEntry(EntryId: Int): data_Entries {
-            var data_Entries = data_Entries()
-            return data_Entries
+            var myEntry: data_Entries
+            myEntry = entList.find { it.entryId == EntryId }!!
+            return myEntry
         }
 
         //function to check if duplicate categories exist
@@ -122,7 +123,7 @@ object DataContext {
         }
 
         fun getEntriesCategory(categoryName: String): List<data_Entries> {
-            var tempentries: List<data_Entries> = getEntries()
+            var tempentries: List<data_Entries> = entList
             tempentries = tempentries.filter { it.CategoryTitle == categoryName }
             return tempentries
         }

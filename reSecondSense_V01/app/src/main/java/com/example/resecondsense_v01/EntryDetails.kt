@@ -33,11 +33,11 @@ class EntryDetails : AppCompatActivity() {
         }
         //setting the data on the screen
         txtEntryTitle.setText(TimesheetItem.entry_Title)
-        txtEntryDate.setText(TimesheetItem.entryDate)
-        txtEntryDuration.setText(TimesheetItem.hoursSpent)
-        txtCategory.setText(TimesheetItem.CategoryTitle)
-        txtDescription.setText(TimesheetItem.Description)
-        imgEntryImage.setImageURI(Uri.parse(TimesheetItem.imageData))
+           txtEntryDate.setText(TimesheetItem.entryDate)
+          txtEntryDuration.setText(TimesheetItem.hoursSpent.toString())
+         txtCategory.setText(TimesheetItem.CategoryTitle)
+         txtDescription.setText(TimesheetItem.Description)
+        //imgEntryImage.setImageURI(Uri.parse(TimesheetItem.imageData))
 
 
 
