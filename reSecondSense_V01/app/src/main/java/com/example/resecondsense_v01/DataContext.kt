@@ -56,7 +56,7 @@ object DataContext {
         fun getRecentEntry(): List<data_Entries> {
             var tempRecent: List<data_Entries>
 
-            tempRecent = getTimeSheetEntryToFirestore()
+            tempRecent = entList
             tempRecent = sortBydate(tempRecent)
             if (tempRecent.size < 7) {
                 return tempRecent
@@ -82,7 +82,7 @@ object DataContext {
         //function to calculate the total hours for all entries
         fun calavulateent(): Int {
             var tempTimesheetEntires: List<data_Entries>
-            tempTimesheetEntires = getTimeSheetEntryToFirestore()
+            tempTimesheetEntires = entList
             val total = tempTimesheetEntires.sumOf { it.hoursSpent }
             return total
         }

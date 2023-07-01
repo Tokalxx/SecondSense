@@ -47,8 +47,6 @@ class CategoriesForACategory : AppCompatActivity(), RVAdapter_Entries.OnItemClic
         backbutton.setOnClickListener {
             onBackPressed()
         }
-
-
     }
 
     override fun onItemClick(itemId: String) {

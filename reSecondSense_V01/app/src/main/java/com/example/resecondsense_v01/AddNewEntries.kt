@@ -154,12 +154,13 @@ class AddNewEntries : AppCompatActivity() {
                 val fileReference = mStorageRef!!.child(currentTimeMillis().toString() + "." + getFileExtension(imgUri!!));
 
                 mUploadTask = fileReference.putFile(imgUri!!)
-                    .addOnSuccessListener {
-                            imageUploadURL = fileReference.downloadUrl.toString()
-                    }.addOnFailureListener { exception ->
-                        // Error occurred while getting the download URL
-                        Toast.makeText(this, "Failed to retrieve image URL", Toast.LENGTH_SHORT).show()
-                    }
+                imageUploadURL = fileReference.downloadUrl.toString()
+//                    .addOnSuccessListener {
+//
+//                    }.addOnFailureListener { exception ->
+//                        // Error occurred while getting the download URL
+//                        Toast.makeText(this, "Failed to retrieve image URL", Toast.LENGTH_SHORT).show()
+//                    }
                 }
 
                 //finding the duration which is the differenc e between the start time and end time
