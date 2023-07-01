@@ -8,6 +8,11 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
+import com.google.firebase.storage.ktx.storageMetadata
+import java.io.File
 
 class EntryDetails : AppCompatActivity() {
 
@@ -33,13 +38,17 @@ class EntryDetails : AppCompatActivity() {
         }
         //setting the data on the screen
         txtEntryTitle.setText(TimesheetItem.entry_Title)
-           txtEntryDate.setText(TimesheetItem.entryDate)
-          txtEntryDuration.setText(TimesheetItem.hoursSpent.toString())
-         txtCategory.setText(TimesheetItem.CategoryTitle)
-         txtDescription.setText(TimesheetItem.Description)
-        //imgEntryImage.setImageURI(Uri.parse(TimesheetItem.imageData))
+        txtEntryDate.setText(TimesheetItem.entryDate)
+        txtEntryDuration.setText(TimesheetItem.hoursSpent.toString())
+        txtCategory.setText(TimesheetItem.CategoryTitle)
+        txtDescription.setText(TimesheetItem.Description)
 
+         var mStorageRef = Firebase.storage.reference
 
+        val pathreference = mStorageRef.child("entryImages/"+TimesheetItem.imageData!!)
+        val localFile = File.createTempFile("entryImages","jpeg")
+        pathreference.getFile(localFile)
+        imgEntryImage.setImageURI(Uri.fromFile(localFile))
 
 
 
