@@ -1,5 +1,6 @@
 package com.example.resecondsense_v01
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -8,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.resecondsense_v01.databinding.FragmentCategoryBinding
 
-class CategoriesForACategory : AppCompatActivity() {
+class CategoriesForACategory : AppCompatActivity(), RVAdapter_Entries.OnItemClickListener {
 
     private var _binding: FragmentCategoryBinding? = null
     private lateinit var recyclerViewAdapter: RVAdapter_Entries
@@ -31,6 +32,8 @@ class CategoriesForACategory : AppCompatActivity() {
         // Create the adapter for the recycler view only once
         recyclerViewAdapter = RVAdapter_Entries(data)
         recyclerView.adapter = recyclerViewAdapter
+
+        recyclerViewAdapter.itemClickListener = this
         //setting the title
         txtCategoryTitle.setText(itemId.toString())
 
@@ -46,5 +49,11 @@ class CategoriesForACategory : AppCompatActivity() {
         }
 
 
+    }
+
+    override fun onItemClick(itemId: String) {
+        val intent = Intent(this, EntryDetails::class.java)
+        intent.putExtra("EntryId", itemId)
+        startActivityForResult(intent, 1)
     }
 }
