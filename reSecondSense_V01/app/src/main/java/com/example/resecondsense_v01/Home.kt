@@ -11,9 +11,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.resecondsense_v01.databinding.FragmentHomeBinding
+import kotlinx.coroutines.launch
 
 //This is the home page fragment
 class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
@@ -31,57 +33,58 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_home, container, false)
-        //View binding
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        recyclerView = view.findViewById(R.id.recentRecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewAdapter = RVAdapter_RecentEnty(dbhelper.getRecentEntry())
+        lifecycleScope.launch {
+            // Call suspend functions here
 
-        recyclerViewAdapter.itemClickListener = this
-        recyclerView.adapter = recyclerViewAdapter
+            dbhelper.getEntries()
 
-        txtMinValue = view.findViewById(R.id.txtMinValue)
-        txtMaxValue = view.findViewById(R.id.txtMaxValue)
+            // Initialize UI here
+            var data = dbhelper.getRecentEntry()
 
-        val btnCreatEntry : Button = view.findViewById(R.id.btnCreateEntry)
-        btnCreatEntry.setOnClickListener {
+            recyclerView = view.findViewById(R.id.recentRecyclerView)
+            recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            recyclerViewAdapter = RVAdapter_RecentEnty(data)
 
-            // Create an Intent to navigate to the target activity
-            val intent = Intent(requireContext(), AddNewEntries::class.java)
 
-            // Optionally, add extras to the Intent
-            intent.putExtra("key", "value")
+            recyclerView.adapter = recyclerViewAdapter
+            recyclerViewAdapter.itemClickListener = this@Home
+            txtMinValue = view.findViewById(R.id.txtMinValue)
+            txtMaxValue = view.findViewById(R.id.txtMaxValue)
 
-            // Start the activity
-            startActivity(intent)
+            val btnCreatEntry : Button = view.findViewById(R.id.btnCreateEntry)
+            btnCreatEntry.setOnClickListener {
+
+                // Create an Intent to navigate to the target activity
+                val intent = Intent(requireContext(), AddNewEntries::class.java)
+
+                // Optionally, add extras to the Intent
+                intent.putExtra("key", "value")
+
+                // Start the activity
+                startActivity(intent)
+            }
+
+            //Progress bar for min and max values
+            binding.txtMinValue.text = dbhelper.min.toString()
+            binding.txtMaxValue.text = dbhelper.min.toString()
+            val loadingBar = view.findViewById<ProgressBar>(R.id.minMaxLoadingBar)
+
+            val minValue = 2
+            val maxValue = 100
+            val progressValue = 80
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                loadingBar.min = minValue
+            }
+
+            loadingBar.max = maxValue
+            loadingBar.progress = progressValue
         }
-
-        //Progress bar for min and max values
-        binding.txtMinValue.text = dbhelper.min.toString()
-        binding.txtMaxValue.text = dbhelper.min.toString()
-        val loadingBar = view.findViewById<ProgressBar>(R.id.minMaxLoadingBar)
-
-        val minValue = 2
-        val maxValue = 100
-        val progressValue = 80
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            loadingBar.min = minValue
-        }
-
-        loadingBar.max = maxValue
-        loadingBar.progress = progressValue
-
 
         return view
-
-
-
     }
     @Override
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

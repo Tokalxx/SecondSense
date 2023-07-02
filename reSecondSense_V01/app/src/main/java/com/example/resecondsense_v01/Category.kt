@@ -76,7 +76,7 @@ class Category : Fragment(), RVAdapter_Category.OnItemClickListener {
     }
 
     @Override
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override  fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == 1) {
@@ -89,7 +89,7 @@ class Category : Fragment(), RVAdapter_Category.OnItemClickListener {
                     newData = dataObj.getCategory()
                     // Pass the updated list of categories to the adapter of the RecyclerView
                     (recyclerView.adapter as? RVAdapter_Category)?.updateData(newData)
-                    output.setText(dataObj.run{ calavulateCat().toString()})
+                    //output.setText(dataObj.run{ calavulateCat().toString()})
                     // Notify the adapter that the data set has changed
                     recyclerView.adapter?.notifyDataSetChanged()
 

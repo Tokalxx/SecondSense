@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
+
 //This is the recycler view adapter that connects the template_recententry to the date
 // just needs an Array list with the data of the Recent entry, but can be change to some other list
 // This method returns a the Recyler view
@@ -27,9 +29,15 @@ class RVAdapter_RecentEnty(var entryList: List<data_Entries>) : RecyclerView.Ada
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
        val currentItem = entryList[position]
-        if (!currentItem.imageData.isNullOrEmpty()) {
-            holder.imageView?.setImageURI(Uri.parse(currentItem.imageData))
-        } else {
+        var entryimage:entryImages
+            if (!currentItem.imageData.equals("")){
+              entryimage = dbhelper.getEntryImage(currentItem.entryId)!!}else{entryimage = entryImages("","",1)
+            //holder.imageView?.setImageURI(Uri.parse(currentItem.imageData))
+
+        }
+        if(!entryimage.ImageUrl.equals("")){
+            Picasso.get().load(entryimage.ImageUrl).into(holder.imageView)}
+        else {
             holder.imageView?.setImageResource(R.drawable.default_large)
         }
 
