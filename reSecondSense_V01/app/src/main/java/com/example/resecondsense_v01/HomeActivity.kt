@@ -15,6 +15,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import com.example.resecondsense_v01.databinding.ActivityHomePageBinding
 import com.google.android.material.navigation.NavigationView
@@ -22,6 +23,7 @@ import com.google.android.material.tabs.TabLayout
 import java.util.Date
 import com.example.resecondsense_v01.AnalyticsFragment
 import com.example.resecondsense_v01.Home
+import kotlinx.coroutines.launch
 
 //This class holds the fragments
 class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
@@ -34,6 +36,23 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
+
+        //navigation drawer
+        val btnopenDrawer : Button = findViewById(R.id.btnMenuDrawer)
+        val navView : NavigationView = findViewById(R.id.navDrawerView)
+        drawerLayout = findViewById(R.id.drawerLayout)
+        btnopenDrawer.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+
+            navView.setNavigationItemSelectedListener(this@HomeActivity)
+
+        }
+
+        lifecycleScope.launch {
+            dbhelper.getTimeSheetEntryToFirestore()
+            dbhelper.getDataCategoryFromFirestore()
+            dbhelper.getImagesFromFireStore()
+
 
         // code fo creating the Tablayout
         // video for this https://youtu.be/DJiqBhqyZeg
@@ -50,33 +69,10 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
         viewPage.adapter = vpAdapter
         tabLayout.setupWithViewPager(viewPage)
 
-        dbhelper.getTimeSheetEntryToFirestore()
-        dbhelper.getDataCategoryFromFirestore()
 
-
-        //navigation drawer
-        val btnopenDrawer : Button = findViewById(R.id.btnMenuDrawer)
-        val navView : NavigationView = findViewById(R.id.navDrawerView)
-        drawerLayout = findViewById(R.id.drawerLayout)
-        btnopenDrawer.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
-
-            navView.setNavigationItemSelectedListener(this)
 
         }
 
-        //navigation from activities
-        if (intent.hasExtra("DATA")) {
-            val desiredFragmentIndex = intent.getIntExtra("DATA", 1)
-            viewPage.currentItem = desiredFragmentIndex
-        }
-
-        if (intent.hasExtra("DATA_ENTRIES")) {
-            val desiredFragmentIndex = intent.getIntExtra("DATA_ENTRIES", 3)
-            viewPage.currentItem = desiredFragmentIndex
-        }
-
-        homeFragment = vpAdapter.getFragment(0) as? Home
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

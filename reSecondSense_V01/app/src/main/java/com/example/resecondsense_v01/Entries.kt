@@ -15,9 +15,11 @@ import android.widget.EditText
 import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.resecondsense_v01.databinding.FragmentEntriesBinding
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -49,7 +51,7 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
 
 
     private val binding get() = _binding!!
-    override fun onCreateView(
+    override  fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -62,6 +64,11 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
         val btnCreateEntry = view.findViewById<Button>(R.id.btnCreateEntry)
 
         val btnAll : Button = view.findViewById(R.id.btnViewAll)
+        lifecycleScope.launch {
+            // Call suspend function here
+             loadLists()
+            // Use result here
+        }
         data = dbhelper.getEntries()
 
         TotalHours.setText("Total: "+dbhelper.run{ calavulateent().toString()})
@@ -132,7 +139,10 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
             }
         }
     }
-
+    suspend fun loadLists(){
+        dbhelper.getTimeSheetEntryToFirestore()
+        dbhelper.getImagesFromFireStore()
+    }
     private fun showPopupDialog() {
         val popupView = layoutInflater.inflate(R.layout.popup_date_range, null)
         val dialogBuilder = AlertDialog.Builder(requireContext())

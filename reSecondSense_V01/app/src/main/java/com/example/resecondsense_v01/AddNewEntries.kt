@@ -10,6 +10,7 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.webkit.MimeTypeMap
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -20,6 +21,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.resecondsense_v01.databinding.ActivityAddNewEntriesBinding
+import com.google.firebase.appcheck.ktx.appCheck
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.initialize
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
@@ -48,7 +55,8 @@ class AddNewEntries : AppCompatActivity() {
 
     private var mStorageRef: StorageReference? = null
     private var mUploadTask: StorageTask<*>? = null
-    var imageUploadURL : String = ""
+     var imageUploadURL : String =""
+    private lateinit var firebaseFirestore: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +66,7 @@ class AddNewEntries : AppCompatActivity() {
 
         //binding = setContentView( R.layout.activity_add_new_entries) as ActivityAddNewEntriesBinding
         mStorageRef = FirebaseStorage.getInstance().getReference("entryImages");
-
+        initVars()
 
         //variables
         val backbutton: Button = findViewById(R.id.btnBackHome)
@@ -141,6 +149,11 @@ class AddNewEntries : AppCompatActivity() {
             timePickerDialog.show()
 
         }
+
+        Firebase.initialize(context = this)
+        Firebase.appCheck.installAppCheckProviderFactory(
+            PlayIntegrityAppCheckProviderFactory.getInstance(),
+        )
         //once all details have been entered
         btnDone.setOnClickListener{
             //converting the time to hours and minutes
@@ -150,24 +163,42 @@ class AddNewEntries : AppCompatActivity() {
             //checking if start time is before end time
             val isEndTimeBeforeStartTime = Dbhelper.checkDate(startTime, endTime)
             if (isEndTimeBeforeStartTime) {
-            if (imgUri != null) {
-                val fileReference = mStorageRef!!.child(currentTimeMillis().toString() + "." + getFileExtension(imgUri!!));
-
-                mUploadTask = fileReference.putFile(imgUri!!)
-                imageUploadURL = fileReference.downloadUrl.toString()
-//                    .addOnSuccessListener {
-//
-//                    }.addOnFailureListener { exception ->
-//                        // Error occurred while getting the download URL
-//                        Toast.makeText(this, "Failed to retrieve image URL", Toast.LENGTH_SHORT).show()
-//                    }
-                }
-
                 //finding the duration which is the differenc e between the start time and end time
                 var duration = endTime.time - startTime.time
                 val hours = TimeUnit.MILLISECONDS.toHours(duration).toInt()
 
-                dataEntries = data_Entries(
+
+                if (imgUri != null) {
+                    uploadImage()
+                    imageUploadURL="HasImage"
+//                    val fileReference = mStorageRef!!.child(currentTimeMillis().toString() + "." + getFileExtension(imgUri!!))
+//
+//                    val mUploadTask = fileReference.putFile(imgUri!!)
+//                    Log.d("Image Upload", mUploadTask.toString())
+//
+//                    val urlTask = mUploadTask.continueWithTask<Uri> { task ->
+//                        if (!task.isSuccessful) {
+//                            task.exception?.let {
+//                                throw it
+//                            }
+//                        }
+//                        fileReference.downloadUrl
+//                    }.addOnCompleteListener { task ->
+//                        Log.d("Image Upload", "continueWithTask completed")
+//                        if (task.isSuccessful) {
+//                            imageUploadURL= task.result.toString()
+//                            Log.d("Image Url Download ", task.result.toString())
+//
+//
+//                            // Use the download URL here
+//                        } else {
+//                            Log.d("Image  Url Download", "Failed "+task.result.toString())
+//                        }
+//                    }
+
+                }
+
+                Dbhelper.createEntry(  data_Entries(
                     Dbhelper.generateEntryId(),
                     txtEntryTitle.text.toString(),
                     hours,
@@ -177,9 +208,11 @@ class AddNewEntries : AppCompatActivity() {
                     txtEntryCategory.text.toString(),
                     imageUploadURL
 
-                )
+                ))
 
-                Dbhelper.createEntry(dataEntries)
+
+
+
                 // Show a toast message to indicate the data has been added
                 Toast.makeText(this, "Data added successfully", Toast.LENGTH_SHORT).show()
 
@@ -202,6 +235,11 @@ class AddNewEntries : AppCompatActivity() {
 
     }
 
+    private fun initVars() {
+
+        mStorageRef = FirebaseStorage.getInstance().reference.child("entryImages")
+        firebaseFirestore = Firebase.firestore
+    }
 
 
     private fun pickImageFromGallery() {
@@ -242,5 +280,44 @@ class AddNewEntries : AppCompatActivity() {
         val cR: ContentResolver = getContentResolver()
         val mime = MimeTypeMap.getSingleton()
         return mime.getExtensionFromMimeType(cR.getType(uri))
+    }
+
+    private fun uploadImage() {
+
+        mStorageRef = mStorageRef?.child(System.currentTimeMillis().toString())
+        imgUri?.let {
+            mStorageRef?.putFile(it)?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("Task", "Success "+task.result.toString())
+                    mStorageRef!!.downloadUrl.addOnSuccessListener { uri ->
+
+                        val entryImage= entryImages(
+                            uri.toString(),
+                            Dbhelper.Username,
+                            Dbhelper.generateEntryId()
+                        )
+
+                        Log.d("Image  Url Download", uri.toString())
+
+                        firebaseFirestore.collection("entryImages").add(entryImage).addOnCompleteListener { firestoreTask ->
+
+                            if (firestoreTask.isSuccessful){
+                                Toast.makeText(this, "Uploaded Successfully", Toast.LENGTH_SHORT).show()
+                                Log.d("FireStore", firestoreTask.toString())
+                            }else{
+                                Toast.makeText(this, firestoreTask.exception?.message, Toast.LENGTH_SHORT).show()
+
+                            }
+
+
+
+                        }
+                    }
+                } else {
+                    Toast.makeText(this, task.exception?.message, Toast.LENGTH_SHORT).show()
+
+                }
+            }
+        }
     }
 }

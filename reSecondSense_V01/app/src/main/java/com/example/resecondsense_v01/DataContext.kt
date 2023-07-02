@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.CompletableDeferred
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -24,158 +25,164 @@ object DataContext {
     val dateFormat: String = "dd-MM-yyyy"
     var Username: String = " "
     var clickedCategory: String = ""
-    var min:Int = 0;
+    var min: Int = 0;
     var max: Int = 999;
     lateinit var catTempList: List<String>
+    lateinit var imageList: List<entryImages>
     val db = Firebase.firestore
     private val mStorageRef: StorageReference? = null
 
-        //function to add a new category
-        fun createCategory(catName: String) :String {
-            var response :String = "Successfully added"
-            var newCat= data_Category(catName, 0, currentDate.toString(), Username)
-            addDataCategoryToFirestore(newCat)
-            return response
+    //function to add a new category
+    fun createCategory(catName: String): String {
+        var response: String = "Successfully added"
+        var newCat = data_Category(catName, 0, currentDate.toString(), Username)
+        addDataCategoryToFirestore(newCat)
+        return response
+    }
+
+    //function to get all entries that belong to a specific user
+    fun getEntries(): List<data_Entries> {
+        var tempTimesheet: List<data_Entries>
+        tempTimesheet = entList
+        return tempTimesheet
+    }
+
+    //function to get all categories that belong to a specific user
+    fun getCategory(): List<data_Category> {
+        var tempCategories: List<data_Category>
+        tempCategories = catList
+        return tempCategories
+    }
+
+    //functions to get all recent entries that belong to a specific user
+    fun getRecentEntry(): List<data_Entries> {
+        var tempRecent: List<data_Entries>
+
+        tempRecent = entList
+        tempRecent = sortBydate(tempRecent)
+        if (tempRecent.size < 7) {
+            return tempRecent
+        } else {
+            return tempRecent.take(7)
         }
+    }
 
-        //function to get all entries that belong to a specific user
-        fun getEntries(): List<data_Entries> {
-            var tempTimesheet: List<data_Entries>
-            tempTimesheet = entList
-            return tempTimesheet
-        }
-
-        //function to get all categories that belong to a specific user
-        fun getCategory(): List<data_Category> {
-            var tempCategories: List<data_Category>
-            tempCategories = catList
-            return tempCategories
-        }
-
-        //functions to get all recent entries that belong to a specific user
-        fun getRecentEntry(): List<data_Entries> {
-            var tempRecent: List<data_Entries>
-
-            tempRecent = entList
-            tempRecent = sortBydate(tempRecent)
-            if (tempRecent.size < 7) {
-                return tempRecent
-            } else {
-                return tempRecent.take(7)
-            }
-        }
-
-        //function to create a new entry
-        fun createEntry(dataEntries: data_Entries) {
+    //function to create a new entry
+    fun createEntry(dataEntries: data_Entries) {
 
 
-            addTimeSheetEntryToFirestore(dataEntries)
-            var reCategory: data_Category
+        addTimeSheetEntryToFirestore(dataEntries)
+        var reCategory: data_Category
 //            Cat.filter { it.UserId == Username && it.category_Title == dataEntries.CategoryTitle }
 //                .first().hoursSpent += dataEntries.hoursSpent
 
-        }
+    }
 
 
+    //function to calculate the total hours for all entries
+    fun calavulateent(): Int {
+        var tempTimesheetEntires: List<data_Entries>
+        tempTimesheetEntires = entList
+        val total = tempTimesheetEntires.sumOf { it.hoursSpent }
+        return total
+    }
+
+    suspend fun calavulateCat(): Int {
+        var tempCatCalculate: List<data_Category>
+        tempCatCalculate = getDataCategoryFromFirestore()
+        var total = tempCatCalculate.sumOf { it.hoursSpent }
+        return total
+    }
 
 
-        //function to calculate the total hours for all entries
-        fun calavulateent(): Int {
-            var tempTimesheetEntires: List<data_Entries>
-            tempTimesheetEntires = entList
-            val total = tempTimesheetEntires.sumOf { it.hoursSpent }
-            return total
-        }
+    //function to get a specific entry and the details
+    fun getTimeSheetEntry(EntryId: Int): data_Entries {
+        var myEntry: data_Entries
+        myEntry = entList.find { it.entryId == EntryId }!!
+        return myEntry
+    }
 
-        fun calavulateCat(): Int {
-            var tempCatCalculate: List<data_Category>
-            tempCatCalculate = getDataCategoryFromFirestore()
-            var total = tempCatCalculate.sumOf { it.hoursSpent }
-            return total
-        }
+    //function to check if duplicate categories exist
+    fun checkDuplicatCategory(categoryTitle: String) {}
 
+    //function to sort the entry list by date
 
+    fun sortBydate(entries: List<data_Entries>): List<data_Entries> {
 
-        //function to get a specific entry and the details
-        fun getTimeSheetEntry(EntryId: Int): data_Entries {
-            var myEntry: data_Entries
-            myEntry = entList.find { it.entryId == EntryId }!!
-            return myEntry
-        }
-
-        //function to check if duplicate categories exist
-        fun checkDuplicatCategory(categoryTitle: String) {}
-
-        //function to sort the entry list by date
-
-        fun sortBydate(entries: List<data_Entries>): List<data_Entries> {
-
-            val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.getDefault())
-            return entries.sortedBy { entry ->
-                try {
-                    dateFormat.parse(entry.entryDate)
-                } catch (e: Exception) {
-                    null
-                }
-
+        val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.getDefault())
+        return entries.sortedBy { entry ->
+            try {
+                dateFormat.parse(entry.entryDate)
+            } catch (e: Exception) {
+                null
             }
 
         }
 
-        fun getEntriesCategory(categoryName: String): List<data_Entries> {
-            var tempentries: List<data_Entries> = entList
-            tempentries = tempentries.filter { it.CategoryTitle == categoryName }
-            return tempentries
-        }
+    }
 
-        fun calavulateCat(cetainList: List<data_Entries>): Int {
-            var total = 0
-            total = cetainList.sumOf { it.hoursSpent }
-            return total
-        }
+    fun getEntriesCategory(categoryName: String): List<data_Entries> {
+        var tempentries: List<data_Entries> = entList
+        tempentries = tempentries.filter { it.CategoryTitle == categoryName }
+        return tempentries
+    }
 
-        fun calavulateCat(cetainCategoryName: String): Int {
-            var total = 0
-            var tempList = getEntriesCategory(cetainCategoryName)
-            total = tempList.sumOf { it.hoursSpent }
-            return total
-        }
+    fun calavulateCat(cetainList: List<data_Entries>): Int {
+        var total = 0
+        total = cetainList.sumOf { it.hoursSpent }
+        return total
+    }
 
-        //function to check if the start time is before end time
-        fun checkDate(startTime: Date, endTime: Date): Boolean {
-            return startTime.before(endTime)
-        }
+    fun calavulateCat(cetainCategoryName: String): Int {
+        var total = 0
+        var tempList = getEntriesCategory(cetainCategoryName)
+        total = tempList.sumOf { it.hoursSpent }
+        return total
+    }
 
-        //function to check if category exists
-        fun isCategoryAlreadyExists(updatedTitle: String): Boolean {
-            return getCategory().any { it.category_Title == updatedTitle }
-        }
+    //function to check if the start time is before end time
+    fun checkDate(startTime: Date, endTime: Date): Boolean {
+        return startTime.before(endTime)
+    }
 
-        //function that takes 2 dates and returns the list of entries made between 2 dates
-        fun filterObjectsByDate(
-            startDate: Date,
-            endDate: Date,
-            objects: List<data_Entries>
-        ): List<data_Entries> {
-            var filteredDateList: List<data_Entries>
-            filteredDateList = objects.filter {
-                convertStringToDate(
-                    it.entryDate,
-                    dateFormat
-                ) in startDate..endDate
-            }
-            return filteredDateList
-        }
+    //function to check if category exists
+    fun isCategoryAlreadyExists(updatedTitle: String): Boolean {
+        return getCategory().any { it.category_Title == updatedTitle }
+    }
 
-        //function to convert dates from string to dates
-        fun convertStringToDate(dateString: String, dateFormat: String): Date {
-            val formatter = SimpleDateFormat(dateFormat)
-            return formatter.parse(dateString)
+    //function to get images
+    fun getEntryImage(entryId: Int): entryImages {
+        var uplodedImage: entryImages = imageList.find { it.EntryId == entryId }!!
+        return uplodedImage
+    }
+
+    //function that takes 2 dates and returns the list of entries made between 2 dates
+    fun filterObjectsByDate(
+        startDate: Date,
+        endDate: Date,
+        objects: List<data_Entries>
+    ): List<data_Entries> {
+        var filteredDateList: List<data_Entries>
+        filteredDateList = objects.filter {
+            convertStringToDate(
+                it.entryDate,
+                dateFormat
+            ) in startDate..endDate
         }
-        fun getProgress(){}
-        fun removeWhitespaces(input: String): String {
+        return filteredDateList
+    }
+
+
+    //function to convert dates from string to dates
+    fun convertStringToDate(dateString: String, dateFormat: String): Date {
+        val formatter = SimpleDateFormat(dateFormat)
+        return formatter.parse(dateString)
+    }
+
+    fun getProgress() {}
+    fun removeWhitespaces(input: String): String {
         return input.replace("\\s".toRegex(), "")
-        }
+    }
 
     //function to create an ID for every entry
     fun generateEntryId(): Int {
@@ -184,8 +191,8 @@ object DataContext {
         return newId
     }
 
-    fun addDataEntryToFirestore(dataEntry: data_Entries) : String {
-        var response : String = "ResponseMessage"
+    fun addDataEntryToFirestore(dataEntry: data_Entries): String {
+        var response: String = "ResponseMessage"
         val db = FirebaseFirestore.getInstance()
 
         // Specify the collection name where you want to store the entries
@@ -207,13 +214,14 @@ object DataContext {
             }
         return response
     }
+
     fun addDataCategoryToFirestore(dataCategory: data_Category) {
         val db = Firebase.firestore
 
 
         // Specify the collection name where you want to store the categories
-         db.collection("categories")
-             .add(dataCategory)
+        db.collection("categories")
+            .add(dataCategory)
 
     }
 
@@ -225,9 +233,9 @@ object DataContext {
 
     }
 
-    fun getTimeSheetEntryToFirestore():List<data_Entries>{
+    suspend fun getTimeSheetEntryToFirestore(): List<data_Entries> {
         val db = Firebase.firestore
-
+        val deferred = CompletableDeferred<String>()
         val entryList = mutableListOf<data_Entries>()
 
         db.collection("entries")
@@ -237,42 +245,86 @@ object DataContext {
                 for (document in documents) {
                     var entry = document.toObject(data_Entries::class.java)
                     entryList.add(entry)
-
+                    Log.d("Success", "Error getting documents: " + document.id)
                 }
+
+                deferred.complete("Success")
             }
             .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents: ", exception)
+                Log.d("Error", "Error getting documents: " + exception.toString())
+                doRequiredOperation("failuire")
+                deferred.complete("Failed")
             }
+
+        val result = deferred.await()
+        Log.d("Success", "Error getting documents: " + result.toString())
         entList = entryList
         return entryList
     }
 
-    fun getDataCategoryFromFirestore():List<data_Category>{
-        val db = Firebase.firestore
 
+    suspend fun getDataCategoryFromFirestore(): List<data_Category> {
+        val db = Firebase.firestore
+        val deferred = CompletableDeferred<String>()
         val categoryList = mutableListOf<data_Category>()
         val catRef = db.collection("categories")
         val categoryNameList = mutableListOf<String>()
 
         db.collection("categories")
-        .whereEqualTo("userId", Username)
+            .whereEqualTo("userId", Username)
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     var category = document.toObject(data_Category::class.java)
                     categoryList.add(category)
                     categoryNameList.add(category.category_Title)
+
                 }
+
+                deferred.complete("Success")
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting documents: ", exception)
+                deferred.complete("Failed")
 
             }
+        val result = deferred.await()
+        Log.d("Success", "Error getting documents: " + result.toString())
         catList = categoryList
         catTempList = categoryNameList
         return categoryList
     }
 
+    suspend fun getImagesFromFireStore(): List<entryImages> {
+        val db = Firebase.firestore
+        val deferred = CompletableDeferred<String>()
+        val images = mutableListOf<entryImages>()
+        db.collection("entryImages")
+            .whereEqualTo("userId", Username)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    var image = document.toObject(entryImages::class.java)
+                    images.add(image)
 
+                }
+
+                deferred.complete("Success")
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents: ", exception)
+                deferred.complete("Failed")
+            }
+        val result = deferred.await()
+        Log.d("Success", "Error getting documents: " + result.toString())
+        imageList = images
+        return images
+    }
+
+    fun doRequiredOperation(msg: String) {
+        if (msg.equals("Success")) {
+            Log.d("Sucess", "List size " + entList.size)
+        }
 
     }
+}

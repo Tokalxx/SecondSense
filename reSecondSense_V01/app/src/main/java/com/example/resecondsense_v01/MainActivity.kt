@@ -12,7 +12,11 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.example.resecondsense_v01.databinding.ActivitySigninPageBinding
+import com.google.firebase.appcheck.ktx.appCheck
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.initialize
 import java.util.Date
 //Main activity for Login and sign up
 class MainActivity : AppCompatActivity() {
@@ -60,6 +64,8 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SignUpActivity::class.java)
             // Start the activity
             startActivity(intent) }
+
+
 
     }
     fun invalidCredentials(context: Context) {
