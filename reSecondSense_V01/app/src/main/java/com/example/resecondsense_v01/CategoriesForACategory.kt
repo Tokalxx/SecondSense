@@ -22,6 +22,7 @@ class CategoriesForACategory : AppCompatActivity(), RVAdapter_Entries.OnItemClic
         var txtTotal: TextView = findViewById(R.id.txtTotal)
         val backbutton: Button = findViewById(R.id.btnBackHome)
         var txtCategoryTitle : TextView = findViewById(R.id.txtCategoryTitle)
+        var btnAnalytics : Button = findViewById(R.id.btnAnalytics)
         //the value being passed from the entries view when and item is clicked
         var itemId = intent.getStringExtra("categoryId")
 
@@ -47,11 +48,16 @@ class CategoriesForACategory : AppCompatActivity(), RVAdapter_Entries.OnItemClic
         backbutton.setOnClickListener {
             onBackPressed()
         }
+        btnAnalytics.setOnClickListener {
+            val intent = Intent(this, AnalyticsForACategory::class.java)
+            intent.putExtra("EntryId", itemId)
+            startActivityForResult(intent, 1)
+        }
     }
 
     override fun onItemClick(itemId: String) {
         val intent = Intent(this, EntryDetails::class.java)
-        intent.putExtra("EntryId", itemId)
+        intent.putExtra("categoryTitle", itemId)
         startActivityForResult(intent, 1)
     }
 }

@@ -37,6 +37,17 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
 
+        //navigation drawer
+        val btnopenDrawer : Button = findViewById(R.id.btnMenuDrawer)
+        val navView : NavigationView = findViewById(R.id.navDrawerView)
+        drawerLayout = findViewById(R.id.drawerLayout)
+        btnopenDrawer.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+
+            navView.setNavigationItemSelectedListener(this@HomeActivity)
+
+        }
+
         lifecycleScope.launch {
             dbhelper.getTimeSheetEntryToFirestore()
             dbhelper.getDataCategoryFromFirestore()
@@ -60,31 +71,8 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
 
 
 
-
-        //navigation drawer
-        val btnopenDrawer : Button = findViewById(R.id.btnMenuDrawer)
-        val navView : NavigationView = findViewById(R.id.navDrawerView)
-        drawerLayout = findViewById(R.id.drawerLayout)
-        btnopenDrawer.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
-
-            navView.setNavigationItemSelectedListener(this@HomeActivity)
-
         }
 
-        //navigation from activities
-        if (intent.hasExtra("DATA")) {
-            val desiredFragmentIndex = intent.getIntExtra("DATA", 1)
-            viewPage.currentItem = desiredFragmentIndex
-        }
-
-        if (intent.hasExtra("DATA_ENTRIES")) {
-            val desiredFragmentIndex = intent.getIntExtra("DATA_ENTRIES", 3)
-            viewPage.currentItem = desiredFragmentIndex
-        }
-
-        homeFragment = vpAdapter.getFragment(0) as? Home
-        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
