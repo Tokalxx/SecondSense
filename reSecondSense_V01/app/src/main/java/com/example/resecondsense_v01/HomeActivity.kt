@@ -63,7 +63,6 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
         vpAdapter.addFragment(Home(),"HOME")
         vpAdapter.addFragment(Category(),"CATEGORY")
         vpAdapter.addFragment(Entries(),"ENTRIES")
-        vpAdapter.addFragment(AnalyticsFragment(),"ANALYTICS")
         // Set the adapter to the ViewPager
         viewPage.adapter = vpAdapter
             homeFragment = supportFragmentManager.fragments[0] as? Home
@@ -144,6 +143,11 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
 
+            }
+
+            R.id.nav_Gamification -> {
+                val intent = Intent(this, Gamification::class.java)
+                startActivity(intent)
             }
 
         }

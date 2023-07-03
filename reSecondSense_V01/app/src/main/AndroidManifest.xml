@@ -20,6 +20,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Gamification"
+            android:exported="false" />
+        <activity
             android:name=".AnalyticsForACategory"
             android:exported="false" />
         <activity

@@ -36,6 +36,7 @@ object DataContext {
     private val mStorageRef: StorageReference? = null
     lateinit var userDataX : List<data_User>
     lateinit var disticntUserData: data_User
+    lateinit var selectedCat : String
     //function to add a new category
     fun createCategory(catName: String): String {
         var response: String = "Successfully added"

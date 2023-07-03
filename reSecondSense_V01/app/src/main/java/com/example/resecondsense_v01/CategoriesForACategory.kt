@@ -37,7 +37,7 @@ class CategoriesForACategory : AppCompatActivity(), RVAdapter_Entries.OnItemClic
 
         //the value being passed from the entries view when and item is clicked
         var itemId = intent.getStringExtra("categoryId")
-
+        dbhelper.selectedCat = itemId.toString()
         var data = dbhelper.getEntriesCategory(itemId.toString())
         recyclerView= findViewById(R.id.lvEntriesForCat)
         //establishing the view that will display the different categories
@@ -148,7 +148,7 @@ class CategoriesForACategory : AppCompatActivity(), RVAdapter_Entries.OnItemClic
     }
     override fun onItemClick(itemId: String) {
         val intent = Intent(this, EntryDetails::class.java)
-        intent.putExtra("categoryTitle", itemId)
+        intent.putExtra("EntryId", itemId)
         startActivityForResult(intent, 1)
     }
 

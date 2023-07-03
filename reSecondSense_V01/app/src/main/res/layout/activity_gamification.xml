@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AnalyticsForACategory">
+    tools:context=".Gamification">
 
     <ScrollView
         android:id="@+id/scrollLayout"
@@ -17,49 +17,34 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
-
-    <RelativeLayout
-        android:id="@+id/layoutTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="10dp"
-        >
-        <!--Recent title-->
-        <TextView
-            android:id="@+id/txtCategoryTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="Analytics for [Category]"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            />
-
+            <RelativeLayout
+                android:id="@+id/layoutTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_margin="10dp"
+                >
+                <!--Recent title-->
+                <TextView
+                    android:id="@+id/txtGameTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Tick Tac Toe"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    />
 
 
-    </RelativeLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toBottomOf="@+id/layoutTitle"
-    >
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/analyticBarChart"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        app:chartDrawLabels="true"
-        app:chartDrawValueAboveBar="true"
-        app:chartValueTextSize="300sp"
-        android:layout_marginTop="30dp"/>
 
+            </RelativeLayout>
 
-</LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
     <LinearLayout
         android:id="@+id/loTotal"
         android:layout_width="match_parent"
@@ -77,17 +62,7 @@
             android:layout_margin="10dp"
             android:background="@drawable/ic_grey_roundedcorner_background"
             android:text="BACK" />
-        <TextView
-            android:id="@+id/txtTotal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="Test"
-            android:gravity="end"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:padding="10dp"
-            />
+
 
     </LinearLayout>
 
