@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomChartAttrs">
+        <attr name="chartDrawValueAboveBar" format="boolean" />
+        <attr name="chartValueTextSize" format="dimension" />
+        <attr name="chartDrawLabels" format="boolean" />
+    </declare-styleable>
+</resources>

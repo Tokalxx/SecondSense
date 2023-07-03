@@ -23,7 +23,7 @@ object DataContext {
     val currentDateA = dateFormatA.format(Date())
 
     lateinit var entList: List<data_Entries>
-    lateinit var catList: List<data_Category>
+    private lateinit var catList: List<data_Category>
     val currentDate: Date = Date()
     val dateFormat: String = "dd-MM-yyyy"
     var Username: String = " "
@@ -80,6 +80,11 @@ object DataContext {
 //            Cat.filter { it.UserId == Username && it.category_Title == dataEntries.CategoryTitle }
 //                .first().hoursSpent += dataEntries.hoursSpent
 
+    }
+    fun getHoursPerCat(catTitle:String): Int{
+        var tempEntryList = entList.filter { it.CategoryTitle.equals(catTitle) }
+        var total = tempEntryList.sumOf { it.hoursSpent}
+        return total
     }
 
 
@@ -380,6 +385,12 @@ object DataContext {
         catTempList = categoryNameList
         return categoryList
     }
+
+    fun getCatList(): List<data_Category> {
+        return catList
+    }
+
+
 
     suspend fun getImagesFromFireStore(): List<entryImages> {
         val db = Firebase.firestore

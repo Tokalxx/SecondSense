@@ -2,6 +2,7 @@ package com.example.resecondsense_v01
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,12 +12,20 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.resecondsense_v01.databinding.FragmentHomeBinding
 import kotlinx.coroutines.launch
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+
 
 //This is the home page fragment
 class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
@@ -33,6 +42,9 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
     private lateinit var txtMaxValue: TextView
     lateinit var loadingBar : ProgressBar
     lateinit var userData:data_User
+
+    //lateinit var barList: List<data_Category>
+    private lateinit var barChart: BarChart
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -73,6 +85,34 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
                 // Start the activity
                 startActivity(intent)
             }
+
+            val entries = ArrayList<BarEntry>()
+            var numx = 0
+
+            for (x in dbhelper.getCatList()) {
+                val number = dbhelper.getHoursPerCat(x.category_Title)
+                entries.add(BarEntry(numx++.toFloat(), number.toFloat()))
+            }
+
+            val dataSet = BarDataSet(entries, "Cats")
+
+            dataSet.setDrawValues(true) // Enable value display on the bars
+            dataSet.valueTextColor = Color.BLACK // Set the text color for the values
+            dataSet.valueTextSize = 12f // Set the text size for the values
+
+            val colors = ArrayList<Int>()
+            colors.add(Color.RED)
+            colors.add(Color.GREEN)
+            colors.add(Color.BLUE)
+            dataSet.colors = colors
+
+
+            val barData = BarData(dataSet)
+            barChart = view.findViewById(R.id.proBarChart) // Add this line to initialize the barChart
+            barChart.setFitBars(true)
+            barChart.data = barData
+            barChart.description.text = "Bar Chart"
+            barChart.animateY(2000)
 
             //Progress bar for min and max values
             binding.txtMinValue.text = userData.min.toString()

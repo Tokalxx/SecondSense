@@ -1,12 +1,26 @@
 package com.example.resecondsense_v01
 
+import android.graphics.Color
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.database.*
 
 class AnalyticsFragment : Fragment() {
+
+    val dbhelper = DataContext
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -17,20 +31,23 @@ class AnalyticsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val barChart = view.findViewById<com.github.mikephil.charting.charts.BarChart>(R.id.catBarChart)
 
-        val list: ArrayList<com.github.mikephil.charting.data.BarEntry> = ArrayList()
-        list.add(com.github.mikephil.charting.data.BarEntry(100f, 10f))
-        list.add(com.github.mikephil.charting.data.BarEntry(101f, 20f))
-        list.add(com.github.mikephil.charting.data.BarEntry(102f, 30f))
-        list.add(com.github.mikephil.charting.data.BarEntry(103f, 40f))
-        list.add(com.github.mikephil.charting.data.BarEntry(104f, 50f))
+        val barChart = view.findViewById<BarChart>(R.id.catBarChart)
 
-        val barDataSet = com.github.mikephil.charting.data.BarDataSet(list, "Cats")
-        barDataSet.setColors(com.github.mikephil.charting.utils.ColorTemplate.MATERIAL_COLORS, 255)
-        barDataSet.valueTextColor = android.graphics.Color.BLACK
+        val entries = ArrayList<BarEntry>()
+        entries.add(BarEntry(1f, 10f)) // First bar
+        entries.add(BarEntry(2f, 15f)) // Second bar
+        entries.add(BarEntry(3f, 20f)) // Third bar
 
-        val barData = com.github.mikephil.charting.data.BarData(barDataSet)
+        val dataSet = BarDataSet(entries, "Cats")
+
+        val colors = ArrayList<Int>()
+        colors.add(Color.RED)
+        colors.add(Color.GREEN)
+        colors.add(Color.BLUE)
+        dataSet.colors = colors
+
+        val barData = BarData(dataSet)
         barChart.setFitBars(true)
         barChart.data = barData
         barChart.description.text = "Bar Chart"
