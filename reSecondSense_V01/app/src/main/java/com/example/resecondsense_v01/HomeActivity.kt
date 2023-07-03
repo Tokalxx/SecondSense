@@ -50,6 +50,7 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
             dbhelper.getTimeSheetEntryToFirestore()
             dbhelper.getDataCategoryFromFirestore()
             dbhelper.getImagesFromFireStore()
+            dbhelper.getUserdataFromFireStore()
 
 
         // code fo creating the Tablayout
@@ -117,12 +118,14 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
                             Toast.makeText(this, "Successfully", Toast.LENGTH_SHORT).show()
                             // Find the fragment instance
                             // Retrieve the current fragment instance from the ViewPager
+                            lifecycleScope.launch {
 
-
-                            dbhelper.min=minValue
-                            dbhelper.max=maxValue
-                            homeFragment?.onValuesUpdated()
-                            dialog.dismiss()
+                                dbhelper.min = minValue
+                                dbhelper.max = maxValue
+                                updateUserdetails()
+                                homeFragment?.onValuesUpdated()
+                                dialog.dismiss()
+                            }
 
                         } else {
                             Toast.makeText(this, "Invalid input, show an error or handle it accordingly", Toast.LENGTH_SHORT).show()
@@ -152,7 +155,10 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
         dbhelper.max = Max
     }
 
-
+suspend fun updateUserdetails(){
+    dbhelper.updateUserDatatoFireStore()
+    dbhelper.getUserdataFromFireStore()
+}
 
 
 }

@@ -34,7 +34,8 @@ object DataContext {
     lateinit var imageList: List<entryImages>
     val db = Firebase.firestore
     private val mStorageRef: StorageReference? = null
-
+    lateinit var userDataX : List<data_User>
+    lateinit var disticntUserData: data_User
     //function to add a new category
     fun createCategory(catName: String): String {
         var response: String = "Successfully added"
@@ -174,7 +175,9 @@ object DataContext {
         var uplodedImage: entryImages = imageList.find { it.EntryId == entryId }!!
         return uplodedImage
     }
-
+    fun getUserdata():data_User{
+        return disticntUserData
+    }
     //function that takes 2 dates and returns the list of entries made between 2 dates
     fun filterObjectsByDate(
         startDate: Date,
@@ -209,7 +212,31 @@ object DataContext {
         newId = entList.size + 100
         return newId
     }
+    suspend fun updateUserDatatoFireStore(){
+        val db = Firebase.firestore
+        val query = db.collection("dataUser").whereEqualTo("userID", Username)
+        val batch = db.batch()
+        val deferred = CompletableDeferred<String>()
 
+        query.get().addOnSuccessListener { documents ->
+            for (document in documents) {
+                val docRef = document.reference
+                batch.update(docRef, mapOf(
+                    "min" to min,
+                    "max" to max
+                ))
+                deferred.complete("Success")
+            }
+            batch.commit().addOnSuccessListener {
+                // Batch update successful
+            }.addOnFailureListener { e ->
+                // Batch update failed
+            }
+        }.addOnFailureListener { e ->
+            // Query failed
+        }
+        val result = deferred.await()
+        Log.d("Updated data", "Getting result: " + result.toString())}
     fun addDataEntryToFirestore(dataEntry: data_Entries): String {
         var response: String = "ResponseMessage"
         val db = FirebaseFirestore.getInstance()
@@ -250,6 +277,46 @@ object DataContext {
         db.collection("entries")
             .add(dataEntry)
 
+    }
+
+    fun addUserDataToFireStore(userData: data_User) {
+
+        // Specify the collection name where you want to store the categories
+        db.collection("dataUser")
+            .add(userData)
+
+    }
+
+    suspend fun getUserdataFromFireStore(): data_User {
+        val db = Firebase.firestore
+        val deferred = CompletableDeferred<String>()
+        val userData = mutableListOf<data_User>()
+
+        var tempDistinctUser:data_User = data_User()
+
+        db.collection("dataUser")
+            .whereEqualTo("userID",Username)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    var entry = document.toObject(data_User::class.java)
+                    tempDistinctUser = entry
+                    Log.d("User Data Success", "User data: " + document.id)
+                }
+
+                deferred.complete("Success")
+            }
+            .addOnFailureListener { exception ->
+                Log.d("Error", "Error getting documents: " + exception.toString())
+                doRequiredOperation("failuire")
+                deferred.complete("Failed")
+            }
+
+        val result = deferred.await()
+        Log.d("Success", "Getting result: " + result.toString())
+        userDataX = userData
+        disticntUserData = tempDistinctUser
+        return disticntUserData
     }
 
     suspend fun getTimeSheetEntryToFirestore(): List<data_Entries> {

@@ -32,6 +32,7 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
     private lateinit var txtMinValue: TextView
     private lateinit var txtMaxValue: TextView
     lateinit var loadingBar : ProgressBar
+    lateinit var userData:data_User
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,6 +45,8 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
 
             dbhelper.getEntries()
             dbhelper.getCategory()
+            userData = dbhelper.getUserdata()
+
 
             // Initialize UI here
             var data = dbhelper.getRecentEntry()
@@ -72,12 +75,12 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
             }
 
             //Progress bar for min and max values
-            binding.txtMinValue.text = dbhelper.min.toString()
-            binding.txtMaxValue.text = dbhelper.max.toString()
+            binding.txtMinValue.text = userData.min.toString()
+            binding.txtMaxValue.text = userData.max.toString()
             loadingBar = view.findViewById<ProgressBar>(R.id.minMaxLoadingBar)
 
-            val minValue = dbhelper.min
-            val maxValue = dbhelper.max
+            val minValue = userData.min
+            val maxValue = userData.max
             val progressValue = dbhelper.getProgress()
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
