@@ -51,7 +51,10 @@ object DataContext {
         tempTimesheet = entList
         return tempTimesheet
     }
-
+    fun getEntriesForCatBetweenADate(startDate:Date,endDate:Date): List<data_Entries>{
+        var tempdata= filterObjectsByDate(startDate,endDate, getEntriesCategory(selectedCat))
+        return tempdata
+    }
     //function to get all categories that belong to a specific user
     fun getCategory(): List<data_Category> {
         var tempCategories: List<data_Category>
