@@ -19,6 +19,9 @@ object DataContext {
 
 
     //variables
+    val dateFormatA = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+    val currentDateA = dateFormatA.format(Date())
+
     lateinit var entList: List<data_Entries>
     lateinit var catList: List<data_Category>
     val currentDate: Date = Date()
@@ -26,7 +29,7 @@ object DataContext {
     var Username: String = " "
     var clickedCategory: String = ""
     var min: Int = 0;
-    var max: Int = 999;
+    var max: Int = 10;
     lateinit var catTempList: List<String>
     lateinit var imageList: List<entryImages>
     val db = Firebase.firestore
@@ -121,6 +124,22 @@ object DataContext {
 
     }
 
+    fun calculateHours( commonList:List<data_Entries>):Int{
+
+        var total = commonList.sumOf { it.hoursSpent }
+        return total
+    }
+
+    fun getProgress():Int{
+        var currentDate: String = currentDate.toString()
+
+        var totalProgressList = entList.filter{ convertStringToDate(it.entryDate, dateFormat) == (convertStringToDate(currentDateA,
+            dateFormat) ) }
+        var totalProgress = totalProgressList.sumOf{ it.hoursSpent}
+
+        return totalProgress
+    }
+
     fun getEntriesCategory(categoryName: String): List<data_Entries> {
         var tempentries: List<data_Entries> = entList
         tempentries = tempentries.filter { it.CategoryTitle == categoryName }
@@ -179,7 +198,7 @@ object DataContext {
         return formatter.parse(dateString)
     }
 
-    fun getProgress() {}
+
     fun removeWhitespaces(input: String): String {
         return input.replace("\\s".toRegex(), "")
     }
@@ -257,7 +276,7 @@ object DataContext {
             }
 
         val result = deferred.await()
-        Log.d("Success", "Error getting documents: " + result.toString())
+        Log.d("Success", "Getting result: " + result.toString())
         entList = entryList
         return entryList
     }
