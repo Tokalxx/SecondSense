@@ -19,6 +19,9 @@ object DataContext {
 
 
     //variables
+    val dateFormatA = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+    val currentDateA = dateFormatA.format(Date())
+
     lateinit var entList: List<data_Entries>
     lateinit var catList: List<data_Category>
     val currentDate: Date = Date()
@@ -26,12 +29,13 @@ object DataContext {
     var Username: String = " "
     var clickedCategory: String = ""
     var min: Int = 0;
-    var max: Int = 999;
+    var max: Int = 10;
     lateinit var catTempList: List<String>
     lateinit var imageList: List<entryImages>
     val db = Firebase.firestore
     private val mStorageRef: StorageReference? = null
-
+    lateinit var userDataX : List<data_User>
+    lateinit var disticntUserData: data_User
     //function to add a new category
     fun createCategory(catName: String): String {
         var response: String = "Successfully added"
@@ -121,6 +125,22 @@ object DataContext {
 
     }
 
+    fun calculateHours( commonList:List<data_Entries>):Int{
+
+        var total = commonList.sumOf { it.hoursSpent }
+        return total
+    }
+
+    fun getProgress():Int{
+        var currentDate: String = currentDate.toString()
+
+        var totalProgressList = entList.filter{ convertStringToDate(it.entryDate, dateFormat) == (convertStringToDate(currentDateA,
+            dateFormat) ) }
+        var totalProgress = totalProgressList.sumOf{ it.hoursSpent}
+
+        return totalProgress
+    }
+
     fun getEntriesCategory(categoryName: String): List<data_Entries> {
         var tempentries: List<data_Entries> = entList
         tempentries = tempentries.filter { it.CategoryTitle == categoryName }
@@ -155,7 +175,9 @@ object DataContext {
         var uplodedImage: entryImages = imageList.find { it.EntryId == entryId }!!
         return uplodedImage
     }
-
+    fun getUserdata():data_User{
+        return disticntUserData
+    }
     //function that takes 2 dates and returns the list of entries made between 2 dates
     fun filterObjectsByDate(
         startDate: Date,
@@ -179,7 +201,7 @@ object DataContext {
         return formatter.parse(dateString)
     }
 
-    fun getProgress() {}
+
     fun removeWhitespaces(input: String): String {
         return input.replace("\\s".toRegex(), "")
     }
@@ -190,7 +212,31 @@ object DataContext {
         newId = entList.size + 100
         return newId
     }
+    suspend fun updateUserDatatoFireStore(){
+        val db = Firebase.firestore
+        val query = db.collection("dataUser").whereEqualTo("userID", Username)
+        val batch = db.batch()
+        val deferred = CompletableDeferred<String>()
 
+        query.get().addOnSuccessListener { documents ->
+            for (document in documents) {
+                val docRef = document.reference
+                batch.update(docRef, mapOf(
+                    "min" to min,
+                    "max" to max
+                ))
+                deferred.complete("Success")
+            }
+            batch.commit().addOnSuccessListener {
+                // Batch update successful
+            }.addOnFailureListener { e ->
+                // Batch update failed
+            }
+        }.addOnFailureListener { e ->
+            // Query failed
+        }
+        val result = deferred.await()
+        Log.d("Updated data", "Getting result: " + result.toString())}
     fun addDataEntryToFirestore(dataEntry: data_Entries): String {
         var response: String = "ResponseMessage"
         val db = FirebaseFirestore.getInstance()
@@ -233,6 +279,46 @@ object DataContext {
 
     }
 
+    fun addUserDataToFireStore(userData: data_User) {
+
+        // Specify the collection name where you want to store the categories
+        db.collection("dataUser")
+            .add(userData)
+
+    }
+
+    suspend fun getUserdataFromFireStore(): data_User {
+        val db = Firebase.firestore
+        val deferred = CompletableDeferred<String>()
+        val userData = mutableListOf<data_User>()
+
+        var tempDistinctUser:data_User = data_User()
+
+        db.collection("dataUser")
+            .whereEqualTo("userID",Username)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    var entry = document.toObject(data_User::class.java)
+                    tempDistinctUser = entry
+                    Log.d("User Data Success", "User data: " + document.id)
+                }
+
+                deferred.complete("Success")
+            }
+            .addOnFailureListener { exception ->
+                Log.d("Error", "Error getting documents: " + exception.toString())
+                doRequiredOperation("failuire")
+                deferred.complete("Failed")
+            }
+
+        val result = deferred.await()
+        Log.d("Success", "Getting result: " + result.toString())
+        userDataX = userData
+        disticntUserData = tempDistinctUser
+        return disticntUserData
+    }
+
     suspend fun getTimeSheetEntryToFirestore(): List<data_Entries> {
         val db = Firebase.firestore
         val deferred = CompletableDeferred<String>()
@@ -257,7 +343,7 @@ object DataContext {
             }
 
         val result = deferred.await()
-        Log.d("Success", "Error getting documents: " + result.toString())
+        Log.d("Success", "Getting result: " + result.toString())
         entList = entryList
         return entryList
     }

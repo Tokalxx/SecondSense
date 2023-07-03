@@ -71,7 +71,7 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
         }
         data = dbhelper.getEntries()
 
-        TotalHours.setText("Total: "+dbhelper.run{ calavulateent().toString()})
+        TotalHours.setText("Total: "+dbhelper.calculateHours(data))
         //getting the list of entries
         recyclerView = view.findViewById(R.id.lvEntries) // Initialize recyclerView
         searchView = binding.entrySerachView //Initialize searchView
@@ -118,6 +118,7 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
         btnAll.setOnClickListener {
             var allEntries = dbhelper.getEntries()
             recyclerViewAdapter.setFilteredList(allEntries)
+            TotalHours.setText("Total: "+dbhelper.calculateHours(allEntries))
         }
         return view
     }
@@ -136,6 +137,7 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
 
             } else {
                 recyclerViewAdapter.setFilteredList(filteredList)
+                TotalHours.setText("Total: "+dbhelper.calculateHours(filteredList))
             }
         }
     }
@@ -219,6 +221,7 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
         val filteredArrayList = dbhelper.filterObjectsByDate(startDateObj,endDateObj,dbhelper.getEntries())// Convert the filtered list to an ArrayList
         //recyclerView.adapter = RVAdapter_Entries(filteredArrayList)
         recyclerViewAdapter.setFilteredList(filteredArrayList)
+        TotalHours.setText("Total: "+dbhelper.calculateHours(filteredArrayList))
         // Show a toast message to indicate the data has been filtered
         Toast.makeText(requireContext(), "Data filtered successfully", Toast.LENGTH_SHORT).show()
     }
@@ -236,7 +239,7 @@ class Entries : Fragment(), RVAdapter_Entries.OnItemClickListener {
                     val newData = data.getSerializableExtra("DATA_ENTRIES") as List<data_Entries>
                     // Pass the updated list of categories to the adapter of the RecyclerView
                     (recyclerView.adapter as? RVAdapter_Entries)?.updateData(newData)
-                    TotalHours.setText(dbhelper.run{ DataContext.calavulateent().toString()})
+                    TotalHours.setText("Total: "+dbhelper.calculateHours(newData))
                     // Notify the adapter that the data set has changed
                     recyclerView.adapter?.notifyDataSetChanged()
                 }

@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.resecondsense_v01.databinding.FragmentCategoryBinding
+import kotlinx.coroutines.launch
 import java.util.Date
 
 class Category : Fragment(), RVAdapter_Category.OnItemClickListener {
@@ -31,6 +33,12 @@ class Category : Fragment(), RVAdapter_Category.OnItemClickListener {
 
         _binding = FragmentCategoryBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        lifecycleScope.launch {
+            // Call suspend function here
+            loadLists()
+            // Use result here
+        }
 
         recyclerView= view.findViewById(R.id.lvCategories)
 
@@ -73,6 +81,10 @@ class Category : Fragment(), RVAdapter_Category.OnItemClickListener {
         // Just notify the existing adapter of any data changes
         recyclerViewAdapter.notifyDataSetChanged()
 
+    }
+    suspend fun loadLists(){
+        dataObj.getDataCategoryFromFirestore()
+        dataObj.getTimeSheetEntryToFirestore()
     }
 
     @Override

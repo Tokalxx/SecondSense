@@ -3,13 +3,16 @@ package com.example.resecondsense_v01
 import android.app.AlertDialog
 import android.content.ClipData
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.GravityCompat
@@ -41,17 +44,13 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
         val btnopenDrawer : Button = findViewById(R.id.btnMenuDrawer)
         val navView : NavigationView = findViewById(R.id.navDrawerView)
         drawerLayout = findViewById(R.id.drawerLayout)
-        btnopenDrawer.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
 
-            navView.setNavigationItemSelectedListener(this@HomeActivity)
-
-        }
 
         lifecycleScope.launch {
             dbhelper.getTimeSheetEntryToFirestore()
             dbhelper.getDataCategoryFromFirestore()
             dbhelper.getImagesFromFireStore()
+            dbhelper.getUserdataFromFireStore()
 
 
         // code fo creating the Tablayout
@@ -67,17 +66,25 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
         vpAdapter.addFragment(AnalyticsFragment(),"ANALYTICS")
         // Set the adapter to the ViewPager
         viewPage.adapter = vpAdapter
+            homeFragment = supportFragmentManager.fragments[0] as? Home
         tabLayout.setupWithViewPager(viewPage)
+            btnopenDrawer.setOnClickListener {
+                drawerLayout.openDrawer(GravityCompat.START)
 
+                navView.setNavigationItemSelectedListener(this@HomeActivity)
+                Log.d("PopupDialog", "Showing pop-up dialog")
+            }
 
 
         }
 
     }
 
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navSetUserGoals -> {
+                Log.d("PopupDialog", "Showing pop-up dialog")
                 val popupView = layoutInflater.inflate(R.layout.popoup_min_max, null)
                 val dialogBuilder = AlertDialog.Builder(this)
                     .setView(popupView)
@@ -110,11 +117,15 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
 
                             Toast.makeText(this, "Successfully", Toast.LENGTH_SHORT).show()
                             // Find the fragment instance
+                            // Retrieve the current fragment instance from the ViewPager
+                            lifecycleScope.launch {
 
-                            dbhelper.min=minValue
-                            dbhelper.max=maxValue
-                            homeFragment?.onValuesUpdated()
-                            dialog.dismiss()
+                                dbhelper.min = minValue
+                                dbhelper.max = maxValue
+                                updateUserdetails()
+                                homeFragment?.onValuesUpdated()
+                                dialog.dismiss()
+                            }
 
                         } else {
                             Toast.makeText(this, "Invalid input, show an error or handle it accordingly", Toast.LENGTH_SHORT).show()
@@ -141,10 +152,13 @@ class HomeActivity :  AppCompatActivity(),NavigationView.OnNavigationItemSelecte
 
     private fun showMinMax(Min:Int,Max:Int){
         dbhelper.min = Min
-        dbhelper.max= Max
+        dbhelper.max = Max
     }
 
-
+suspend fun updateUserdetails(){
+    dbhelper.updateUserDatatoFireStore()
+    dbhelper.getUserdataFromFireStore()
+}
 
 
 }

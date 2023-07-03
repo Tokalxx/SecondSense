@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,9 +27,12 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
     private lateinit var recyclerViewAdapter: RVAdapter_RecentEnty
     private var valuesUpdateListener: IminMaxUpdate? = null
     var dbhelper = DataContext
-
+    var tempMaxValue: Int = 0
+    var tempMinValue : Int = 0
     private lateinit var txtMinValue: TextView
     private lateinit var txtMaxValue: TextView
+    lateinit var loadingBar : ProgressBar
+    lateinit var userData:data_User
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,6 +44,9 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
             // Call suspend functions here
 
             dbhelper.getEntries()
+            dbhelper.getCategory()
+            userData = dbhelper.getUserdata()
+
 
             // Initialize UI here
             var data = dbhelper.getRecentEntry()
@@ -68,13 +75,13 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
             }
 
             //Progress bar for min and max values
-            binding.txtMinValue.text = dbhelper.min.toString()
-            binding.txtMaxValue.text = dbhelper.min.toString()
-            val loadingBar = view.findViewById<ProgressBar>(R.id.minMaxLoadingBar)
+            binding.txtMinValue.text = userData.min.toString()
+            binding.txtMaxValue.text = userData.max.toString()
+            loadingBar = view.findViewById<ProgressBar>(R.id.minMaxLoadingBar)
 
-            val minValue = 2
-            val maxValue = 100
-            val progressValue = 80
+            val minValue = userData.min
+            val maxValue = userData.max
+            val progressValue = dbhelper.getProgress()
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 loadingBar.min = minValue
@@ -112,9 +119,20 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
         startActivityForResult(intent, 1)
     }
 
+
+
     override fun onValuesUpdated() {
         view?.findViewById<TextView>(R.id.txtMinValue)?.text = dbhelper.min.toString()
         view?.findViewById<TextView>(R.id.txtMaxValue)?.text = dbhelper.max.toString()
+        var x = view?.findViewById<ProgressBar>(R.id.minMaxLoadingBar)
+        if (x != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                x.min=dbhelper.min
+            }
+            x.max=dbhelper.max
+            x.progress=dbhelper.getProgress()
+        }
+
     }
 
 

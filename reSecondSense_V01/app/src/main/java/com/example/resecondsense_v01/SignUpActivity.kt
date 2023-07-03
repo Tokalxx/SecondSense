@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.resecondsense_v01.databinding.ActivitySignupPageBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.auth.User
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -30,6 +31,8 @@ class SignUpActivity : AppCompatActivity() {
                 if (password == confirmPassword){
                     firebaseAuth.createUserWithEmailAndPassword(Username, password).addOnCompleteListener {
                         if (it.isSuccessful) {
+                            var x =data_User(Username,0,0)
+                            dbhelper.addUserDataToFireStore(x)
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                         } else {
