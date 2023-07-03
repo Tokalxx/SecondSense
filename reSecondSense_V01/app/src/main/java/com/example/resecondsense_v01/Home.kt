@@ -18,9 +18,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.resecondsense_v01.databinding.FragmentHomeBinding
 import kotlinx.coroutines.launch
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -41,7 +43,9 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
     private lateinit var txtMinValue: TextView
     private lateinit var txtMaxValue: TextView
     lateinit var loadingBar : ProgressBar
-    lateinit var userData:data_User
+    var total : Int = 0
+    var userData = dbhelper.disticntUserData
+    lateinit var Data : List<data_Entries>
 
     //lateinit var barList: List<data_Category>
     private lateinit var barChart: BarChart
@@ -87,10 +91,14 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
             }
 
             val entries = ArrayList<BarEntry>()
+            val labels = ArrayList<String>()
             var numx = 0
+            var min = userData.min
+            var max=userData.max
 
             for (x in dbhelper.getCatList()) {
                 val number = dbhelper.getHoursPerCat(x.category_Title)
+                labels.add(x.category_Title)
                 entries.add(BarEntry(numx++.toFloat(), number.toFloat()))
             }
 
@@ -101,9 +109,16 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
             dataSet.valueTextSize = 12f // Set the text size for the values
 
             val colors = ArrayList<Int>()
-            colors.add(Color.RED)
-            colors.add(Color.GREEN)
-            colors.add(Color.BLUE)
+            for (entry in entries) {
+                if (entry.y > min && entry.y < max) {
+                    colors.add(Color.YELLOW)
+                } else if(entry.y > max) {
+                    colors.add(Color.GREEN)
+                }else{
+                    colors.add(Color.GRAY)
+
+                }
+            }
             dataSet.colors = colors
 
 
@@ -111,6 +126,15 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
             barChart = view.findViewById(R.id.proBarChart) // Add this line to initialize the barChart
             barChart.setFitBars(true)
             barChart.data = barData
+
+            val xAxis = barChart.xAxis
+            xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
+            xAxis.setDrawGridLines(false)
+            xAxis.granularity = 1f
+            xAxis.setCenterAxisLabels(true)
+            xAxis.isGranularityEnabled = true
+
             barChart.description.text = "Bar Chart"
             barChart.animateY(2000)
 
@@ -133,6 +157,8 @@ class Home : Fragment(),RVAdapter_RecentEnty.OnItemClickListener,IminMaxUpdate {
 
         return view
     }
+
+
     @Override
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

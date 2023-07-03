@@ -37,7 +37,7 @@ class AnalyticsForACategory : AppCompatActivity() {
     lateinit var txtCattotal : TextView
     lateinit var Data : List<data_Entries>
     var total : Int = 0
-
+    var userData = dbhelper.disticntUserData
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
        // binding = ActivityAnalyticsForAcategoryBinding.inflate(layoutInflater)
@@ -53,7 +53,7 @@ class AnalyticsForACategory : AppCompatActivity() {
         total = dbhelper.getHoursPerCat(dbhelper.selectedCat)
         TotalHours.setText("Total :"+total)
         txtCattotal.setText("Analytics for "+dbhelper.selectedCat)
-        LoadGraph()
+        LoadGraphx()
 
         btnCustom.setOnClickListener {
             showPopupDialog()
@@ -61,48 +61,11 @@ class AnalyticsForACategory : AppCompatActivity() {
         }
         btnAll.setOnClickListener {
             Data = dbhelper.getEntriesCategory(dbhelper.selectedCat)
-            LoadGraph()
+            LoadGraphx()
         }
         backbutton.setOnClickListener {
             onBackPressed()
         }
-
-//        val entries = ArrayList<BarEntry>()
-//        val labels = ArrayList<String>()
-//        var numx = 0
-//
-//        for (x in Data) {
-//            val number = x.hoursSpent
-//            labels.add(x.entryDate)
-//            entries.add(BarEntry(numx++.toFloat(), number.toFloat()))
-//        }
-//
-//        val dataSet = BarDataSet(entries, "Cats")
-//
-//        dataSet.setDrawValues(true) // Enable value display on the bars
-//        dataSet.valueTextColor = Color.BLACK // Set the text color for the values
-//        dataSet.valueTextSize = 12f // Set the text size for the values
-//
-//        val colors = ArrayList<Int>()
-//        colors.add(Color.GRAY)
-//        dataSet.colors = colors
-//
-//
-//        val barData = BarData(dataSet)
-//        barChart = findViewById(R.id.analyticBarChart) // Add this line to initialize the barChart
-//        barChart.setFitBars(true)
-//        barChart.data = barData
-//
-//        val xAxis = barChart.xAxis
-//        xAxis.valueFormatter = IndexAxisValueFormatter(labels)
-//        xAxis.position = XAxis.XAxisPosition.BOTTOM
-//        xAxis.setDrawGridLines(false)
-//        xAxis.granularity = 1f
-//        xAxis.setCenterAxisLabels(true)
-//        xAxis.isGranularityEnabled = true
-//
-//        barChart.description.text = "Bar Chart"
-//        barChart.animateY(2000)
 
 
     }
@@ -201,6 +164,55 @@ class AnalyticsForACategory : AppCompatActivity() {
         }
 
         dialog.show()
+    }
+
+        fun LoadGraphx(){
+            val entries = ArrayList<BarEntry>()
+            val labels = ArrayList<String>()
+            var numx = 0
+            val min = userData.min
+            val max = userData.max
+
+        for (x in Data) {
+            val number = x.hoursSpent
+            labels.add(x.entryDate)
+            entries.add(BarEntry(numx++.toFloat(), number.toFloat()))
+        }
+
+        val dataSet = BarDataSet(entries, "Entries")
+
+        dataSet.setDrawValues(true) // Enable value display on the bars
+        dataSet.valueTextColor = Color.BLACK // Set the text color for the values
+        dataSet.valueTextSize = 12f // Set the text size for the values
+
+        val colors = ArrayList<Int>()
+        for (entry in entries) {
+            if (entry.y > min && entry.y < max) {
+                colors.add(Color.YELLOW)
+            } else if(entry.y > max) {
+                colors.add(Color.GREEN)
+            }else{
+                colors.add(Color.GRAY)
+
+            }
+        }
+        dataSet.colors = colors
+
+        val barData = BarData(dataSet)
+        barChart = findViewById(R.id.analyticBarChart) // Add this line to initialize the barChart
+        barChart.setFitBars(true)
+        barChart.data = barData
+
+        val xAxis = barChart.xAxis
+        xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.setDrawGridLines(false)
+        xAxis.granularity = 1f
+        xAxis.setCenterAxisLabels(true)
+        xAxis.isGranularityEnabled = true
+
+        barChart.description.text = "Bar Chart"
+        barChart.animateY(2000)
     }
 
     private fun filterData(startDate: String, endDate: String) {
