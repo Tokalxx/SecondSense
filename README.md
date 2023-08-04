@@ -1,6 +1,6 @@
 # SecondSense
 
-/*public class NetworkUtil {
+public class NetworkUtil {
     private static String WEATHERBASE_URL =
             "https://dataservice.accuweather.com/forecasts/v1/daily/5day/305605";
     private static String PARAM_METRIC = "metric";
@@ -10,4 +10,4 @@
 
     public NetworkUtil() {
     }
-}*/
+}
